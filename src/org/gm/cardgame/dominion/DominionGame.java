@@ -2,9 +2,14 @@ package org.gm.cardgame.dominion;
 
 import java.util.List;
 
-public class DominionGame extends org.gm.cardgame.Game
+import org.gm.cardgame.Game;
+import org.gm.cardgame.Player;
+import org.gm.cardgame.dominion.cards.DominionCard;
+
+public class DominionGame extends Game
 {
-    
+	protected final List<DominionPlayer> players;
+	protected final DominionTable table;
     public DominionGame(List<DominionPlayer> players, List<DominionCard> cards)
     {
         this.players = players;
@@ -15,4 +20,14 @@ public class DominionGame extends org.gm.cardgame.Game
     {
         return table.checkGameEnd();
     }
+
+	@Override
+	public void startGame(List<Player> players) {
+		
+	}
+
+	@Override
+	public void nextTurn() {
+		
+	}
 }

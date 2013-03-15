@@ -6,10 +6,6 @@ public class CurseCard extends DominionCard
 {
     public CurseCard()
     {
-        set = DominionCard.CardSet.BASE;
-        name = "Curse";
-        coinCost = 0;
-        potionCost = 0;
-        type = EnumSet.of( DominionCard.CardType.CURSE );
+    	super("Curse", 0, 0, false, EnumSet.of(DominionCard.CardType.CURSE), DominionCard.CardSet.BASE);
     }
 }

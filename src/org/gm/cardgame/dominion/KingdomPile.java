@@ -1,7 +1,6 @@
 package org.gm.cardgame.dominion;
 
 import java.util.List;
-
 import org.gm.cardgame.dominion.cards.DominionCard;
 
 public class KingdomPile
@@ -33,17 +32,17 @@ public class KingdomPile
         {
             cardsRemaining = ( numPlayers - 1 ) * 10;
         }
-        else if ( card instanceof org.gm.cardgame.dominion.cards.RatsCard )
-        {
-            cardsRemaining = 20;
-        }
+//        else if ( card instanceof org.gm.cardgame.dominion.cards.RatsCard )
+//        {
+//            cardsRemaining = 20;
+//        }
         else
         {
             cardsRemaining = 10;
         }
         
-        currentCoinCost = card.getCoinCost;
-        currentPotionCost = card.getPotionCost;
+        currentCoinCost = card.getCoinCost();
+        currentPotionCost = card.getPotionCost();
         banned = false;
         tradeRouteToken = false;
         embargoTokens = 0;
@@ -119,7 +118,8 @@ public class KingdomPile
         }
         
         cardsRemaining--;
-        return card.getClass().newInstance();
+        // return card.getClass().newInstance(); 
+        return card; // FIX - changed to card to fix compiler error
     }
     
     public void returnCard()
