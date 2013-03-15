@@ -36,16 +36,16 @@ public abstract class DominionCard
     protected final String name;
     protected final int coinCost;
     protected final int potionCost;
-    protected boolean isBane = false;
+    protected boolean bane = false;
     protected final EnumSet<CardType> type;
     protected final CardSet set; //not sure this is useful like this. may need to put this info somewhere else
     
-    protected DominionCard(String name, int coinCost, int potionCost, boolean isBane, EnumSet<CardType> type, CardSet set)
+    protected DominionCard(String name, int coinCost, int potionCost, boolean bane, EnumSet<CardType> type, CardSet set)
     {
     	this.name = name;
     	this.coinCost = coinCost;
     	this.potionCost = potionCost;
-    	this.isBane = isBane;
+    	this.bane = bane;
     	this.type = type;
     	this.set = set;
     }
@@ -85,15 +85,14 @@ public abstract class DominionCard
         return potionCost;
     }
     
-    public boolean getIsBane()
+    public boolean isBane()
     {
-        return isBane;
+        return bane;
     }
     
-    public boolean setIsBane( boolean isBane )
+    public void setBane( boolean bane )
     {
-        this.isBane = isBane;
-        return isBane;
+        this.bane = bane;
     }
     
     public EnumSet<CardType> getType()

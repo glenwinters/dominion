@@ -1,6 +1,5 @@
 package org.gm.cardgame.dominion;
 
-import java.util.List;
 import org.gm.cardgame.dominion.cards.DominionCard;
 
 public class KingdomPile
@@ -44,7 +43,7 @@ public class KingdomPile
         currentCoinCost = card.getCoinCost();
         currentPotionCost = card.getPotionCost();
         banned = false;
-        tradeRouteToken = false;
+        setTradeRouteToken(false);
         embargoTokens = 0;
     }
 
@@ -105,6 +104,16 @@ public class KingdomPile
     {
         //there is no way to remove embargo tokens during a game.
         embargoTokens++;
+    }
+    
+    public boolean hasTradeRouteToken()
+    {
+        return tradeRouteToken;
+    }
+
+    public void setTradeRouteToken( boolean tradeRouteToken )
+    {
+        this.tradeRouteToken = tradeRouteToken;
     }
 
     public boolean isBuyable()
