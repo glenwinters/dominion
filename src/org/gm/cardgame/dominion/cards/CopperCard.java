@@ -13,11 +13,8 @@ public class CopperCard extends DominionCard
     }
     
     @Override
-    public void onPlay()
+    public void onPlay( DominionGame game )
     {
-        //For this and all other cards, I'm going to assume this is safe. If we're playing DominionCards without
-        //the current game being a DominionGame, we deserve to have an exception. 
-        DominionGame currentGame = (DominionGame)GameClient.getCurrentGame();
-        currentGame.addCoins(1);
+        game.addCoins(1);
     }    
 }

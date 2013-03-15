@@ -13,9 +13,8 @@ public class GoldCard extends DominionCard
     }
     
     @Override
-    public void onPlay()
+    public void onPlay( DominionGame game )
     { 
-        DominionGame currentGame = (DominionGame)GameClient.getCurrentGame();
-        currentGame.addCoins(3);
+        game.addCoins(3);
     }    
 }

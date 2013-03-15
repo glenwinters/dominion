@@ -2,6 +2,8 @@ package org.gm.cardgame.dominion.cards;
 
 import java.util.EnumSet;
 
+import org.gm.cardgame.dominion.DominionGame;
+
 public abstract class DominionCard
 {
 
@@ -49,23 +51,23 @@ public abstract class DominionCard
     	this.set = set;
     }
     
-    public void onPlay()
+    public void onPlay( DominionGame game )
     {
     }
     
-    public void onBuy()
+    public void onBuy( DominionGame game )
     {
     }
     
-    public void onGain()
+    public void onGain( DominionGame game )
     {
     }
     
-    public void onTrash()
+    public void onTrash( DominionGame game )
     {
     }
     
-    public void onReveal()
+    public void onReveal( DominionGame game )
     {
     }
     

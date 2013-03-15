@@ -13,9 +13,8 @@ public class PotionCard extends DominionCard
     }
     
     @Override
-    public void onPlay()
+    public void onPlay( DominionGame game )
     { 
-        DominionGame currentGame = (DominionGame)GameClient.getCurrentGame();
-        currentGame.addPotions(1);
+        game.addPotions(1);
     }    
 }

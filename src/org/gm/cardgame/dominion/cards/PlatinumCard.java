@@ -13,9 +13,8 @@ public class PlatinumCard extends DominionCard
     }
     
     @Override
-    public void onPlay()
+    public void onPlay( DominionGame game )
     { 
-        DominionGame currentGame = (DominionGame)GameClient.getCurrentGame();
-        currentGame.addCoins(5);
+        game.addCoins(5);
     }    
 }

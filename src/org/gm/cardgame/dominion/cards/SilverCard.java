@@ -13,9 +13,8 @@ public class SilverCard extends DominionCard
     }
     
     @Override
-    public void onPlay()
+    public void onPlay( DominionGame game )
     { 
-        DominionGame currentGame = (DominionGame)GameClient.getCurrentGame();
-        currentGame.addCoins(2);
+        game.addCoins(2);
     }    
 }
