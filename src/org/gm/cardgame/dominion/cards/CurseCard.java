@@ -2,7 +2,7 @@ package org.gm.cardgame.dominion.cards;
 
 import java.util.EnumSet;
 
-public class CurseCard
+public class CurseCard extends DominionCard
 {
     public CurseCard()
     {

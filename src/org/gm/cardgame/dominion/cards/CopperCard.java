@@ -2,7 +2,7 @@ package org.gm.cardgame.dominion.cards;
 
 import java.util.EnumSet;
 
-public class CopperCard
+public class CopperCard extends DominionCard
 {
     public CopperCard()
     {
