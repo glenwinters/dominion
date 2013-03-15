@@ -2,7 +2,6 @@ package org.gm.cardgame.dominion.cards;
 
 import java.util.EnumSet;
 
-import org.gm.cardgame.GameClient;
 import org.gm.cardgame.dominion.DominionGame;
 
 public class GoldCard extends DominionCard
