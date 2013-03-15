@@ -74,4 +74,24 @@ public class DominionGame extends Game
     {
         potions += potionsToAdd;
     }
+    
+    public int getActions()
+    {
+        return actions;
+    }
+    
+    public void addActions( int actionsToAdd )
+    {
+        actions += actionsToAdd;
+    }
+    
+    public int getBuys()
+    {
+        return buys;
+    }
+    
+    public void addBuys( int buysToAdd )
+    {
+        buys += buysToAdd;
+    }
 }
