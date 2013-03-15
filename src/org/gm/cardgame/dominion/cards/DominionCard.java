@@ -40,12 +40,11 @@ public abstract class DominionCard
     protected final EnumSet<CardType> type;
     protected final CardSet set; //not sure this is useful like this. may need to put this info somewhere else
     
-    protected DominionCard(String name, int coinCost, int potionCost, boolean bane, EnumSet<CardType> type, CardSet set)
+    protected DominionCard(String name, int coinCost, int potionCost, EnumSet<CardType> type, CardSet set)
     {
     	this.name = name;
     	this.coinCost = coinCost;
     	this.potionCost = potionCost;
-    	this.bane = bane;
     	this.type = type;
     	this.set = set;
     }

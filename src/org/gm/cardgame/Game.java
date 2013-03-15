@@ -7,6 +7,6 @@ public abstract class Game
     protected List<Player> players;
     
     public abstract void startGame(List<Player> players);
-    public abstract boolean checkGameEnd();
+    public abstract boolean isGameOver();
     public abstract void nextTurn();
 }

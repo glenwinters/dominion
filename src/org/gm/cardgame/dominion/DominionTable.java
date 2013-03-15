@@ -13,7 +13,7 @@ public class DominionTable
         
     }
     
-    public boolean checkGameEnd()
+    public boolean isGameOver()
     {
 		return false;
     }

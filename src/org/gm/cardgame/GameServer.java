@@ -4,6 +4,6 @@ public class GameServer
 {
     public static void main(String[] args) 
     {
-        System.out.println("-- Dominion --");
+        System.out.println("-- Card Game Server --");
     }
 }
