@@ -15,6 +15,6 @@ public class DominionTable
     
     public boolean checkGameEnd()
     {
-		return false; // FIX
+		return false;
     }
 }

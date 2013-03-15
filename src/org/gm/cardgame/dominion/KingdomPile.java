@@ -48,8 +48,7 @@ public class KingdomPile
         embargoTokens = 0;
     }
 
-    // this one is just for reading info from the card inside, not actual
-    // gameplay
+    // this one is just for reading info from the card inside, not actual gameplay
     public DominionCard getCard()
     {
         return card;
@@ -79,13 +78,14 @@ public class KingdomPile
         return currentPotionCost;
     }
 
-    public boolean getBanned()
+    public boolean isBanned()
     {
         return banned;
     }
 
     public void banCard()
     {
+        //banning can only be cleared on reset after a turn.
         banned = true;
     }
 
@@ -103,6 +103,7 @@ public class KingdomPile
 
     public void addEmbargoToken()
     {
+        //there is no way to remove embargo tokens during a game.
         embargoTokens++;
     }
 
@@ -119,8 +120,16 @@ public class KingdomPile
         }
 
         cardsRemaining--;
-        // return card.getClass().newInstance();
-        return card; // FIX - changed to card to fix compiler error
+        try 
+        {
+            return card.getClass().newInstance();    
+        }
+        catch(InstantiationException|IllegalAccessException ie)
+        {
+            //should never happen, at least once we get everything straightened out, as there is no variable input to this call.
+            //when we have logging, log this exception and fail.
+            return null;
+        }
     }
 
     public void returnCard()
