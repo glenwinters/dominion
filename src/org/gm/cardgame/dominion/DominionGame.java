@@ -10,7 +10,7 @@ public class DominionGame extends Game
 {
     protected final DominionPlayer[] players;
     protected final DominionTable table;
-    
+
     // current turn info
     protected int currentPlayerIndex;
     protected int coins;
@@ -21,14 +21,14 @@ public class DominionGame extends Game
     public DominionGame( List<DominionPlayer> players, List<DominionCard> cards )
     {
         this.players = new DominionPlayer[players.size()];
-        for(int i = 0; i < players.size(); i++)
+        for ( int i = 0; i < players.size(); i++ )
         {
-            this.players[i] = players.get( i );  
+            this.players[i] = players.get( i );
         }
         this.table = new DominionTable( cards );
     }
 
-    //this may not be necessary
+    // this may not be necessary
     public boolean isGameOver()
     {
         return table.isGameOver();
@@ -41,7 +41,7 @@ public class DominionGame extends Game
         do
         {
             nextTurn();
-        } while(table.isGameOver());
+        } while ( table.isGameOver() );
         // do any post-game stuff and print out winner, scores, decks, etc.
     }
 
@@ -54,42 +54,42 @@ public class DominionGame extends Game
         buys = 1;
         players[currentPlayerIndex].takeTurn();
     }
-    
+
     public int getCoins()
     {
         return coins;
     }
-    
+
     public void addCoins( int coinsToAdd )
     {
         coins += coinsToAdd;
     }
-    
+
     public int getPotions()
     {
         return potions;
     }
-    
+
     public void addPotions( int potionsToAdd )
     {
         potions += potionsToAdd;
     }
-    
+
     public int getActions()
     {
         return actions;
     }
-    
+
     public void addActions( int actionsToAdd )
     {
         actions += actionsToAdd;
     }
-    
+
     public int getBuys()
     {
         return buys;
     }
-    
+
     public void addBuys( int buysToAdd )
     {
         buys += buysToAdd;
