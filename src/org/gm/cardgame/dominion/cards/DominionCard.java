@@ -63,6 +63,10 @@ public abstract class DominionCard
     {
     }
     
+    public void onDiscard( DominionGame game )
+    {
+    }
+    
     public void onTrash( DominionGame game )
     {
     }
@@ -99,5 +103,23 @@ public abstract class DominionCard
     public EnumSet<CardType> getType()
     {
         return type;
+    }
+    
+    //Object overrides
+    @Override
+    public boolean equals(Object obj)
+    {
+        if( obj == null || !(obj instanceof DominionCard) )
+        {
+            return false;
+        }
+        if( obj == this )
+        {
+            return true;
+        }
+
+        DominionCard otherCard = (DominionCard)obj;
+        //cards being equal by name is enough to mean they're the same card.
+        return( otherCard.name.equals(this.name) );
     }
 }

@@ -94,4 +94,14 @@ public class DominionGame extends Game
     {
         buys += buysToAdd;
     }
+    
+    public DominionPlayer getCurrentPlayer()
+    {
+        return players[currentPlayerIndex];
+    }
+    
+    public DominionPlayer getNextPlayer()
+    {
+        return players[(currentPlayerIndex + 1) % players.length];
+    }
 }
