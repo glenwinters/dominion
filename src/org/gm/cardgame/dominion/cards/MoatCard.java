@@ -23,4 +23,10 @@ public class MoatCard extends DominionCard
     {
         // get card's owner, and set 'moat played' for this turn?
     }
+    
+    @Override
+    public boolean canReact( DominionCard.ActionType actionType )
+    {
+        return actionType == DominionCard.ActionType.ATTACK;
+    }
 }

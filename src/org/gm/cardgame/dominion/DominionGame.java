@@ -37,6 +37,7 @@ public class DominionGame extends Game
     @Override
     public void startGame( List<Player> players )
     {
+        // this could probably go in Game as it's pretty generic
         currentPlayerIndex = -1;
         do
         {

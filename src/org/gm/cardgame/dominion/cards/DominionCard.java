@@ -34,6 +34,15 @@ public abstract class DominionCard
         RUINS,
         KNIGHT
     }
+    
+    // The four things that can trigger a reaction
+    public enum ActionType
+    {
+        ATTACK,
+        BUY,
+        GAIN,
+        TRASH
+    }
 
     protected final String name;
     protected final int coinCost;
@@ -51,6 +60,7 @@ public abstract class DominionCard
     	this.set = set;
     }
     
+    // Card methods to be overridden by cards that do specific things 
     public void onPlay( DominionGame game )
     {
     }
@@ -75,6 +85,13 @@ public abstract class DominionCard
     {
     }
     
+    public boolean canReact( ActionType actionType )
+    {
+        return false;
+    }
+    
+    
+    // accessors
     public String getName()
     {
         return name;
