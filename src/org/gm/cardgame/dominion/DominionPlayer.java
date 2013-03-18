@@ -6,7 +6,6 @@ import org.gm.cardgame.dominion.cards.DominionCard;
 
 public class DominionPlayer
 {
-    private DominionGame currentGame;
     private List<DominionCard> hand;
     
     //need constructor

@@ -36,7 +36,7 @@ public abstract class DominionCard
     }
     
     // The four things that can trigger a reaction
-    public enum ActionType
+    public enum ReactionTriggerType
     {
         ATTACK,
         BUY,
@@ -85,7 +85,7 @@ public abstract class DominionCard
     {
     }
     
-    public boolean canReact( ActionType actionType )
+    public boolean canReact( ReactionTriggerType actionType )
     {
         return false;
     }

@@ -25,8 +25,8 @@ public class MoatCard extends DominionCard
     }
     
     @Override
-    public boolean canReact( DominionCard.ActionType actionType )
+    public boolean canReact( DominionCard.ReactionTriggerType actionType )
     {
-        return actionType == DominionCard.ActionType.ATTACK;
+        return actionType == DominionCard.ReactionTriggerType.ATTACK;
     }
 }
