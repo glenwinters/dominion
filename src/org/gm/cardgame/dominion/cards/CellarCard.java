@@ -21,7 +21,7 @@ public class CellarCard extends DominionCard
         game.addActions(1);
         
         List<DominionCard> cardsToDiscard = null;
-        cardsToDiscard = currentPlayer.promptToDiscard( 0, 0, true );
+        cardsToDiscard = currentPlayer.promptToDiscard( null, 0, 0, true );
         if( cardsToDiscard.size() > 0 )
         {
             for( DominionCard card : cardsToDiscard )

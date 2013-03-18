@@ -1,5 +1,6 @@
 package org.gm.cardgame.dominion;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.gm.cardgame.Game;
@@ -97,8 +98,8 @@ public class DominionGame extends Game
         
         while( buys > 0 )
         {
-            DominionCard cardToBuy = currentPlayer.promptToBuy(); // need to take max coins into account
-            if( cardToBuy == null )
+            String cardName = currentPlayer.promptToBuy(); // need to take max coins into account
+            if( cardName == null )
             {
                 // not buying anything
                 // are you sure?
@@ -106,10 +107,24 @@ public class DominionGame extends Game
             }
             buys--;
             // check for on-buy reactions
-            // remove card from kingdom
-            // check for on-gain reactions
+            DominionCard cardToBuy = gainCard( cardName );
             currentPlayer.gainCard( cardToBuy );
         }
+    }
+    
+    // there may be a better way to do this
+    /*
+     * Take a card from the kingdom and return it
+     * Note the returned card may not be the named one, due to reactions
+     * If this returns null, no card is gained.
+     */
+    public DominionCard gainCard( String cardName )
+    {        
+        DominionCard cardToGain = table.gainCard( cardName );
+        // check for on-gain reactions
+        // trader might replace 'cardToGain' with a Silver card and put the other one back in the kingdom
+        // Watchtower might redirect it to the player's deck or the trash pile instead.
+        return cardToGain;
     }
 
     public int getCoins()
@@ -160,5 +175,15 @@ public class DominionGame extends Game
     public DominionPlayer getNextPlayer()
     {
         return players[(currentPlayerIndex + 1) % players.length];
+    }
+    
+    public List<DominionPlayer> getOpponents()
+    {
+        ArrayList<DominionPlayer> opponents = new ArrayList<DominionPlayer>();
+        for(int i = 0; i < players.length; i++)
+        {
+            opponents.add( players[(currentPlayerIndex + 1 + i) % players.length]);
+        }
+        return opponents;
     }
 }

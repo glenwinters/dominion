@@ -16,6 +16,6 @@ public class VillageCard extends DominionCard
     public void onPlay( DominionGame game )
     {
         game.addActions( 2 );
-        game.getCurrentPlayer().drawCard();
+        game.getCurrentPlayer().drawCards( 1 );
     }
 }

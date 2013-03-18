@@ -6,26 +6,26 @@ import org.gm.cardgame.dominion.cards.DominionCard;
 
 public class DominionPlayer
 {
+    private Deck deck;
     private List<DominionCard> hand;
     
-    //need constructor
+    //TODO need constructor
+    
+    public List<DominionCard> getHand()
+    {
+        return hand;
+    }
     
     // prompt methods
     public DominionCard promptToPlay()
     {
-        // prompt to select a card to play.
-        // returns the card selected, or null if none.
-        // this may change depending on how processing flow evolves.
-        return null;
+        return promptToChooseOneCard( null, "Choose a card to play", false);
     }
 
     // will also need discard / trash prompts that restrict by type, since some cards require that
-    public List<DominionCard> promptToDiscard( int min, int max, boolean optional )
+    public List<DominionCard> promptToDiscard( DominionCard.CardType type, int min, int max, boolean optional )
     {
-        // if max == 0, no limit besides hand size.
-        
-        // return the discarded cards, or null if none.
-        return null;
+        return promptToChooseMultipleCards( type, min, max, "Choose cards to discard", optional );
     }
     
     public boolean promptToDiscardDeck()
@@ -40,25 +40,43 @@ public class DominionPlayer
         return false;
     }
 
-    public List<DominionCard> promptToTrash( int min, int max, boolean optional )
+    public List<DominionCard> promptToTrash( DominionCard.CardType type, int min, int max, boolean optional )
     {
-        // prompt to trash a card from hand. if optional == true, include 'none' option.
-        
-        // return the trashed card, or null if none.
-        return null;
+        return promptToChooseMultipleCards( type, min, max, "Choose cards to trash", optional);
     }
 
-    public DominionCard promptToReact()
+    /*
+     * Prompt user to choose one card from their hand matching the given type.
+     * This can be used for various purposes, i.e. return a card to deck, trash a card, discard a card,
+     * reveal a card, so it's up to the caller to decide what to do with all that.
+     */
+    public DominionCard promptToChooseOneCard( DominionCard.CardType type, String prompt, boolean optional )
     {
-        // prompt to react. Need to put a bit more thought into this to determine what cards are valid reactions
-        // at what points, etc.
-        // MOAT MOAT MOAT MOAT
+        // go through hand, build a list of cards that match the specified type.
+        // or if type == null, just list the whole hand.
+        // if list size > 0, prompt user to pick one and return it.
         return null;
     }
     
-    public DominionCard promptToBuy()
+    public List<DominionCard> promptToChooseMultipleCards( DominionCard.CardType type, int min, int max, String prompt, boolean optional )
     {
-        // prompt player to buy a card. return bought card, or null if none.
+        // go through hand, build a list of cards that match the specified type.
+        // or if type == null, just list the whole hand.
+        // if list size > 0, prompt user to pick as many as they want and return the list of chosen cards.
+        return null;
+    }
+    
+    public DominionCard promptToReact( DominionCard.ReactionTriggerType trigger )
+    {
+        //go through hand, build a list of reaction cards that match the trigger type.
+        // if list size > 0, prompt user to pick one and return it.
+        // MOAT MOAT MOAT MAOT
+        return null;
+    }
+    
+    public String promptToBuy()
+    {
+        // prompt player to buy a card. return name of card to buy, or null if none
         return null;
     }
     
@@ -72,25 +90,17 @@ public class DominionPlayer
     
     
     // hand manipulation methods
-    public void drawCard()
-    {
-        //if deck size == 0
-        // shuffle discard pile into deck
-
-        // take top card from deck into hand
-    }
-
     public void drawCards( int numCards )
     {
-        for ( int i = 0; i < numCards; i++ )
-        {
-            drawCard();
-        }
+        hand.addAll( deck.drawCards( numCards ) );
     }
 
     public void gainCard( DominionCard cardToGain )
     {
-        //add card to discard pile
+        if( cardToGain != null )
+        {
+            deck.discardCard( cardToGain );
+        }
     }
     
     public void discardCard( DominionCard cardToDiscard )
@@ -99,8 +109,8 @@ public class DominionPlayer
         {
             if( cardToDiscard.equals( card ) )
             {
-                //remove card from hand
-                //add card to discard pile
+                hand.remove( card );
+                deck.discardCard( card );
             }
         }
     }
@@ -115,10 +125,14 @@ public class DominionPlayer
         }
     }
     
+    public void placeCardOnDeck( DominionCard card )
+    {
+        deck.placeCard( card );
+    }
+    
     public void discardDeck()
     {
-        //discardPile.addAll(deck)
-        //deck.clear();
+        deck.discardDrawPile();
     }
     
     public void trashCard( DominionCard cardToTrash )
@@ -128,6 +142,7 @@ public class DominionPlayer
             if( cardToTrash.equals( card ) )
             {
                 //remove card from hand and don't place in discard
+                //DominionGame handles putting it in the trash?
             }
         }
     }

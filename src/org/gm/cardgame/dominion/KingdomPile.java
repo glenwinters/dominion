@@ -1,5 +1,6 @@
 package org.gm.cardgame.dominion;
 
+import org.gm.cardgame.dominion.cards.*;
 import org.gm.cardgame.dominion.cards.DominionCard;
 
 public class KingdomPile
@@ -31,7 +32,27 @@ public class KingdomPile
         {
             cardsRemaining = (numPlayers - 1) * 10;
         }
-        // else if ( card instanceof org.gm.cardgame.dominion.cards.RatsCard )
+        else if ( card instanceof CopperCard )
+        {
+            cardsRemaining = 60 - ( 7 * numPlayers );
+        }
+        else if ( card instanceof SilverCard )
+        {
+            cardsRemaining = 40;
+        }
+        else if ( card instanceof GoldCard )
+        {
+            cardsRemaining = 30;
+        }
+        else if ( card instanceof PlatinumCard )
+        {
+            cardsRemaining = 12;
+        }
+        else if ( card instanceof PotionCard )
+        {
+            cardsRemaining = 16;
+        }
+        // else if ( card instanceof RatsCard )
         // {
         // cardsRemaining = 20;
         // }

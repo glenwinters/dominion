@@ -20,7 +20,7 @@ public class ChapelCard extends DominionCard
         DominionPlayer currentPlayer = game.getCurrentPlayer();
         
         List<DominionCard> cardsToTrash = null;
-        cardsToTrash = currentPlayer.promptToTrash( 0, 4, true );
+        cardsToTrash = currentPlayer.promptToTrash( null, 0, 4, true );
         if( cardsToTrash.size() > 0 )
         {
             for( DominionCard card : cardsToTrash )

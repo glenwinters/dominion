@@ -35,21 +35,24 @@ public abstract class DominionCard
         KNIGHT
     }
     
-    // The four things that can trigger a reaction
+    // Things that can trigger a reaction
     public enum ReactionTriggerType
     {
         ATTACK,
         BUY,
-        GAIN,
+        CURRENT_PLAYER_GAIN,
+        OTHER_PLAYER_GAIN,
         TRASH
     }
 
     protected final String name;
     protected final int coinCost;
     protected final int potionCost;
-    protected boolean bane = false;
     protected final EnumSet<CardType> type;
     protected final CardSet set; //not sure this is useful like this. may need to put this info somewhere else
+    
+    protected boolean bane = false;
+    protected boolean trashed = false; // for throne room/KC on cards with a 'you may trash this' effect like Mining Village.
     
     protected DominionCard(String name, int coinCost, int potionCost, EnumSet<CardType> type, CardSet set)
     {
@@ -79,6 +82,7 @@ public abstract class DominionCard
     
     public void onTrash( DominionGame game )
     {
+        this.trashed = true;
     }
     
     public void onReveal( DominionGame game )
@@ -120,6 +124,16 @@ public abstract class DominionCard
     public EnumSet<CardType> getType()
     {
         return type;
+    }
+    
+    public boolean isTrashed()
+    {
+        return trashed;
+    }
+    
+    public void setTrashed( boolean trashed )
+    {
+        this.trashed = trashed;
     }
     
     //Object overrides
