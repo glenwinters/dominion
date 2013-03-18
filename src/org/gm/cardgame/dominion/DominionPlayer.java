@@ -85,11 +85,7 @@ public class DominionPlayer
 
     public void gainCard( DominionCard cardToGain )
     {
-        //boolean gained = currentGame.gainCard( this, cardToGain );
-        //if( gained )
-        //{
-        //    cardToGain.onGain( currentGame );
-        //}
+        //add card to discard pile
     }
     
     public void discardCard( DominionCard cardToDiscard )
@@ -100,7 +96,6 @@ public class DominionPlayer
             {
                 //remove card from hand
                 //add card to discard pile
-                //card.onDiscard( currentGame ); // this doesn't always trigger - figure out logic for when it does
             }
         }
     }
@@ -127,9 +122,7 @@ public class DominionPlayer
         {
             if( cardToTrash.equals( card ) )
             {
-                //remove card from hand
-                //add card to game trash pile
-                card.onTrash( currentGame );
+                //remove card from hand and don't place in discard
             }
         }
     }
