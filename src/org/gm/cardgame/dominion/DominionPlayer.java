@@ -20,21 +20,27 @@ public class DominionPlayer
     }
 
     // will also need discard / trash prompts that restrict by type, since some cards require that
-    public DominionCard promptToDiscard( boolean optional )
+    public List<DominionCard> promptToDiscard( int min, int max, boolean optional )
     {
-        // prompt to discard a card from hand. if optional == true, include 'none' option.
+        // if max == 0, no limit besides hand size.
         
-        // return the discarded card, or null if none.
+        // return the discarded cards, or null if none.
         return null;
     }
     
     public boolean promptToDiscardDeck()
     {
         //ask player if they want to discard their whole deck. this is always optional.
+        return promptYesNo( "Place your deck in the discard pile?" );
+    }
+    
+    public boolean promptYesNo( String prompt )
+    {
+        //Generic prompt to ask the player a yes/no question.
         return false;
     }
 
-    public DominionCard promptToTrash( boolean optional )
+    public List<DominionCard> promptToTrash( int min, int max, boolean optional )
     {
         // prompt to trash a card from hand. if optional == true, include 'none' option.
         

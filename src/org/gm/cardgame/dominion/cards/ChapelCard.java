@@ -1,6 +1,7 @@
 package org.gm.cardgame.dominion.cards;
 
 import java.util.EnumSet;
+import java.util.List;
 
 import org.gm.cardgame.dominion.DominionGame;
 import org.gm.cardgame.dominion.DominionPlayer;
@@ -16,18 +17,16 @@ public class ChapelCard extends DominionCard
     @Override
     public void onPlay( DominionGame game )
     {
-        int cardsTrashed = 0;
         DominionPlayer currentPlayer = game.getCurrentPlayer();
         
-        DominionCard cardToTrash = null;
-        do
+        List<DominionCard> cardsToTrash = null;
+        cardsToTrash = currentPlayer.promptToTrash( 0, 4, true );
+        if( cardsToTrash.size() > 0 )
         {
-            cardToTrash = currentPlayer.promptToTrash(true);
-            if( cardToTrash != null )
+            for( DominionCard card : cardsToTrash )
             {
-                currentPlayer.trashCard( cardToTrash );
-                cardsTrashed++;
+                currentPlayer.trashCard( card );
             }
-        } while ( cardToTrash != null && cardsTrashed < 4 );
+        }
     }
 }

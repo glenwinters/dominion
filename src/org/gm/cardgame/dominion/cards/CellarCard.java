@@ -1,6 +1,7 @@
 package org.gm.cardgame.dominion.cards;
 
 import java.util.EnumSet;
+import java.util.List;
 
 import org.gm.cardgame.dominion.DominionGame;
 import org.gm.cardgame.dominion.DominionPlayer;
@@ -16,20 +17,18 @@ public class CellarCard extends DominionCard
     @Override
     public void onPlay( DominionGame game )
     {
-        int cardsDiscarded = 0;
         DominionPlayer currentPlayer = game.getCurrentPlayer();
         game.addActions(1);
         
-        DominionCard cardToDiscard = null;
-        do
+        List<DominionCard> cardsToDiscard = null;
+        cardsToDiscard = currentPlayer.promptToDiscard( 0, 0, true );
+        if( cardsToDiscard.size() > 0 )
         {
-            cardToDiscard = currentPlayer.promptToDiscard(true);
-            if( cardToDiscard != null )
+            for( DominionCard card : cardsToDiscard )
             {
-                currentPlayer.discardCard( cardToDiscard );
-                cardsDiscarded++;
+                currentPlayer.discardCard( card );
             }
-        } while ( cardToDiscard != null );
-        currentPlayer.drawCards( cardsDiscarded );
+        }
+        currentPlayer.drawCards( cardsToDiscard.size() );
     }
 }
