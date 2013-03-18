@@ -11,11 +11,6 @@ public class DominionPlayer
     
     //need constructor
     
-    public void takeTurn()
-    {
-    
-    }
-    
     // prompt methods
     public DominionCard promptToPlay()
     {

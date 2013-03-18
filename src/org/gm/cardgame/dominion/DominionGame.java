@@ -53,7 +53,63 @@ public class DominionGame extends Game
         coins = 0;
         actions = 1;
         buys = 1;
-        players[currentPlayerIndex].takeTurn();
+        boolean doneActions = false;
+        boolean doneTreasures = false;
+        DominionPlayer currentPlayer = players[currentPlayerIndex];
+        //players[currentPlayerIndex].takeTurn();
+        
+        while(actions > 0 && !doneActions) // && player has any action cards in hand
+        {
+            DominionCard cardToPlay = currentPlayer.promptToPlay(); // prompt by type?
+            if( cardToPlay == null )
+            {
+                // chose 'done actions'.
+                // are you sure?
+                // if yes, set doneActions == true;
+                // break;
+                // otherwise, continue;
+            }
+            if( cardToPlay.getType().contains( DominionCard.CardType.ACTION ))
+            {
+                actions--;
+                
+                //check for attack reactions
+                
+                cardToPlay.onPlay( this );
+            } else if ( cardToPlay.getType().contains( DominionCard.CardType.TREASURE) )
+            {
+                // are you sure?
+                // if yes, doneActions = true. play card and break;
+            }
+        }
+        
+        while ( !doneTreasures ) // && player has any treasures in hand
+        {
+            DominionCard cardToPlay = currentPlayer.promptToPlay(); // restrict to treasures
+            if(cardToPlay == null)
+            {
+                // chose 'done treasures'
+                // are you sure?
+                // if yes, set doneTreasures == true.
+            }
+            cardToPlay.onPlay( this );
+        }
+        
+        while( buys > 0 )
+        {
+            DominionCard cardToBuy = currentPlayer.promptToBuy(); // need to take max coins into account
+            if( cardToBuy == null )
+            {
+                // not buying anything
+                // are you sure?
+                // if yes, go to cleanup phase.
+            }
+            buys--;
+            // check for on-buy reactions
+            // remove card from kingdom
+            // check for on-gain reactions
+            currentPlayer.gainCard( cardToBuy );
+        }
     }
 
     public int getCoins()
