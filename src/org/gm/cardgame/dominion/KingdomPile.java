@@ -1,7 +1,9 @@
 package org.gm.cardgame.dominion;
 
-import org.gm.cardgame.dominion.cards.*;
 import org.gm.cardgame.dominion.cards.DominionCard;
+import org.gm.cardgame.dominion.cards.common.*;
+import org.gm.cardgame.dominion.cards.prosperity.*;
+import org.gm.cardgame.dominion.cards.alchemy.*;
 
 public class KingdomPile
 {
@@ -64,7 +66,7 @@ public class KingdomPile
         currentCoinCost = card.getCoinCost();
         currentPotionCost = card.getPotionCost();
         banned = false;
-        setTradeRouteToken( false );
+        tradeRouteToken = false;
         embargoTokens = 0;
     }
 
