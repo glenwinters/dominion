@@ -22,7 +22,10 @@ public class ThroneRoomCard extends DominionCard
         DominionCard actionCard = currentPlayer.promptToChooseOneCard(
                 DominionCard.CardType.ACTION, "Choose an action card to play twice", false );
 
-        actionCard.onPlay( game );
-        actionCard.onPlay( game );
+        if ( actionCard != null )
+        {
+            actionCard.onPlay( game );
+            actionCard.onPlay( game );
+        }
     }
 }
