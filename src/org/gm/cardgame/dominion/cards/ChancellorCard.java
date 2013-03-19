@@ -18,7 +18,7 @@ public class ChancellorCard extends DominionCard
     {
         DominionPlayer currentPlayer = game.getCurrentPlayer();
         game.addCoins( 2 );
-        if( currentPlayer.promptToDiscardDeck() )
+        if ( currentPlayer.promptToDiscardDeck() )
         {
             currentPlayer.discardDeck();
         }

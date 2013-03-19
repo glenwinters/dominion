@@ -18,13 +18,13 @@ public class CellarCard extends DominionCard
     public void onPlay( DominionGame game )
     {
         DominionPlayer currentPlayer = game.getCurrentPlayer();
-        game.addActions(1);
-        
+        game.addActions( 1 );
+
         List<DominionCard> cardsToDiscard = null;
         cardsToDiscard = currentPlayer.promptToDiscard( null, 0, 0, true );
-        if( cardsToDiscard.size() > 0 )
+        if ( cardsToDiscard.size() > 0 )
         {
-            for( DominionCard card : cardsToDiscard )
+            for ( DominionCard card : cardsToDiscard )
             {
                 currentPlayer.discardCard( card );
             }

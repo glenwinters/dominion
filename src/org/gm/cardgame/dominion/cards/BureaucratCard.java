@@ -9,21 +9,22 @@ public class BureaucratCard extends DominionCard
 {
     public BureaucratCard()
     {
-        super( "Bureaucrat", 4, 0, EnumSet.of( DominionCard.CardType.ACTION, DominionCard.CardType.ATTACK ),
-                DominionCard.CardSet.BASE );
+        super( "Bureaucrat", 4, 0, EnumSet.of( DominionCard.CardType.ACTION,
+                DominionCard.CardType.ATTACK ), DominionCard.CardSet.BASE );
     }
 
     @Override
     public void onPlay( DominionGame game )
     {
         DominionPlayer currentPlayer = game.getCurrentPlayer();
-        
-        currentPlayer.placeCardOnDeck( game.gainCard( "Silver" ));
-        
-        for( DominionPlayer opponent : game.getOpponents() )
+
+        currentPlayer.placeCardOnDeck( game.gainCard( "Silver" ) );
+
+        for ( DominionPlayer opponent : game.getOpponents() )
         {
-            DominionCard vCard = opponent.promptToChooseOneCard( DominionCard.CardType.VICTORY, "Choose a victory card to reveal", false);
-            if( vCard != null )
+            DominionCard vCard = opponent.promptToChooseOneCard( DominionCard.CardType.VICTORY,
+                    "Choose a victory card to reveal", false );
+            if ( vCard != null )
             {
                 // game.reveal(vCard);
                 opponent.getHand().remove( vCard );

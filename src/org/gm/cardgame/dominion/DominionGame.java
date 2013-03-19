@@ -57,12 +57,14 @@ public class DominionGame extends Game
         boolean doneActions = false;
         boolean doneTreasures = false;
         DominionPlayer currentPlayer = players[currentPlayerIndex];
-        //players[currentPlayerIndex].takeTurn();
-        
-        while(actions > 0 && !doneActions) // && player has any action cards in hand
+        // players[currentPlayerIndex].takeTurn();
+
+        while ( actions > 0 && !doneActions ) // && player has any action cards
+                                              // in hand
         {
-            DominionCard cardToPlay = currentPlayer.promptToPlay(); // prompt by type?
-            if( cardToPlay == null )
+            DominionCard cardToPlay = currentPlayer.promptToPlay(); // prompt by
+                                                                    // type?
+            if ( cardToPlay == null )
             {
                 // chose 'done actions'.
                 // are you sure?
@@ -70,24 +72,27 @@ public class DominionGame extends Game
                 // break;
                 // otherwise, continue;
             }
-            if( cardToPlay.getType().contains( DominionCard.CardType.ACTION ))
+            if ( cardToPlay.getType().contains( DominionCard.CardType.ACTION ) )
             {
                 actions--;
-                
-                //check for attack reactions
-                
+
+                // check for attack reactions
+
                 cardToPlay.onPlay( this );
-            } else if ( cardToPlay.getType().contains( DominionCard.CardType.TREASURE) )
+            }
+            else if ( cardToPlay.getType().contains( DominionCard.CardType.TREASURE ) )
             {
                 // are you sure?
                 // if yes, doneActions = true. play card and break;
             }
         }
-        
+
         while ( !doneTreasures ) // && player has any treasures in hand
         {
-            DominionCard cardToPlay = currentPlayer.promptToPlay(); // restrict to treasures
-            if(cardToPlay == null)
+            DominionCard cardToPlay = currentPlayer.promptToPlay(); // restrict
+                                                                    // to
+                                                                    // treasures
+            if ( cardToPlay == null )
             {
                 // chose 'done treasures'
                 // are you sure?
@@ -95,11 +100,12 @@ public class DominionGame extends Game
             }
             cardToPlay.onPlay( this );
         }
-        
-        while( buys > 0 )
+
+        while ( buys > 0 )
         {
-            String cardName = currentPlayer.promptToBuy(); // need to take max coins into account
-            if( cardName == null )
+            String cardName = currentPlayer.promptToBuy(); // need to take max
+                                                           // coins into account
+            if ( cardName == null )
             {
                 // not buying anything
                 // are you sure?
@@ -111,19 +117,21 @@ public class DominionGame extends Game
             currentPlayer.gainCard( cardToBuy );
         }
     }
-    
+
     // there may be a better way to do this
     /*
-     * Take a card from the kingdom and return it
-     * Note the returned card may not be the named one, due to reactions
-     * If this returns null, no card is gained.
+     * Take a card from the kingdom and return it Note the returned card may not
+     * be the named one, due to reactions If this returns null, no card is
+     * gained.
      */
     public DominionCard gainCard( String cardName )
-    {        
+    {
         DominionCard cardToGain = table.gainCard( cardName );
         // check for on-gain reactions
-        // trader might replace 'cardToGain' with a Silver card and put the other one back in the kingdom
-        // Watchtower might redirect it to the player's deck or the trash pile instead.
+        // trader might replace 'cardToGain' with a Silver card and put the
+        // other one back in the kingdom
+        // Watchtower might redirect it to the player's deck or the trash pile
+        // instead.
         return cardToGain;
     }
 
@@ -166,23 +174,23 @@ public class DominionGame extends Game
     {
         buys += buysToAdd;
     }
-    
+
     public DominionPlayer getCurrentPlayer()
     {
         return players[currentPlayerIndex];
     }
-    
+
     public DominionPlayer getNextPlayer()
     {
         return players[(currentPlayerIndex + 1) % players.length];
     }
-    
+
     public List<DominionPlayer> getOpponents()
     {
         ArrayList<DominionPlayer> opponents = new ArrayList<DominionPlayer>();
-        for(int i = 0; i < players.length; i++)
+        for ( int i = 0; i < players.length; i++ )
         {
-            opponents.add( players[(currentPlayerIndex + 1 + i) % players.length]);
+            opponents.add( players[(currentPlayerIndex + 1 + i) % players.length] );
         }
         return opponents;
     }

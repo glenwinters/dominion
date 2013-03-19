@@ -34,7 +34,7 @@ public class KingdomPile
         }
         else if ( card instanceof CopperCard )
         {
-            cardsRemaining = 60 - ( 7 * numPlayers );
+            cardsRemaining = 60 - (7 * numPlayers);
         }
         else if ( card instanceof SilverCard )
         {
@@ -64,11 +64,12 @@ public class KingdomPile
         currentCoinCost = card.getCoinCost();
         currentPotionCost = card.getPotionCost();
         banned = false;
-        setTradeRouteToken(false);
+        setTradeRouteToken( false );
         embargoTokens = 0;
     }
 
-    // this one is just for reading info from the card inside, not actual gameplay
+    // this one is just for reading info from the card inside, not actual
+    // gameplay
     public DominionCard getCard()
     {
         return card;
@@ -105,7 +106,7 @@ public class KingdomPile
 
     public void banCard()
     {
-        //banning can only be cleared on reset after a turn.
+        // banning can only be cleared on reset after a turn.
         banned = true;
     }
 
@@ -123,10 +124,10 @@ public class KingdomPile
 
     public void addEmbargoToken()
     {
-        //there is no way to remove embargo tokens during a game.
+        // there is no way to remove embargo tokens during a game.
         embargoTokens++;
     }
-    
+
     public boolean hasTradeRouteToken()
     {
         return tradeRouteToken;
@@ -150,14 +151,15 @@ public class KingdomPile
         }
 
         cardsRemaining--;
-        try 
+        try
         {
-            return card.getClass().newInstance();    
+            return card.getClass().newInstance();
         }
-        catch(InstantiationException|IllegalAccessException ie)
+        catch ( InstantiationException | IllegalAccessException ie )
         {
-            //should never happen, at least once we get everything straightened out, as there is no variable input to this call.
-            //when we have logging, log this exception and fail.
+            // should never happen, at least once we get everything straightened
+            // out, as there is no variable input to this call.
+            // when we have logging, log this exception and fail.
             return null;
         }
     }

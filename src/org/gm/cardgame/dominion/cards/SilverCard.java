@@ -8,12 +8,13 @@ public class SilverCard extends DominionCard
 {
     public SilverCard()
     {
-    	super("Silver", 3, 0, EnumSet.of(DominionCard.CardType.TREASURE), DominionCard.CardSet.BASE);
+        super( "Silver", 3, 0, EnumSet.of( DominionCard.CardType.TREASURE ),
+                DominionCard.CardSet.BASE );
     }
-    
+
     @Override
     public void onPlay( DominionGame game )
-    { 
-        game.addCoins(2);
-    }    
+    {
+        game.addCoins( 2 );
+    }
 }

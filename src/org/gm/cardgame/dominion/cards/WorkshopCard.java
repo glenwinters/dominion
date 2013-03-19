@@ -18,9 +18,10 @@ public class WorkshopCard extends DominionCard
     {
         DominionPlayer currentPlayer = game.getCurrentPlayer();
         DominionCard cardToGain = currentPlayer.promptToGain( false, 0, 4 );
-        
-        // will probably never be null, but there are edge cases where it might be.
-        if( cardToGain != null )
+
+        // will probably never be null, but there are edge cases where it might
+        // be.
+        if ( cardToGain != null )
         {
             currentPlayer.gainCard( cardToGain );
         }

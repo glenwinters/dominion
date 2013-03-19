@@ -8,12 +8,13 @@ public class GoldCard extends DominionCard
 {
     public GoldCard()
     {
-    	super("Gold", 6, 0, EnumSet.of(DominionCard.CardType.TREASURE), DominionCard.CardSet.BASE);
+        super( "Gold", 6, 0, EnumSet.of( DominionCard.CardType.TREASURE ),
+                DominionCard.CardSet.BASE );
     }
-    
+
     @Override
     public void onPlay( DominionGame game )
-    { 
-        game.addCoins(3);
-    }    
+    {
+        game.addCoins( 3 );
+    }
 }

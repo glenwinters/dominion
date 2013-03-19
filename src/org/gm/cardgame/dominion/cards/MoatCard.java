@@ -8,8 +8,8 @@ public class MoatCard extends DominionCard
 {
     public MoatCard()
     {
-        super( "Moat", 2, 0, EnumSet.of( DominionCard.CardType.ACTION, DominionCard.CardType.REACTION ),
-                DominionCard.CardSet.BASE );
+        super( "Moat", 2, 0, EnumSet.of( DominionCard.CardType.ACTION,
+                DominionCard.CardType.REACTION ), DominionCard.CardSet.BASE );
     }
 
     @Override
@@ -17,13 +17,13 @@ public class MoatCard extends DominionCard
     {
         game.getCurrentPlayer().drawCards( 2 );
     }
-    
+
     @Override
     public void onReveal( DominionGame game )
     {
         // get card's owner, and set 'moat played' for this turn?
     }
-    
+
     @Override
     public boolean canReact( DominionCard.ReactionTriggerType actionType )
     {
