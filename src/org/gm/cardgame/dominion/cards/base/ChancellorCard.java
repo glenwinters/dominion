@@ -19,7 +19,7 @@ public class ChancellorCard extends DominionCard
     {
         DominionPlayer currentPlayer = game.getCurrentPlayer();
         game.addCoins( 2 );
-        if ( currentPlayer.promptToDiscardDeck() )
+        if ( currentPlayer.promptYesNo( "Place your deck in your discard pile?" ) )
         {
             currentPlayer.discardDeck();
         }

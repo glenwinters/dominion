@@ -18,6 +18,7 @@ public class DominionGame extends Game
     protected int potions;
     protected int actions;
     protected int buys;
+    protected List<DominionCard> playArea;
 
     public DominionGame( List<DominionPlayer> players, List<DominionCard> cards )
     {
@@ -27,6 +28,7 @@ public class DominionGame extends Game
             this.players[i] = players.get( i );
         }
         this.table = new DominionTable( cards );
+        playArea = new ArrayList<DominionCard>();
     }
 
     // this may not be necessary
@@ -57,7 +59,6 @@ public class DominionGame extends Game
         boolean doneActions = false;
         boolean doneTreasures = false;
         DominionPlayer currentPlayer = players[currentPlayerIndex];
-        // players[currentPlayerIndex].takeTurn();
 
         while ( actions > 0 && !doneActions ) // && player has any action cards
                                               // in hand
@@ -68,8 +69,7 @@ public class DominionGame extends Game
             {
                 // chose 'done actions'.
                 // are you sure?
-                // if yes, set doneActions == true;
-                // break;
+                // if yes, break
                 // otherwise, continue;
             }
             if ( cardToPlay.getType().contains( DominionCard.CardType.ACTION ) )
@@ -80,6 +80,12 @@ public class DominionGame extends Game
                 // check for attack reactions
 
                 cardToPlay.onPlay( this );
+                
+                if( !cardToPlay.isTrashed() )
+                {
+                    // some cards get trashed as an effect of being played.
+                    playArea.add( cardToPlay );                    
+                }
             }
         }
 
@@ -92,7 +98,8 @@ public class DominionGame extends Game
             {
                 // chose 'done treasures'
                 // are you sure?
-                // if yes, set doneTreasures == true.
+                // if yes, break
+                // otherwise, continue
             }
             cardToPlay.onPlay( this );
         }
@@ -109,9 +116,14 @@ public class DominionGame extends Game
             }
             buys--;
             // check for on-buy reactions
-            DominionCard cardToBuy = gainCard( cardName );
-            currentPlayer.gainCard( cardToBuy );
+            DominionCard cardToGain = gainCard( cardName );
+            currentPlayer.gainCard( cardToGain );
         }
+        
+        // clean-up phase
+        currentPlayer.discardHand();
+        currentPlayer.cleanUpPlayedCards( playArea );
+        currentPlayer.drawCards( 5 );
     }
 
     // there may be a better way to do this
@@ -123,11 +135,22 @@ public class DominionGame extends Game
     public DominionCard gainCard( String cardName )
     {
         DominionCard cardToGain = table.gainCard( cardName );
-        // check for on-gain reactions
+        
+        if( cardToGain == null )
+        {
+            // Should never happen.
+            // Log an exception and abort game, because whatever allowed this to happen needs fixing.
+        }
+        
+        // check for on-gain effects
+        // Reactions:
         // trader might replace 'cardToGain' with a Silver card and put the
         // other one back in the kingdom
         // Watchtower might redirect it to the player's deck or the trash pile
         // instead.
+        
+        // Effects:
+        // A lot of Hinterlands cards have "when you gain this..." effects despite not being reactions. 
         return cardToGain;
     }
 

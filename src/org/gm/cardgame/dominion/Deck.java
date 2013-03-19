@@ -75,4 +75,12 @@ public class Deck
     {
         discardPile.add( card );
     }
+    
+    /*
+     * Put multiple cards in the discard pile. Order doesn't matter.
+     */
+    public void discardCards( List<DominionCard> cards )
+    {
+        discardPile.addAll( cards );
+    }
 }

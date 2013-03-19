@@ -30,13 +30,6 @@ public class DominionPlayer
         return promptToChooseMultipleCards( type, min, max, "Choose cards to discard", optional );
     }
 
-    public boolean promptToDiscardDeck()
-    {
-        // ask player if they want to discard their whole deck. this is always
-        // optional.
-        return promptYesNo( "Place your deck in the discard pile?" );
-    }
-
     public boolean promptYesNo( String prompt )
     {
         // Generic prompt to ask the player a yes/no question.
@@ -129,9 +122,6 @@ public class DominionPlayer
         }
     }
 
-    // this is for discarding your hand during play, i.e. as a result of minion
-    // or tactician,
-    // not for cleaning up at the end of a turn.
     public void discardHand()
     {
         for ( DominionCard card : hand )
@@ -160,5 +150,11 @@ public class DominionPlayer
                 // DominionGame handles putting it in the trash?
             }
         }
+    }
+    
+    // not convinced this is right.
+    public void cleanUpPlayedCards( List<DominionCard> playedCards )
+    {
+        deck.discardCards( playedCards );
     }
 }
