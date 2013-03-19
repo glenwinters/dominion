@@ -1,5 +1,6 @@
 package org.gm.cardgame.dominion;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.LinkedList;
 
@@ -19,9 +20,7 @@ public class Deck
     
     public void shuffleDrawPile()
     {
-        // TODO
-        // Just shuffle the draw pile. All cards that are supposed to be shuffled in are
-        // already there.
+        Collections.shuffle( drawPile );
     }
     
     public void discardDrawPile()
