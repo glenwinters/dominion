@@ -3,6 +3,7 @@ package org.gm.cardgame.dominion.cards.alchemy;
 import java.util.EnumSet;
 
 import org.gm.cardgame.dominion.DominionGame;
+import org.gm.cardgame.dominion.cards.DominionCard;
 
 public class PotionCard extends DominionCard
 {

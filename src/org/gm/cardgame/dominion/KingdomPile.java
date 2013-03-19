@@ -1,7 +1,10 @@
 package org.gm.cardgame.dominion;
 
-import org.gm.cardgame.dominion.cards.*;
 import org.gm.cardgame.dominion.cards.DominionCard;
+import org.gm.cardgame.dominion.cards.common.*;
+import org.gm.cardgame.dominion.cards.base.*;
+import org.gm.cardgame.dominion.cards.prosperity.*;
+import org.gm.cardgame.dominion.cards.alchemy.*;
 
 public class KingdomPile
 {
