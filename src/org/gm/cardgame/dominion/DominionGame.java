@@ -75,15 +75,11 @@ public class DominionGame extends Game
             if ( cardToPlay.getType().contains( DominionCard.CardType.ACTION ) )
             {
                 actions--;
-
+                currentPlayer.getHand().remove( cardToPlay );
+                
                 // check for attack reactions
 
                 cardToPlay.onPlay( this );
-            }
-            else if ( cardToPlay.getType().contains( DominionCard.CardType.TREASURE ) )
-            {
-                // are you sure?
-                // if yes, doneActions = true. play card and break;
             }
         }
 
