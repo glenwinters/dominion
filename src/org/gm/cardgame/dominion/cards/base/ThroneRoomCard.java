@@ -1,9 +1,10 @@
-package org.gm.cardgame.dominion.cards;
+package org.gm.cardgame.dominion.cards.base;
 
 import java.util.EnumSet;
 
 import org.gm.cardgame.dominion.DominionGame;
 import org.gm.cardgame.dominion.DominionPlayer;
+import org.gm.cardgame.dominion.cards.DominionCard;
 
 public class ThroneRoomCard extends DominionCard
 {

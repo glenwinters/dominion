@@ -1,4 +1,4 @@
-package org.gm.cardgame.dominion.cards;
+package org.gm.cardgame.dominion.cards.alchemy;
 
 import java.util.EnumSet;
 
