@@ -5,17 +5,38 @@ import java.util.List;
 import java.util.LinkedList;
 
 import org.gm.cardgame.dominion.cards.DominionCard;
+import org.gm.cardgame.dominion.cards.common.CopperCard;
+import org.gm.cardgame.dominion.cards.common.EstateCard;
 
 public class Deck
 {
-
     private LinkedList<DominionCard> drawPile;
     private LinkedList<DominionCard> discardPile;
 
-    public Deck()
+    public Deck( boolean useShelters )
     {
         drawPile = new LinkedList<DominionCard>();
         discardPile = new LinkedList<DominionCard>();
+        
+        for( int i = 0; i < 7; i++ )
+        {
+            drawPile.add( new CopperCard() );
+        }
+        if( useShelters )
+        {
+            // TODO: uncomment this when dark ages cards are implemented
+            // drawPile.add( new HovelCard() );
+            // drawPile.add( new NecropolisCard() );
+            // drawPile.add( new OvergrownEstateCard() );
+        }
+        else
+        {
+            for( int i = 0; i < 3; i++ )
+            {
+                drawPile.add( new EstateCard() );
+            }
+        }
+        shuffleDrawPile();
     }
 
     public void shuffleDrawPile()

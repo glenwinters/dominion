@@ -4,7 +4,7 @@ import java.util.EnumSet;
 
 import org.gm.cardgame.dominion.DominionGame;
 
-public abstract class DominionCard
+public abstract class DominionCard implements Comparable<DominionCard>
 {
 
     public enum CardSet
@@ -31,9 +31,8 @@ public abstract class DominionCard
                                  // to put this info somewhere else
 
     protected boolean bane = false;
-    protected boolean trashed = false; // for throne room/KC on cards with a
-                                       // 'you may trash this' effect like
-                                       // Mining Village.
+    protected boolean trashed = false; // for TR/KC on cards with a 'you may trash this' effect like Mining Village.
+    protected boolean notInSupply = false; // for black market / madman / mercenary / prizes / spoils.
 
     protected DominionCard( String name, int coinCost, int potionCost, EnumSet<CardType> type,
             CardSet set )
@@ -101,6 +100,16 @@ public abstract class DominionCard
     {
         this.bane = bane;
     }
+    
+    public boolean isNotInSupply()
+    {
+        return notInSupply;
+    }
+    
+    public void setNotInSupply( boolean notInSupply )
+    {
+        this.notInSupply = notInSupply;
+    }
 
     public EnumSet<CardType> getType()
     {
@@ -133,5 +142,32 @@ public abstract class DominionCard
         DominionCard otherCard = (DominionCard) obj;
         // cards being equal by name is enough to mean they're the same card.
         return (otherCard.name.equals( this.name ));
+    }
+    
+    /*
+     * Override the compareTo method. Note that this does NOT tie in with equals() and is only used
+     * to sort cards by cost in the kingdom.
+     */
+    @Override
+    public int compareTo( DominionCard rhs )
+    {
+        if( this.coinCost < rhs.getCoinCost() )
+        {
+            return -1;
+        }
+        else if ( this.coinCost > rhs.getCoinCost() )
+        {
+            return 1;
+        }
+        //coin costs are equal; compare potions
+        if( this.potionCost < rhs.getPotionCost() )
+        {
+            return -1;
+        }
+        else if ( this.potionCost > rhs.getPotionCost () )
+        {
+            return 1;
+        }
+        return 0;
     }
 }

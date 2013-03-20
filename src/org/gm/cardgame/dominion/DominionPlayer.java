@@ -9,7 +9,10 @@ public class DominionPlayer
     private Deck deck;
     private List<DominionCard> hand;
 
-    // TODO need constructor
+    public DominionPlayer( boolean useShelters )
+    {
+        deck = new Deck( useShelters );
+    }
 
     public List<DominionCard> getHand()
     {

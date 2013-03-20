@@ -20,14 +20,17 @@ public class DominionGame extends Game
     protected int buys;
     protected List<DominionCard> playArea;
 
-    public DominionGame( List<DominionPlayer> players, List<DominionCard> cards )
+    public DominionGame( List<DominionPlayer> players, List<DominionCard> cards ) // probably want to change players to List<User>
     {
+        boolean useShelters = false; // this affects players' starting hands
+        boolean useColonies = false; // this affects whether or not colonies and platinums are on the table
+        
         this.players = new DominionPlayer[players.size()];
         for ( int i = 0; i < players.size(); i++ )
         {
             this.players[i] = players.get( i );
         }
-        this.table = new DominionTable( cards );
+        this.table = new DominionTable( cards, this.players.length, useColonies );
         playArea = new ArrayList<DominionCard>();
     }
 
@@ -199,11 +202,19 @@ public class DominionGame extends Game
         return players[currentPlayerIndex];
     }
 
+    /**
+     * Gets the next player to play (i.e. the one to the player's left)
+     * @return The DominionPlayer of the player up next.
+     */
     public DominionPlayer getNextPlayer()
     {
         return players[(currentPlayerIndex + 1) % players.length];
     }
 
+    /**
+     * Gets the opponents, in order.
+     * @return a List of the other players, in play order.
+     */
     public List<DominionPlayer> getOpponents()
     {
         ArrayList<DominionPlayer> opponents = new ArrayList<DominionPlayer>();

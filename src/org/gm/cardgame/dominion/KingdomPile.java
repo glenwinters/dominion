@@ -14,6 +14,10 @@ public class KingdomPile
     private boolean banned;
     private boolean tradeRouteToken;
     private int embargoTokens;
+    
+    //TODO: some kingdom piles aren't all the same card, like DA's Knights and Ruins.
+    // we may need to eventually put a list in here, instead of one template card.
+    // That won't affect the interface though,
 
     public KingdomPile( final DominionCard card, final int numPlayers )
     {
