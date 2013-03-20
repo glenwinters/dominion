@@ -102,7 +102,7 @@ public class DominionTable
 
     public DominionCard gainCard( String name )
     {
-        KingdomPile pile = kingdom.get( name );
+        KingdomPile pile = supply.get( name );
         if ( pile == null )
         {
             return null;
