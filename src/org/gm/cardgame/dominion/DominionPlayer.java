@@ -268,7 +268,19 @@ public class DominionPlayer extends Player
         return null;
     }
 
-    // hand manipulation methods
+    // hand-related methods
+    public boolean hasCardTypeInHand( DominionCard.CardType type )
+    {
+        for( DominionCard card : hand )
+        {
+            if(card.getType().contains( type ) )
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    
     public void drawCards( int numCards )
     {
         hand.addAll( deck.drawCards( numCards ) );
