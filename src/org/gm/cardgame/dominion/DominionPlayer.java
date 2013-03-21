@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 
 import org.gm.cardgame.Player;
 import org.gm.cardgame.dominion.cards.DominionCard;
+import org.gm.cardgame.dominion.cards.base.SmithyCard;
 
 public class DominionPlayer extends Player
 {
@@ -187,11 +188,71 @@ public class DominionPlayer extends Player
         return null;
     }
 
-    public String promptToBuy()
+    public String promptToBuy( DominionTable table )
     {
         // prompt player to buy a card. return name of card to buy, or null if
         // none
-        return null;
+
+        BufferedReader br = new BufferedReader( new InputStreamReader( System.in ) );
+        String input = null;
+
+        // Build list of possible cards to choose by type
+        int i = 0;
+        LinkedList<KingdomPile> piles = new LinkedList<KingdomPile>( table.getSupply() );
+
+        // TODO Look into using Comparable<DominionCard> to sort by coin cost
+        for ( i = 0; i < piles.size(); i++ )
+        {
+            System.out.printf( "%02d) %-20s $%-2d %d P (%-2d left)\n", i + 1, piles.get( i )
+                    .getCard().getName(), piles.get( i ).getCard().getCoinCost(), piles.get( i )
+                    .getCard().getPotionCost(), piles.get( i ).getCardsRemaining() );
+        }
+        i++;
+        System.out.printf( "%d) Done\n", i );
+        System.out.print( "> " );
+
+        // Get user's card choice
+        int choice = -1;
+        DominionCard card = null;
+        do
+        {
+            try
+            {
+                input = br.readLine();
+            }
+            catch ( IOException e )
+            {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+            if ( input != null && !input.equals( "" ) )
+            {
+                choice = Integer.parseInt( input );
+                if ( choice > 0 && choice < piles.size() + 1 )
+                {
+                    card = piles.get( choice - 1 ).getCard();
+                }
+                else if ( choice == piles.size() + 1 )
+                {
+                    // Done choosing cards for this phase
+                    break;
+                }
+                else
+                {
+                    System.out.println( "That is not a possible choice." );
+                }
+            }
+        } while ( card == null );
+
+        if ( card == null )
+        {
+            return null;
+        }
+        else
+        {
+            return card.getName();
+        }
     }
 
     // this will need restriction by type as well

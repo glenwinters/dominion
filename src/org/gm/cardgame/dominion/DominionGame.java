@@ -65,6 +65,7 @@ public class DominionGame extends Game
         buys = 1;
         boolean doneActions = false;
         boolean doneTreasures = false;
+        boolean doneBuys = false;
         DominionPlayer currentPlayer = players[currentPlayerIndex];
 
         System.out.printf( "-- %s's turn --\n", currentPlayer.getUser().getName() );
@@ -121,20 +122,23 @@ public class DominionGame extends Game
             }
         }
 
-        while ( buys > 0 )
+        while ( buys > 0 && !doneBuys )
         {
-            String cardName = currentPlayer.promptToBuy(); // need to take max
-                                                           // coins into account
+            String cardName = currentPlayer.promptToBuy( table ); // need to
+                                                                  // take max
+            // coins into account
             if ( cardName == null )
             {
-                // not buying anything
-                // are you sure?
-                // if yes, go to cleanup phase.
+                doneBuys = currentPlayer.promptYesNo( "Done with buys?" );
+                // Add confirmation
             }
-            buys--;
-            // check for on-buy reactions
-            DominionCard cardToGain = gainCard( cardName );
-            currentPlayer.gainCard( cardToGain );
+            else
+            {
+                buys--;
+                // check for on-buy reactions
+                DominionCard cardToGain = gainCard( cardName );
+                currentPlayer.gainCard( cardToGain );
+            }
         }
 
         // clean-up phase
