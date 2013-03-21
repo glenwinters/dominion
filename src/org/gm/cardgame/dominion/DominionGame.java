@@ -115,6 +115,11 @@ public class DominionGame extends Game
             {
                 currentPlayer.getHand().remove( cardToPlay );
                 cardToPlay.onPlay( this );
+                
+                if ( !cardToPlay.isTrashed() )
+                {
+                    playArea.add( cardToPlay );
+                }
             }
             else
             {
