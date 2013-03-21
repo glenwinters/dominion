@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.gm.cardgame.Game.GameName;
 import org.gm.cardgame.dominion.DominionGame;
+import org.gm.cardgame.dominion.cards.DominionCard;
 import org.gm.cardgame.dominion.cards.base.*;
 
 public class LobbyGame

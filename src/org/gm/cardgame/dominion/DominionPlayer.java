@@ -3,6 +3,7 @@ package org.gm.cardgame.dominion;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -19,6 +20,7 @@ public class DominionPlayer extends Player
     {
         deck = new Deck( useShelters );
         hand = new ArrayList<DominionCard>();
+        drawCards( 5 );
     }
 
     public List<DominionCard> getHand()
@@ -43,7 +45,40 @@ public class DominionPlayer extends Player
     public boolean promptYesNo( String prompt )
     {
         // Generic prompt to ask the player a yes/no question.
-        return false;
+        BufferedReader br = new BufferedReader( new InputStreamReader( System.in ) );
+
+        // Print prompt
+        System.out.println( prompt + " (y/n)" );
+
+        String choice = new String( "" );
+        do
+        {
+            System.out.print( ">" );
+            try
+            {
+                choice = br.readLine();
+            }
+            catch ( IOException e )
+            {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            if ( choice == null )
+            {
+                choice = new String( "" );
+            }
+
+        } while ( !choice.equalsIgnoreCase( "y" ) && !choice.equalsIgnoreCase( "n" ) );
+
+        if ( choice.equalsIgnoreCase( "y" ) )
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+
     }
 
     public List<DominionCard> promptToTrash( DominionCard.CardType type, int min, int max,
@@ -69,55 +104,68 @@ public class DominionPlayer extends Player
         BufferedReader br = new BufferedReader( new InputStreamReader( System.in ) );
         String input = null;
 
+        // Print prompt
         System.out.println( prompt );
-        try
-        {
-            input = br.readLine();
-        }
-        catch ( IOException e )
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
 
+        // Print possible cards
         List<DominionCard> possibleCards = new LinkedList<DominionCard>();
 
+        // Build list of possible cards to choose by type
         for ( DominionCard card : hand )
         {
-            if ( card.getType().contains( type ) )
+            if ( type == null || card.getType().contains( type ) )
             {
                 possibleCards.add( card );
             }
         }
 
-        int i = 1;
-        for ( DominionCard card : possibleCards )
+        // Get user's card choice
+        int i = 0;
+        int choice = -1;
+        DominionCard card = null;
+        do
         {
-            System.out.printf( "%d) %s\n", i, card.getName() );
-            i++;
-        }
+            for ( i = 0; i < possibleCards.size(); i++ )
+            {
+                System.out.printf( "%d) %s\n", i + 1, possibleCards.get( i ).getName() );
+            }
+            if ( optional )
+            {
+                i++;
+                System.out.printf( "%d) Done\n", i );
+            }
+            System.out.print( "> " );
 
-        try
-        {
-            input = br.readLine();
-        }
-        catch ( IOException e )
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+            try
+            {
+                input = br.readLine();
+            }
+            catch ( IOException e )
+            {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
 
-        int choice = Integer.parseInt( input );
-        if ( choice < i )
-        {
-            return possibleCards.get( choice - 1 );
-        }
-        else
-        {
-            System.out.println( "That is not a possible choice." );
-        }
+            if ( input != null && !input.equals( "" ) )
+            {
+                choice = Integer.parseInt( input );
+                if ( choice > 0 && choice < possibleCards.size() + 1 )
+                {
+                    card = possibleCards.get( choice - 1 );
+                }
+                else if ( optional && choice == possibleCards.size() + 1 )
+                {
+                    // Done choosing cards for this phase
+                    break;
+                }
+                else
+                {
+                    System.out.println( "That is not a possible choice." );
+                }
+            }
+        } while ( card == null );
 
-        return null;
+        return card;
     }
 
     public List<DominionCard> promptToChooseMultipleCards( DominionCard.CardType type, int min,
@@ -175,19 +223,31 @@ public class DominionPlayer extends Player
 
     public void discardCard( DominionCard cardToDiscard )
     {
-        for ( DominionCard card : hand )
+        // A simple for-loop needed to be converted into a while with an
+        // iterator because modifying a Collection is not normally allowed while
+        // iterating over it. To solve this problem, an iterator is used and
+        // iterator.remove() is used to remove the current item the iterator is
+        // pointing to. This strategy avoids the ConcurrentModificationException
+        ListIterator<DominionCard> it = hand.listIterator();
+        while ( it.hasNext() )
         {
+            DominionCard card = it.next();
             if ( cardToDiscard.equals( card ) )
             {
-                hand.remove( card );
+                // Remove the current card
+                it.remove();
                 deck.discardCard( card );
+                break;
             }
         }
     }
 
     public void discardHand()
     {
-        for ( DominionCard card : hand )
+        // A copy must be used to iterate over the hand since it will be
+        // modified during the iteration
+        List<DominionCard> handCopy = new ArrayList<DominionCard>( hand );
+        for ( DominionCard card : handCopy )
         {
             discardCard( card );
         }

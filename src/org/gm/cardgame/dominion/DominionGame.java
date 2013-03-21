@@ -13,20 +13,16 @@ public class DominionGame extends Game
     protected final DominionTable table;
 
     // current turn info
-    protected int currentPlayerIndex;
+
     protected int coins;
     protected int potions;
     protected int actions;
     protected int buys;
     protected List<DominionCard> playArea;
 
-    public DominionGame( List<User> users, List<DominionCard> cards ) // probably
-                                                                      // want to
-                                                                      // change
-                                                                      // players
-                                                                      // to
-                                                                      // List<User>
+    public DominionGame( List<User> users, List<DominionCard> cards )
     {
+        super();
         boolean useShelters = false; // this affects players' starting hands
         boolean useColonies = false; // this affects whether or not colonies and
                                      // platinums are on the table
@@ -53,12 +49,10 @@ public class DominionGame extends Game
         // Add this game to the GameServer's game list
         gameList.add( this );
 
-        // this could probably go in Game as it's pretty generic
-        currentPlayerIndex = -1;
         do
         {
             nextTurn();
-        } while ( table.isGameOver() );
+        } while ( !table.isGameOver() );
         // do any post-game stuff and print out winner, scores, decks, etc.
     }
 
@@ -73,17 +67,17 @@ public class DominionGame extends Game
         boolean doneTreasures = false;
         DominionPlayer currentPlayer = players[currentPlayerIndex];
 
+        System.out.printf( "-- %s's turn --\n", currentPlayer.getUser().getName() );
         while ( actions > 0 && !doneActions ) // && player has any action cards
                                               // in hand
         {
-            DominionCard cardToPlay = currentPlayer.promptToPlay(); // prompt by
-                                                                    // type?
+            DominionCard cardToPlay = currentPlayer.promptToChooseOneCard( null,
+                    "Choose an action card to play", true );
+
             if ( cardToPlay == null )
             {
-                // chose 'done actions'.
-                // are you sure?
-                // if yes, break
-                // otherwise, continue;
+                doneActions = currentPlayer.promptYesNo( "Done with actions?" );
+                // Add confirmation
             }
             else if ( cardToPlay.getType().contains( DominionCard.CardType.ACTION ) )
             {
@@ -100,21 +94,31 @@ public class DominionGame extends Game
                     playArea.add( cardToPlay );
                 }
             }
+            else
+            {
+                System.out.println( "The chosen card is not an action card." );
+            }
         }
 
         while ( !doneTreasures ) // && player has any treasures in hand
         {
-            DominionCard cardToPlay = currentPlayer.promptToPlay(); // restrict
-                                                                    // to
-                                                                    // treasures
+            DominionCard cardToPlay = currentPlayer.promptToChooseOneCard( null,
+                    "Choose a treasure card to play", true );
+
             if ( cardToPlay == null )
             {
-                // chose 'done treasures'
-                // are you sure?
-                // if yes, break
-                // otherwise, continue
+                doneTreasures = currentPlayer.promptYesNo( "Done with treasures?" );
+                // Add confirmation
             }
-            cardToPlay.onPlay( this );
+            else if ( cardToPlay.getType().contains( DominionCard.CardType.TREASURE ) )
+            {
+                currentPlayer.getHand().remove( cardToPlay );
+                cardToPlay.onPlay( this );
+            }
+            else
+            {
+                System.out.println( "The chosen card is not a treasure card." );
+            }
         }
 
         while ( buys > 0 )

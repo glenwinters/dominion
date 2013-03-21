@@ -9,7 +9,14 @@ public abstract class Game
         DOMINION
     }
 
+    protected int currentPlayerIndex;
+
     protected List<Player> players;
+
+    public Game()
+    {
+        currentPlayerIndex = -1;
+    }
 
     public abstract void startGame( List<Game> gameList );
 
