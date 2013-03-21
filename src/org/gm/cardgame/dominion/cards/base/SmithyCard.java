@@ -10,8 +10,7 @@ public class SmithyCard extends DominionCard
 {
     public SmithyCard()
     {
-        super( "Smithy", 4, 0, EnumSet.of( DominionCard.CardType.ACTION ),
-                DominionCard.CardSet.BASE );
+        super( "Smithy", 4, 0, EnumSet.of( DominionCard.CardType.ACTION ), DominionCard.CardSet.BASE );
     }
 
     @Override

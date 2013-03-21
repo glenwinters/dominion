@@ -66,17 +66,17 @@ public class DominionGame extends Game
         boolean doneBuys = false;
         DominionPlayer currentPlayer = players[currentPlayerIndex];
 
-        //TODO: put a 'your turn' prompt in DominionPlayer instead of here, to pass to the client.
+        // TODO: put a 'your turn' prompt in DominionPlayer instead of here, to
+        // pass to the client.
         System.out.printf( "-- %s's turn --\n", currentPlayer.getUser().getName() );
-        
+
         while ( actions > 0 && currentPlayer.hasCardTypeInHand( DominionCard.CardType.ACTION ) )
         {
-            DominionCard cardToPlay = currentPlayer.promptToChooseOneCard( null,
-                    "Choose an action card to play", true );
+            DominionCard cardToPlay = currentPlayer.promptToChooseOneCard( null, "Choose an action card to play", true );
 
             if ( cardToPlay == null )
             {
-                if( currentPlayer.promptYesNo( "Done playing actions?" ) )
+                if ( currentPlayer.promptYesNo( "Done playing actions?" ) )
                 {
                     break;
                 }
@@ -98,25 +98,28 @@ public class DominionGame extends Game
             }
             else
             {
-                //TODO: put this 'show message' thing in DominionPlayer to pass to the client
+                // TODO: put this 'show message' thing in DominionPlayer to pass
+                // to the client
                 System.out.println( "The chosen card is not an action card." );
             }
         }
 
         while ( currentPlayer.hasCardTypeInHand( DominionCard.CardType.TREASURE ) )
         {
-            DominionCard cardToPlay = currentPlayer.promptToChooseOneCard( null,
-                    "Choose a treasure card to play", true );
+            DominionCard cardToPlay = currentPlayer
+                    .promptToChooseOneCard( null, "Choose a treasure card to play", true );
 
-            // TODO: add a smart 'play all treasures' button that plays all silver/gold/platinum on first click,
+            // TODO: add a smart 'play all treasures' button that plays all
+            // silver/gold/platinum on first click,
             // then everything else on second click
-            // maybe think more about what we'd want played on first click and what not to play, i.e. coppers block grand market
+            // maybe think more about what we'd want played on first click and
+            // what not to play, i.e. coppers block grand market
             // and you don't want to play counterfeit after laying down $8,
             // or bank while you still have a bunch of treasures in your hand.
-            
+
             if ( cardToPlay == null )
             {
-                if( currentPlayer.promptYesNo( "Done playing treasures?" ) )
+                if ( currentPlayer.promptYesNo( "Done playing treasures?" ) )
                 {
                     break;
                 }
@@ -125,7 +128,7 @@ public class DominionGame extends Game
             {
                 currentPlayer.getHand().remove( cardToPlay );
                 cardToPlay.onPlay( this );
-                
+
                 if ( !cardToPlay.isTrashed() )
                 {
                     playArea.add( cardToPlay );
@@ -133,7 +136,7 @@ public class DominionGame extends Game
             }
             else
             {
-                //TODO: put this in DominionPlayer to pass to client.
+                // TODO: put this in DominionPlayer to pass to client.
                 // Maybe get DominionPlayer to do the validation.
                 System.out.println( "The chosen card is not a treasure card." );
             }

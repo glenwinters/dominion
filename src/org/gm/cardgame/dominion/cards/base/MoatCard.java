@@ -9,8 +9,8 @@ public class MoatCard extends DominionCard
 {
     public MoatCard()
     {
-        super( "Moat", 2, 0, EnumSet.of( DominionCard.CardType.ACTION,
-                DominionCard.CardType.REACTION ), DominionCard.CardSet.BASE );
+        super( "Moat", 2, 0, EnumSet.of( DominionCard.CardType.ACTION, DominionCard.CardType.REACTION ),
+                DominionCard.CardSet.BASE );
     }
 
     @Override

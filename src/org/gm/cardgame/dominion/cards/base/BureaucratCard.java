@@ -10,8 +10,8 @@ public class BureaucratCard extends DominionCard
 {
     public BureaucratCard()
     {
-        super( "Bureaucrat", 4, 0, EnumSet.of( DominionCard.CardType.ACTION,
-                DominionCard.CardType.ATTACK ), DominionCard.CardSet.BASE );
+        super( "Bureaucrat", 4, 0, EnumSet.of( DominionCard.CardType.ACTION, DominionCard.CardType.ATTACK ),
+                DominionCard.CardSet.BASE );
     }
 
     @Override

@@ -10,8 +10,7 @@ public class ThroneRoomCard extends DominionCard
 {
     public ThroneRoomCard()
     {
-        super( "Throne Room", 4, 0, EnumSet.of( DominionCard.CardType.ACTION ),
-                DominionCard.CardSet.BASE );
+        super( "Throne Room", 4, 0, EnumSet.of( DominionCard.CardType.ACTION ), DominionCard.CardSet.BASE );
     }
 
     @Override
@@ -19,8 +18,8 @@ public class ThroneRoomCard extends DominionCard
     {
         DominionPlayer currentPlayer = game.getCurrentPlayer();
 
-        DominionCard actionCard = currentPlayer.promptToChooseOneCard(
-                DominionCard.CardType.ACTION, "Choose an action card to play twice", false );
+        DominionCard actionCard = currentPlayer.promptToChooseOneCard( DominionCard.CardType.ACTION,
+                "Choose an action card to play twice", false );
 
         if ( actionCard != null )
         {

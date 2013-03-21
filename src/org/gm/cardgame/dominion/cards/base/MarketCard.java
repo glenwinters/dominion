@@ -10,8 +10,7 @@ public class MarketCard extends DominionCard
 {
     public MarketCard()
     {
-        super( "Market", 5, 0, EnumSet.of( DominionCard.CardType.ACTION ),
-                DominionCard.CardSet.BASE );
+        super( "Market", 5, 0, EnumSet.of( DominionCard.CardType.ACTION ), DominionCard.CardSet.BASE );
     }
 
     @Override

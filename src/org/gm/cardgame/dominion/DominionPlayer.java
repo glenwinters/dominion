@@ -37,8 +37,7 @@ public class DominionPlayer extends Player
 
     // will also need discard / trash prompts that restrict by type, since some
     // cards require that
-    public List<DominionCard> promptToDiscard( DominionCard.CardType type, int min, int max,
-            boolean optional )
+    public List<DominionCard> promptToDiscard( DominionCard.CardType type, int min, int max, boolean optional )
     {
         return promptToChooseMultipleCards( type, min, max, "Choose cards to discard", optional );
     }
@@ -82,8 +81,7 @@ public class DominionPlayer extends Player
 
     }
 
-    public List<DominionCard> promptToTrash( DominionCard.CardType type, int min, int max,
-            boolean optional )
+    public List<DominionCard> promptToTrash( DominionCard.CardType type, int min, int max, boolean optional )
     {
         return promptToChooseMultipleCards( type, min, max, "Choose cards to trash", optional );
     }
@@ -94,8 +92,7 @@ public class DominionPlayer extends Player
      * a card, discard a card, reveal a card, so it's up to the caller to decide
      * what to do with all that.
      */
-    public DominionCard promptToChooseOneCard( DominionCard.CardType type, String prompt,
-            boolean optional )
+    public DominionCard promptToChooseOneCard( DominionCard.CardType type, String prompt, boolean optional )
     {
         // go through hand, build a list of cards that match the specified type.
         // or if type == null, just list the whole hand.
@@ -169,8 +166,8 @@ public class DominionPlayer extends Player
         return card;
     }
 
-    public List<DominionCard> promptToChooseMultipleCards( DominionCard.CardType type, int min,
-            int max, String prompt, boolean optional )
+    public List<DominionCard> promptToChooseMultipleCards( DominionCard.CardType type, int min, int max, String prompt,
+            boolean optional )
     {
         // go through hand, build a list of cards that match the specified type.
         // or if type == null, just list the whole hand.
@@ -203,9 +200,9 @@ public class DominionPlayer extends Player
         // TODO Look into using Comparable<DominionCard> to sort by coin cost
         for ( i = 0; i < piles.size(); i++ )
         {
-            System.out.printf( "%02d) %-20s $%-2d %d P (%-2d left)\n", i + 1, piles.get( i )
-                    .getCard().getName(), piles.get( i ).getCard().getCoinCost(), piles.get( i )
-                    .getCard().getPotionCost(), piles.get( i ).getCardsRemaining() );
+            System.out.printf( "%02d) %-20s $%-2d %d P (%-2d left)\n", i + 1, piles.get( i ).getCard().getName(), piles
+                    .get( i ).getCard().getCoinCost(), piles.get( i ).getCard().getPotionCost(), piles.get( i )
+                    .getCardsRemaining() );
         }
         i++;
         System.out.printf( "%d) Done\n", i );
@@ -271,16 +268,16 @@ public class DominionPlayer extends Player
     // hand-related methods
     public boolean hasCardTypeInHand( DominionCard.CardType type )
     {
-        for( DominionCard card : hand )
+        for ( DominionCard card : hand )
         {
-            if(card.getType().contains( type ) )
+            if ( card.getType().contains( type ) )
             {
                 return true;
             }
         }
         return false;
     }
-    
+
     public void drawCards( int numCards )
     {
         hand.addAll( deck.drawCards( numCards ) );

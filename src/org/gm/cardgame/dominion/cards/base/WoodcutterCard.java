@@ -9,8 +9,7 @@ public class WoodcutterCard extends DominionCard
 {
     public WoodcutterCard()
     {
-        super( "Woodcutter", 3, 0, EnumSet.of( DominionCard.CardType.ACTION ),
-                DominionCard.CardSet.BASE );
+        super( "Woodcutter", 3, 0, EnumSet.of( DominionCard.CardType.ACTION ), DominionCard.CardSet.BASE );
     }
 
     @Override

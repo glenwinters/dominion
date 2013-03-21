@@ -8,7 +8,6 @@ public class ProvinceCard extends DominionCard
 {
     public ProvinceCard()
     {
-        super( "Province", 8, 0, EnumSet.of( DominionCard.CardType.VICTORY ),
-                DominionCard.CardSet.BASE );
+        super( "Province", 8, 0, EnumSet.of( DominionCard.CardType.VICTORY ), DominionCard.CardSet.BASE );
     }
 }

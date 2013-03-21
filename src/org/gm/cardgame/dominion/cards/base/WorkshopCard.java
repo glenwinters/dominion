@@ -10,8 +10,7 @@ public class WorkshopCard extends DominionCard
 {
     public WorkshopCard()
     {
-        super( "Workshop", 3, 0, EnumSet.of( DominionCard.CardType.ACTION ),
-                DominionCard.CardSet.BASE );
+        super( "Workshop", 3, 0, EnumSet.of( DominionCard.CardType.ACTION ), DominionCard.CardSet.BASE );
     }
 
     @Override

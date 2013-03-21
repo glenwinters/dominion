@@ -21,8 +21,8 @@ public class WitchCard extends DominionCard
         DominionPlayer currentPlayer = game.getCurrentPlayer();
 
         currentPlayer.drawCards( 2 );
-        
-        for (DominionPlayer opponent : game.getOpponents())
+
+        for ( DominionPlayer opponent : game.getOpponents() )
         {
             opponent.gainCard( game.gainCard( "Curse" ) );
         }

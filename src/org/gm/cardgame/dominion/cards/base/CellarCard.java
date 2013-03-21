@@ -11,8 +11,7 @@ public class CellarCard extends DominionCard
 {
     public CellarCard()
     {
-        super( "Cellar", 2, 0, EnumSet.of( DominionCard.CardType.ACTION ),
-                DominionCard.CardSet.BASE );
+        super( "Cellar", 2, 0, EnumSet.of( DominionCard.CardType.ACTION ), DominionCard.CardSet.BASE );
     }
 
     @Override

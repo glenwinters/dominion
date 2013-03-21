@@ -9,8 +9,7 @@ public class CopperCard extends DominionCard
 {
     public CopperCard()
     {
-        super( "Copper", 0, 0, EnumSet.of( DominionCard.CardType.TREASURE ),
-                DominionCard.CardSet.BASE );
+        super( "Copper", 0, 0, EnumSet.of( DominionCard.CardType.TREASURE ), DominionCard.CardSet.BASE );
     }
 
     @Override

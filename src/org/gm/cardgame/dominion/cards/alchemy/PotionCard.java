@@ -9,8 +9,7 @@ public class PotionCard extends DominionCard
 {
     public PotionCard()
     {
-        super( "Potion", 4, 0, EnumSet.of( DominionCard.CardType.TREASURE ),
-                DominionCard.CardSet.ALCHEMY );
+        super( "Potion", 4, 0, EnumSet.of( DominionCard.CardType.TREASURE ), DominionCard.CardSet.ALCHEMY );
     }
 
     @Override

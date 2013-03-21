@@ -11,8 +11,7 @@ public class ChapelCard extends DominionCard
 {
     public ChapelCard()
     {
-        super( "Chapel", 2, 0, EnumSet.of( DominionCard.CardType.ACTION ),
-                DominionCard.CardSet.BASE );
+        super( "Chapel", 2, 0, EnumSet.of( DominionCard.CardType.ACTION ), DominionCard.CardSet.BASE );
     }
 
     @Override

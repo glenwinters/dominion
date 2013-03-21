@@ -10,8 +10,7 @@ public class ChancellorCard extends DominionCard
 {
     public ChancellorCard()
     {
-        super( "Chancellor", 3, 0, EnumSet.of( DominionCard.CardType.ACTION ),
-                DominionCard.CardSet.BASE );
+        super( "Chancellor", 3, 0, EnumSet.of( DominionCard.CardType.ACTION ), DominionCard.CardSet.BASE );
     }
 
     @Override

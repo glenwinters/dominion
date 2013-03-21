@@ -8,7 +8,6 @@ public class DuchyCard extends DominionCard
 {
     public DuchyCard()
     {
-        super( "Duchy", 5, 0, EnumSet.of( DominionCard.CardType.VICTORY ),
-                DominionCard.CardSet.BASE );
+        super( "Duchy", 5, 0, EnumSet.of( DominionCard.CardType.VICTORY ), DominionCard.CardSet.BASE );
     }
 }

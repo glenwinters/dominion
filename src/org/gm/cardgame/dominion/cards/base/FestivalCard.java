@@ -9,8 +9,7 @@ public class FestivalCard extends DominionCard
 {
     public FestivalCard()
     {
-        super( "Festival", 5, 0, EnumSet.of( DominionCard.CardType.ACTION ),
-                DominionCard.CardSet.BASE );
+        super( "Festival", 5, 0, EnumSet.of( DominionCard.CardType.ACTION ), DominionCard.CardSet.BASE );
     }
 
     @Override

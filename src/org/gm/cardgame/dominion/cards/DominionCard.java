@@ -37,8 +37,7 @@ public abstract class DominionCard implements Comparable<DominionCard>
     protected boolean notInSupply = false; // for black market / madman /
                                            // mercenary / prizes / spoils.
 
-    protected DominionCard( String name, int coinCost, int potionCost, EnumSet<CardType> type,
-            CardSet set )
+    protected DominionCard( String name, int coinCost, int potionCost, EnumSet<CardType> type, CardSet set )
     {
         this.name = name;
         this.coinCost = coinCost;
