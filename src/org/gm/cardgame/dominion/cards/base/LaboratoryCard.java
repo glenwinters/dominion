@@ -10,7 +10,7 @@ public class LaboratoryCard extends DominionCard
 {
     public LaboratoryCard()
     {
-        super( "Festival", 5, 0, EnumSet.of( DominionCard.CardType.ACTION ),
+        super( "Laboratory", 5, 0, EnumSet.of( DominionCard.CardType.ACTION ),
                 DominionCard.CardSet.BASE );
     }
 
