@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.gm.cardgame.Game;
-import org.gm.cardgame.Player;
+import org.gm.cardgame.User;
 import org.gm.cardgame.dominion.cards.DominionCard;
 
 public class DominionGame extends Game
@@ -20,15 +20,22 @@ public class DominionGame extends Game
     protected int buys;
     protected List<DominionCard> playArea;
 
-    public DominionGame( List<DominionPlayer> players, List<DominionCard> cards ) // probably want to change players to List<User>
+    public DominionGame( List<User> users, List<DominionCard> cards ) // probably
+                                                                      // want to
+                                                                      // change
+                                                                      // players
+                                                                      // to
+                                                                      // List<User>
     {
         boolean useShelters = false; // this affects players' starting hands
-        boolean useColonies = false; // this affects whether or not colonies and platinums are on the table
-        
-        this.players = new DominionPlayer[players.size()];
-        for ( int i = 0; i < players.size(); i++ )
+        boolean useColonies = false; // this affects whether or not colonies and
+                                     // platinums are on the table
+
+        this.players = new DominionPlayer[users.size()];
+        for ( int i = 0; i < users.size(); i++ )
         {
-            this.players[i] = players.get( i );
+            this.players[i] = new DominionPlayer( useShelters );
+            this.players[i].setUser( users.get( i ) );
         }
         this.table = new DominionTable( cards, this.players.length, useColonies );
         playArea = new ArrayList<DominionCard>();
@@ -41,8 +48,11 @@ public class DominionGame extends Game
     }
 
     @Override
-    public void startGame( List<Player> players )
+    public void startGame( List<Game> gameList )
     {
+        // Add this game to the GameServer's game list
+        gameList.add( this );
+
         // this could probably go in Game as it's pretty generic
         currentPlayerIndex = -1;
         do
@@ -75,19 +85,19 @@ public class DominionGame extends Game
                 // if yes, break
                 // otherwise, continue;
             }
-            if ( cardToPlay.getType().contains( DominionCard.CardType.ACTION ) )
+            else if ( cardToPlay.getType().contains( DominionCard.CardType.ACTION ) )
             {
                 actions--;
                 currentPlayer.getHand().remove( cardToPlay );
-                
+
                 // check for attack reactions
 
                 cardToPlay.onPlay( this );
-                
-                if( !cardToPlay.isTrashed() )
+
+                if ( !cardToPlay.isTrashed() )
                 {
                     // some cards get trashed as an effect of being played.
-                    playArea.add( cardToPlay );                    
+                    playArea.add( cardToPlay );
                 }
             }
         }
@@ -122,7 +132,7 @@ public class DominionGame extends Game
             DominionCard cardToGain = gainCard( cardName );
             currentPlayer.gainCard( cardToGain );
         }
-        
+
         // clean-up phase
         currentPlayer.discardHand();
         currentPlayer.cleanUpPlayedCards( playArea );
@@ -138,22 +148,24 @@ public class DominionGame extends Game
     public DominionCard gainCard( String cardName )
     {
         DominionCard cardToGain = table.gainCard( cardName );
-        
-        if( cardToGain == null )
+
+        if ( cardToGain == null )
         {
             // Should never happen.
-            // Log an exception and abort game, because whatever allowed this to happen needs fixing.
+            // Log an exception and abort game, because whatever allowed this to
+            // happen needs fixing.
         }
-        
+
         // check for on-gain effects
         // Reactions:
         // trader might replace 'cardToGain' with a Silver card and put the
         // other one back in the kingdom
         // Watchtower might redirect it to the player's deck or the trash pile
         // instead.
-        
+
         // Effects:
-        // A lot of Hinterlands cards have "when you gain this..." effects despite not being reactions. 
+        // A lot of Hinterlands cards have "when you gain this..." effects
+        // despite not being reactions.
         return cardToGain;
     }
 
@@ -204,6 +216,7 @@ public class DominionGame extends Game
 
     /**
      * Gets the next player to play (i.e. the one to the player's left)
+     * 
      * @return The DominionPlayer of the player up next.
      */
     public DominionPlayer getNextPlayer()
@@ -213,6 +226,7 @@ public class DominionGame extends Game
 
     /**
      * Gets the opponents, in order.
+     * 
      * @return a List of the other players, in play order.
      */
     public List<DominionPlayer> getOpponents()

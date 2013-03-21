@@ -1,10 +1,16 @@
 package org.gm.cardgame.dominion;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
+import org.gm.cardgame.Player;
 import org.gm.cardgame.dominion.cards.DominionCard;
 
-public class DominionPlayer
+public class DominionPlayer extends Player
 {
     private Deck deck;
     private List<DominionCard> hand;
@@ -12,6 +18,7 @@ public class DominionPlayer
     public DominionPlayer( boolean useShelters )
     {
         deck = new Deck( useShelters );
+        hand = new ArrayList<DominionCard>();
     }
 
     public List<DominionCard> getHand()
@@ -57,6 +64,59 @@ public class DominionPlayer
         // go through hand, build a list of cards that match the specified type.
         // or if type == null, just list the whole hand.
         // if list size > 0, prompt user to pick one and return it.
+
+        // Test terminal code
+        BufferedReader br = new BufferedReader( new InputStreamReader( System.in ) );
+        String input = null;
+
+        System.out.println( prompt );
+        try
+        {
+            input = br.readLine();
+        }
+        catch ( IOException e )
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        List<DominionCard> possibleCards = new LinkedList<DominionCard>();
+
+        for ( DominionCard card : hand )
+        {
+            if ( card.getType().contains( type ) )
+            {
+                possibleCards.add( card );
+            }
+        }
+
+        int i = 1;
+        for ( DominionCard card : possibleCards )
+        {
+            System.out.printf( "%d) %s\n", i, card.getName() );
+            i++;
+        }
+
+        try
+        {
+            input = br.readLine();
+        }
+        catch ( IOException e )
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        int choice = Integer.parseInt( input );
+        if ( choice < i )
+        {
+            return possibleCards.get( choice - 1 );
+        }
+        else
+        {
+            System.out.println( "That is not a possible choice." );
+        }
+
         return null;
     }
 
@@ -154,7 +214,7 @@ public class DominionPlayer
             }
         }
     }
-    
+
     // not convinced this is right.
     public void cleanUpPlayedCards( List<DominionCard> playedCards )
     {

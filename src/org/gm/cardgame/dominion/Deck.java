@@ -17,12 +17,12 @@ public class Deck
     {
         drawPile = new LinkedList<DominionCard>();
         discardPile = new LinkedList<DominionCard>();
-        
-        for( int i = 0; i < 7; i++ )
+
+        for ( int i = 0; i < 7; i++ )
         {
             drawPile.add( new CopperCard() );
         }
-        if( useShelters )
+        if ( useShelters )
         {
             // TODO: uncomment this when dark ages cards are implemented
             // drawPile.add( new HovelCard() );
@@ -31,7 +31,7 @@ public class Deck
         }
         else
         {
-            for( int i = 0; i < 3; i++ )
+            for ( int i = 0; i < 3; i++ )
             {
                 drawPile.add( new EstateCard() );
             }
@@ -78,6 +78,11 @@ public class Deck
         return result;
     }
 
+    public void addCardToDrawPile( DominionCard card )
+    {
+        drawPile.add( card );
+    }
+
     /*
      * Put a card on top of the draw pile, so it's drawn next. Some cards do
      * this directly, or it can also be used to return cards from hand /
@@ -96,7 +101,7 @@ public class Deck
     {
         discardPile.add( card );
     }
-    
+
     /*
      * Put multiple cards in the discard pile. Order doesn't matter.
      */

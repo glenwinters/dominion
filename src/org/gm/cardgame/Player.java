@@ -2,5 +2,10 @@ package org.gm.cardgame;
 
 public abstract class Player
 {
-    public abstract void takeTurn();
+    private User user;
+
+    public void setUser( User user )
+    {
+        this.user = user;
+    }
 }
