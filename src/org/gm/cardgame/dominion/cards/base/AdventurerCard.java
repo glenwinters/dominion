@@ -3,7 +3,6 @@ package org.gm.cardgame.dominion.cards.base;
 import java.util.EnumSet;
 import java.util.List;
 
-import org.gm.cardgame.dominion.Deck;
 import org.gm.cardgame.dominion.DominionGame;
 import org.gm.cardgame.dominion.DominionPlayer;
 import org.gm.cardgame.dominion.cards.DominionCard;
