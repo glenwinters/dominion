@@ -26,7 +26,7 @@ public class MilitiaCard extends DominionCard
             if( numCardsToDiscard > 0 )
             {
                 List<DominionCard> cardsToDiscard = 
-                        opponent.promptToChooseMultipleCards( null, numCardsToDiscard, numCardsToDiscard, 
+                        opponent.promptToChooseMultipleCards( opponent.getHand(), numCardsToDiscard, numCardsToDiscard, 
                         "Choose " + numCardsToDiscard + " cards to discard", false);
                 for( DominionCard card : cardsToDiscard )
                 {

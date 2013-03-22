@@ -18,7 +18,8 @@ public class ThroneRoomCard extends DominionCard
     {
         DominionPlayer currentPlayer = game.getCurrentPlayer();
 
-        DominionCard actionCard = currentPlayer.promptToChooseOneCard( DominionCard.CardType.ACTION,
+        DominionCard actionCard = currentPlayer.promptToChooseOneCard( 
+                currentPlayer.getCardsByType( DominionCard.CardType.ACTION ),
                 "Choose an action card to play twice", false );
 
         if ( actionCard != null )

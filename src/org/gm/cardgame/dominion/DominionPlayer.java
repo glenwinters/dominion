@@ -80,35 +80,21 @@ public class DominionPlayer extends Player
      * a card, discard a card, reveal a card, so it's up to the caller to decide
      * what to do with all that.
      */
-    public DominionCard promptToChooseOneCard( DominionCard.CardType type, String prompt, boolean optional )
+    public DominionCard promptToChooseOneCard( List<DominionCard> possibleCards, String prompt, boolean optional )
     {
-        // go through hand, build a list of cards that match the specified type.
-        // or if type == null, just list the whole hand.
-        // if list size > 0, prompt user to pick one and return it.
+        // TODO: pass this call to client.
 
         // Test terminal code
         BufferedReader br = new BufferedReader( new InputStreamReader( System.in ) );
         String input = null;
-
-        // Print prompt
-        System.out.println( prompt );
-
-        // Print possible cards
-        List<DominionCard> possibleCards = new LinkedList<DominionCard>();
-
-        // Build list of possible cards to choose by type
-        for ( DominionCard card : hand )
-        {
-            if ( type == null || card.getType().contains( type ) )
-            {
-                possibleCards.add( card );
-            }
-        }
-
+        
         if( possibleCards.size() == 0 )
         {
             return null;
         }
+
+        // Print prompt
+        System.out.println( prompt );
         
         // Get user's card choice
         int i = 0;
@@ -159,7 +145,7 @@ public class DominionPlayer extends Player
         return card;
     }
 
-    public List<DominionCard> promptToChooseMultipleCards( DominionCard.CardType type, int min, int max, String prompt,
+    public List<DominionCard> promptToChooseMultipleCards( List<DominionCard> cards, int min, int max, String prompt,
             boolean optional )
     {
         // TODO: pass call to client and let the client handle it.
@@ -175,7 +161,7 @@ public class DominionPlayer extends Player
         DominionCard cardPicked;
         do
         {
-            cardPicked = promptToChooseOneCard( type, prompt, optional );
+            cardPicked = promptToChooseOneCard( cards, prompt, optional );
             if( cardPicked != null )
             {
                 chosenCards.add( cardPicked );
@@ -183,15 +169,6 @@ public class DominionPlayer extends Player
         } while( cardPicked != null );
         
         return chosenCards;
-    }
-
-    public DominionCard promptToReact( DominionCard.ReactionTriggerType trigger )
-    {
-        // go through hand, build a list of reaction cards that match the
-        // trigger type.
-        // if list size > 0, prompt user to pick one and return it.
-        // MOAT MOAT MOAT MAOT
-        return null;
     }
 
     public String promptToBuy( DominionTable table, int maxCoins, int maxPotions )
@@ -293,6 +270,42 @@ public class DominionPlayer extends Player
             }
         }
         return false;
+    }
+    
+    /**
+     * Get all cards in the player's hand that are of the specified type.
+     * @param type The card type to check for
+     * @return A List of cards matching that card type.
+     */
+    public List<DominionCard> getCardsByType( DominionCard.CardType type )
+    {
+        LinkedList<DominionCard> cards = new LinkedList<DominionCard>();
+        for ( DominionCard card : hand ) 
+        {
+            if( card.getType().contains( type ) )
+            {
+                cards.add( card );
+            }
+        }
+        return cards;
+    }
+    
+    /**
+     * Reactions 
+     * @param type The trigger type to check for
+     * @return A List of the cards matching that trigger type.
+     */
+    public List<DominionCard> getReactions( DominionCard.ReactionTriggerType type )
+    {
+        LinkedList<DominionCard> reactions = new LinkedList<DominionCard>();
+        for ( DominionCard card : hand ) 
+        {
+            if( card.canReact( type ) )
+            {
+                reactions.add( card );
+            }
+        }
+        return reactions;
     }
 
     public void drawCards( int numCards )

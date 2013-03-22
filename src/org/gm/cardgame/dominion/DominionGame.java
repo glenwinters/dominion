@@ -6,6 +6,8 @@ import java.util.List;
 import org.gm.cardgame.Game;
 import org.gm.cardgame.User;
 import org.gm.cardgame.dominion.cards.DominionCard;
+import org.gm.cardgame.dominion.cards.DominionCard.CardType;
+import org.gm.cardgame.dominion.cards.DominionCard.ReactionTriggerType;
 
 public class DominionGame extends Game
 {
@@ -72,7 +74,7 @@ public class DominionGame extends Game
 
         while ( actions > 0 && currentPlayer.hasCardTypeInHand( DominionCard.CardType.ACTION ) )
         {
-            DominionCard cardToPlay = currentPlayer.promptToChooseOneCard( null, "Choose an action card to play", true );
+            DominionCard cardToPlay = currentPlayer.promptToChooseOneCard( currentPlayer.getHand(), "Choose an action card to play", true );
 
             if ( cardToPlay == null )
             {
@@ -97,7 +99,7 @@ public class DominionGame extends Game
         while ( currentPlayer.hasCardTypeInHand( DominionCard.CardType.TREASURE ) )
         {
             DominionCard cardToPlay = currentPlayer
-                    .promptToChooseOneCard( null, "Choose a treasure card to play", true );
+                    .promptToChooseOneCard( currentPlayer.getHand(), "Choose a treasure card to play", true );
 
             // TODO: add a smart 'play all treasures' button that plays all
             // silver/gold/platinum on first click,
@@ -161,7 +163,24 @@ public class DominionGame extends Game
 
         if( cardToPlay.getType().contains( DominionCard.CardType.ATTACK ) )
         {
-            // TODO: check for attack reactions
+            // The only on-play reactions are opponents reacting to an attack.
+            List<DominionPlayer> opponents = getOpponents();
+            for( DominionPlayer opponent : opponents )
+            {
+                List<DominionCard> reactions = opponent.getReactions( DominionCard.ReactionTriggerType.ATTACK );
+                if( reactions.size() > 0)
+                {
+                    DominionCard reaction;
+                    do
+                    {
+                        reaction = opponent.promptToChooseOneCard( reactions, "Choose a reaction", true );
+                        if( reaction != null )
+                        {
+                            reaction.onReveal( this );
+                        }
+                    } while( reaction != null );
+                }
+            }
         }
         
         cardToPlay.onPlay( this );

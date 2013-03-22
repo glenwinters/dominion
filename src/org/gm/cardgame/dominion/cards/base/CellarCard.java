@@ -21,7 +21,7 @@ public class CellarCard extends DominionCard
         game.addActions( 1 );
 
         List<DominionCard> cardsToDiscard = null;
-        cardsToDiscard = currentPlayer.promptToChooseMultipleCards( null, 0, 0, "Choose cards to discard", true );
+        cardsToDiscard = currentPlayer.promptToChooseMultipleCards( currentPlayer.getHand(), 0, 0, "Choose cards to discard", true );
         if ( cardsToDiscard.size() > 0 )
         {
             for ( DominionCard card : cardsToDiscard )
