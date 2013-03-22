@@ -27,15 +27,12 @@ public abstract class DominionCard implements Comparable<DominionCard>
     protected final int coinCost;
     protected final int potionCost;
     protected final EnumSet<CardType> type;
-    protected final CardSet set; // not sure this is useful like this. may need
-                                 // to put this info somewhere else
+    protected final CardSet set; // not sure this is useful like this. may need to put this somewhere else.
+    //protected final int id; //
 
     protected boolean bane = false;
-    protected boolean trashed = false; // for TR/KC on cards with a 'you may
-                                       // trash this' effect like Mining
-                                       // Village.
-    protected boolean notInSupply = false; // for black market / madman /
-                                           // mercenary / prizes / spoils.
+    protected boolean trashed = false; // for cards that get trashed when played.
+    protected boolean notInSupply = false; // for black market / madman / mercenary / prizes / spoils / shelters
 
     protected DominionCard( String name, int coinCost, int potionCost, EnumSet<CardType> type, CardSet set )
     {
@@ -142,8 +139,8 @@ public abstract class DominionCard implements Comparable<DominionCard>
         }
 
         DominionCard otherCard = (DominionCard) obj;
-        // cards being equal by name is enough to mean they're the same card.
-        return (otherCard.name.equals( this.name ));
+        
+        return (otherCard.name.equals( this.name ));// && otherCard.id == this.id);
     }
 
     /*
@@ -171,5 +168,11 @@ public abstract class DominionCard implements Comparable<DominionCard>
             return 1;
         }
         return 0;
+    }
+    
+    @Override
+    public String toString()
+    {
+        return this.name;// + " " + this.id;
     }
 }

@@ -84,17 +84,7 @@ public class DominionGame extends Game
             else if ( cardToPlay.getType().contains( DominionCard.CardType.ACTION ) )
             {
                 actions--;
-                currentPlayer.getHand().remove( cardToPlay );
-
-                // TODO: check for attack reactions
-
-                cardToPlay.onPlay( this );
-
-                if ( !cardToPlay.isTrashed() )
-                {
-                    // some cards get trashed as an effect of being played.
-                    playArea.add( cardToPlay );
-                }
+                playCard( currentPlayer, cardToPlay );
             }
             else
             {
@@ -126,13 +116,7 @@ public class DominionGame extends Game
             }
             else if ( cardToPlay.getType().contains( DominionCard.CardType.TREASURE ) )
             {
-                currentPlayer.getHand().remove( cardToPlay );
-                cardToPlay.onPlay( this );
-
-                if ( !cardToPlay.isTrashed() )
-                {
-                    playArea.add( cardToPlay );
-                }
+                playCard( currentPlayer, cardToPlay );
             }
             else
             {
@@ -166,8 +150,27 @@ public class DominionGame extends Game
 
         // clean-up phase
         currentPlayer.discardHand();
-        currentPlayer.cleanUpPlayedCards( playArea );
+        currentPlayer.takePlayedCards( playArea );
+        playArea.clear();
         currentPlayer.drawCards( 5 );
+    }
+
+    public void playCard( DominionPlayer currentPlayer, DominionCard cardToPlay )
+    {
+        currentPlayer.getHand().remove( cardToPlay );
+
+        if( cardToPlay.getType().contains( DominionCard.CardType.ATTACK ) )
+        {
+            // TODO: check for attack reactions
+        }
+        
+        cardToPlay.onPlay( this );
+
+        if ( !cardToPlay.isTrashed() )
+        {
+            // some cards get trashed as an effect of being played.
+            playArea.add( cardToPlay );
+        }
     }
 
     // there may be a better way to do this

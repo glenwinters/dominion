@@ -373,7 +373,7 @@ public class DominionPlayer extends Player
         hand.add( cardToAdd );
     }
 
-    public void cleanUpPlayedCards( List<DominionCard> playedCards )
+    public void takePlayedCards( List<DominionCard> playedCards )
     {
         deck.discardCards( playedCards );
     }

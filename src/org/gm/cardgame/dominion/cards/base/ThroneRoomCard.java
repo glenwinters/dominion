@@ -23,8 +23,8 @@ public class ThroneRoomCard extends DominionCard
 
         if ( actionCard != null )
         {
-            actionCard.onPlay( game );
-            actionCard.onPlay( game );
+            game.playCard( currentPlayer, actionCard );
+            game.playCard( currentPlayer, actionCard );
         }
     }
 }
