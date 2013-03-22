@@ -105,6 +105,11 @@ public class DominionPlayer extends Player
             }
         }
 
+        if( possibleCards.size() == 0 )
+        {
+            return null;
+        }
+        
         // Get user's card choice
         int i = 0;
         int choice = -1;

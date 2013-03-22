@@ -110,6 +110,26 @@ public class DominionTable
         }
         return pile.takeCard();
     }
+    
+    public int getCardCurrentCoinCost( String cardName ) 
+    {
+        KingdomPile pile = supply.get( cardName );
+        if( pile == null )
+        {
+            throw new IllegalArgumentException( "Card " + cardName + " not found in supply." );
+        }
+        return pile.getCoinCost();
+    }
+    
+    public int getCardCurrentPotionCost( String cardName ) 
+    {
+        KingdomPile pile = supply.get( cardName );
+        if( pile == null )
+        {
+            throw new IllegalArgumentException( "Card " + cardName + " not found in supply." );
+        }
+        return pile.getPotionCost();
+    }
 
     public void trashCard( DominionCard card )
     {

@@ -152,9 +152,15 @@ public class DominionGame extends Game
             else
             {
                 buys--;
-                // check for on-buy reactions
+                coins -= table.getCardCurrentCoinCost( cardName );
+                potions -= table.getCardCurrentPotionCost( cardName );
+                // TODO: check for on-buy reactions, which happen whether or not the card is actually gained
                 DominionCard cardToGain = takeCardFromSupply( cardName );
-                currentPlayer.gainCard( cardToGain );
+                if( cardToGain != null )
+                {
+                    // some effects can prevent card gain, so we need to make sure something is actually gained.
+                    currentPlayer.gainCard( cardToGain );
+                }
             }
         }
 
@@ -181,7 +187,7 @@ public class DominionGame extends Game
             // happen needs fixing.
         }
 
-        // check for on-gain effects
+        // TODO: check for on-gain effects
         // Reactions:
         // trader might replace 'cardToGain' with a Silver card and put the
         // other one back in the kingdom
