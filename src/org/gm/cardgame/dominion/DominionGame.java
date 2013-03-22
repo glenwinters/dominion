@@ -114,7 +114,7 @@ public class DominionGame extends Game
             // then everything else on second click
             // maybe think more about what we'd want played on first click and
             // what not to play, i.e. coppers block grand market
-            // and you don't want to play counterfeit after laying down $8,
+            // and you don't want to play contraband after laying down $8,
             // or bank while you still have a bunch of treasures in your hand.
 
             if ( cardToPlay == null )
@@ -144,17 +144,16 @@ public class DominionGame extends Game
 
         while ( buys > 0 && !doneBuys )
         {
-            String cardName = currentPlayer.promptToBuy( table );
+            String cardName = currentPlayer.promptToBuy( table, coins, potions );
             if ( cardName == null )
             {
                 doneBuys = currentPlayer.promptYesNo( "Done with buys?" );
-                // Add confirmation
             }
             else
             {
                 buys--;
                 // check for on-buy reactions
-                DominionCard cardToGain = gainCard( cardName );
+                DominionCard cardToGain = takeCardFromSupply( cardName );
                 currentPlayer.gainCard( cardToGain );
             }
         }
@@ -171,11 +170,11 @@ public class DominionGame extends Game
      * be the named one, due to reactions If this returns null, no card is
      * gained.
      */
-    public DominionCard gainCard( String cardName )
+    public DominionCard takeCardFromSupply( String cardName )
     {
-        DominionCard cardToGain = table.gainCard( cardName );
+        DominionCard cardToTake = table.takeCard( cardName );
 
-        if ( cardToGain == null )
+        if ( cardToTake == null )
         {
             // Should never happen.
             // Log an exception and abort game, because whatever allowed this to
@@ -192,7 +191,7 @@ public class DominionGame extends Game
         // Effects:
         // A lot of Hinterlands cards have "when you gain this..." effects
         // despite not being reactions.
-        return cardToGain;
+        return cardToTake;
     }
 
     public int getCoins()

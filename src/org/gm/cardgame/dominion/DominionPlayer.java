@@ -34,12 +34,6 @@ public class DominionPlayer extends Player
         return promptToChooseOneCard( null, "Choose a card to play", false );
     }
 
-    // will also need discard / trash prompts that restrict by type, since some
-    // cards require that
-    public List<DominionCard> promptToDiscard( DominionCard.CardType type, int min, int max, boolean optional )
-    {
-        return promptToChooseMultipleCards( type, min, max, "Choose cards to discard", optional );
-    }
 
     public boolean promptYesNo( String prompt )
     {
@@ -78,11 +72,6 @@ public class DominionPlayer extends Player
             return false;
         }
 
-    }
-
-    public List<DominionCard> promptToTrash( DominionCard.CardType type, int min, int max, boolean optional )
-    {
-        return promptToChooseMultipleCards( type, min, max, "Choose cards to trash", optional );
     }
 
     /*
@@ -168,11 +157,27 @@ public class DominionPlayer extends Player
     public List<DominionCard> promptToChooseMultipleCards( DominionCard.CardType type, int min, int max, String prompt,
             boolean optional )
     {
+        // TODO: pass call to client and let the client handle it.
+        
+        
+        // for now,
         // go through hand, build a list of cards that match the specified type.
         // or if type == null, just list the whole hand.
         // if list size > 0, prompt user to pick as many as they want and return
         // the list of chosen cards.
-        return null;
+        
+        LinkedList<DominionCard> chosenCards = new LinkedList<DominionCard>();
+        DominionCard cardPicked;
+        do
+        {
+            cardPicked = promptToChooseOneCard( type, prompt, optional );
+            if( cardPicked != null )
+            {
+                chosenCards.add( cardPicked );
+            }
+        } while( cardPicked != null );
+        
+        return chosenCards;
     }
 
     public DominionCard promptToReact( DominionCard.ReactionTriggerType trigger )
@@ -184,8 +189,10 @@ public class DominionPlayer extends Player
         return null;
     }
 
-    public String promptToBuy( DominionTable table )
+    public String promptToBuy( DominionTable table, int maxCoins, int maxPotions )
     {
+        //TODO: put all this UI logic in the client.
+        
         // prompt player to buy a card. return name of card to buy, or null if
         // none
 
@@ -194,7 +201,15 @@ public class DominionPlayer extends Player
 
         // Build list of possible cards to choose by type
         int i = 0;
-        LinkedList<KingdomPile> piles = new LinkedList<KingdomPile>( table.getSupply() );
+        LinkedList<KingdomPile> allPiles = new LinkedList<KingdomPile>( table.getSupply() );
+        LinkedList<KingdomPile> piles = new LinkedList<KingdomPile>();
+        for( KingdomPile pile : allPiles )
+        {
+            if( pile.getCoinCost() <= maxCoins && pile.getPotionCost() <= maxPotions )
+            {
+                piles.add( pile );
+            }
+        }
 
         // TODO Look into using Comparable<DominionCard> to sort by coin cost
         for ( i = 0; i < piles.size(); i++ )
@@ -252,12 +267,10 @@ public class DominionPlayer extends Player
     }
 
     // this will need restriction by type as well
-    public DominionCard promptToGain( boolean optional, int coinCostMin, int coinCostMax ) // might
-                                                                                           // also
-                                                                                           // need
-                                                                                           // potion
-                                                                                           // limit
+    public DominionCard promptToGain( boolean optional, int coinCostMin, int coinCostMax ) // might also need potion limit
     {
+        // TODO: pass call to client.
+        
         // prompt to gain a card for some reason other than buying.
         // even if optional is true, this could return null if there are no
         // eligible cards
@@ -292,11 +305,6 @@ public class DominionPlayer extends Player
 
     public void discardCard( DominionCard cardToDiscard )
     {
-        // A simple for-loop needed to be converted into a while with an
-        // iterator because modifying a Collection is not normally allowed while
-        // iterating over it. To solve this problem, an iterator is used and
-        // iterator.remove() is used to remove the current item the iterator is
-        // pointing to. This strategy avoids the ConcurrentModificationException
         ListIterator<DominionCard> it = hand.listIterator();
         while ( it.hasNext() )
         {
@@ -313,8 +321,6 @@ public class DominionPlayer extends Player
 
     public void discardHand()
     {
-        // A copy must be used to iterate over the hand since it will be
-        // modified during the iteration
         List<DominionCard> handCopy = new ArrayList<DominionCard>( hand );
         for ( DominionCard card : handCopy )
         {
@@ -332,19 +338,36 @@ public class DominionPlayer extends Player
         deck.discardDrawPile();
     }
 
-    public void trashCard( DominionCard cardToTrash )
+    /**
+     * Remove a card from the hand without putting it in the discard.
+     * The caller must handle putting the card in the right place, because the Player loses the card altogether at this point.
+     * @param cardToRemove The card to remove.
+     */
+    public void removeCardFromHand( DominionCard cardToRemove )
     {
-        for ( DominionCard card : hand )
+        ListIterator<DominionCard> it = hand.listIterator();
+        while ( it.hasNext() )
         {
-            if ( cardToTrash.equals( card ) )
+            DominionCard card = it.next();
+            if ( cardToRemove.equals( card ) )
             {
-                // remove card from hand and don't place in discard
-                // DominionGame handles putting it in the trash?
+                it.remove();
+                break;
             }
         }
     }
+    
+    /**
+     * Put a card in the hand from some external source, e.g. mine, masquerade, native village mat, or torturer.
+     * If this card wasn't originally set aside from a player's deck, this is gaining a card, so the caller needs
+     * to watch for gain reactions.
+     * @param cardToAdd
+     */
+    public void addCardTohand( DominionCard cardToAdd )
+    {
+        hand.add( cardToAdd );
+    }
 
-    // not convinced this is right.
     public void cleanUpPlayedCards( List<DominionCard> playedCards )
     {
         deck.discardCards( playedCards );

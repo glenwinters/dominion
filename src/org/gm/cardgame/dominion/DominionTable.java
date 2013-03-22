@@ -101,7 +101,7 @@ public class DominionTable
         }
     }
 
-    public DominionCard gainCard( String name )
+    public DominionCard takeCard( String name )
     {
         KingdomPile pile = supply.get( name );
         if ( pile == null )

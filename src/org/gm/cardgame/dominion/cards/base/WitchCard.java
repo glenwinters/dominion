@@ -23,7 +23,7 @@ public class WitchCard extends DominionCard
 
         for ( DominionPlayer opponent : game.getOpponents() )
         {
-            opponent.gainCard( game.gainCard( "Curse" ) );
+            opponent.gainCard( game.takeCardFromSupply( "Curse" ) );
         }
     }
 }

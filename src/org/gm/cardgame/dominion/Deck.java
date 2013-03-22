@@ -78,11 +78,6 @@ public class Deck
         return result;
     }
 
-    public void addCardToDrawPile( DominionCard card )
-    {
-        drawPile.add( card );
-    }
-
     /*
      * Put a card on top of the draw pile, so it's drawn next. Some cards do
      * this directly, or it can also be used to return cards from hand /

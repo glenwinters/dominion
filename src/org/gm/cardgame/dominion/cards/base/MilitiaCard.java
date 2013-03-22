@@ -1,6 +1,7 @@
 package org.gm.cardgame.dominion.cards.base;
 
 import java.util.EnumSet;
+import java.util.List;
 
 import org.gm.cardgame.dominion.DominionGame;
 import org.gm.cardgame.dominion.DominionPlayer;
@@ -21,9 +22,16 @@ public class MilitiaCard extends DominionCard
 
         for (DominionPlayer opponent : game.getOpponents())
         {
-            while (opponent.getHand().size() > 3)
+            int numCardsToDiscard = opponent.getHand().size() - 3;
+            if( numCardsToDiscard > 0 )
             {
-                opponent.promptToDiscard( null, 1, 1, false);
+                List<DominionCard> cardsToDiscard = 
+                        opponent.promptToChooseMultipleCards( null, numCardsToDiscard, numCardsToDiscard, 
+                        "Choose " + numCardsToDiscard + " cards to discard", false);
+                for( DominionCard card : cardsToDiscard )
+                {
+                    opponent.discardCard( card );
+                }
             }
         }
     }

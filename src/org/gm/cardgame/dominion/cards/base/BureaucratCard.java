@@ -19,7 +19,7 @@ public class BureaucratCard extends DominionCard
     {
         DominionPlayer currentPlayer = game.getCurrentPlayer();
 
-        currentPlayer.placeCardOnDeck( game.gainCard( "Silver" ) );
+        currentPlayer.placeCardOnDeck( game.takeCardFromSupply( "Silver" ) );
 
         for ( DominionPlayer opponent : game.getOpponents() )
         {
