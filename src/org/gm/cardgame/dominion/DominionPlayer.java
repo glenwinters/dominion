@@ -10,7 +10,6 @@ import java.io.InputStreamReader;
 
 import org.gm.cardgame.Player;
 import org.gm.cardgame.dominion.cards.DominionCard;
-import org.gm.cardgame.dominion.cards.base.SmithyCard;
 
 public class DominionPlayer extends Player
 {
