@@ -1,5 +1,7 @@
 package org.gm.cardgame.dominion;
 
+import java.util.Stack;
+
 import org.gm.cardgame.dominion.cards.DominionCard;
 import org.gm.cardgame.dominion.cards.common.*;
 import org.gm.cardgame.dominion.cards.prosperity.*;
@@ -8,22 +10,19 @@ import org.gm.cardgame.dominion.cards.alchemy.*;
 public class KingdomPile
 {
     private final DominionCard card;
-    private int cardsRemaining;
+    private Stack<DominionCard> cardSupply;
     private int currentCoinCost;
     private int currentPotionCost;
     private boolean banned;
     private boolean tradeRouteToken;
     private int embargoTokens;
 
-    // TODO: some kingdom piles aren't all the same card, like DA's Knights and
-    // Ruins.
-    // we may need to eventually put a list in here, instead of one template
-    // card.
-    // That won't affect the interface though,
-
     public KingdomPile( final DominionCard card, final int numPlayers )
     {
+        card.setId( -1 );
         this.card = card;
+        cardSupply = new Stack<DominionCard>();
+        int cardsRemaining;
         if ( card.getType().contains( DominionCard.CardType.VICTORY ) )
         {
             if ( numPlayers == 2 )
@@ -68,6 +67,23 @@ public class KingdomPile
         {
             cardsRemaining = 10;
         }
+        
+        for( int i = 0; i < cardsRemaining; i++ )
+        {
+            try 
+            {
+                // TODO: knights and ruins don't follow this pattern.
+                DominionCard newCard = card.getClass().newInstance();
+                newCard.setId( i );
+                cardSupply.push( newCard );
+            }
+            catch ( InstantiationException | IllegalAccessException ie )
+            {
+                // should never happen, at least once we get everything straightened
+                // out, as there is no variable input to this call.
+                // TODO: when we have logging, log this exception and fail.
+            }
+        }
 
         currentCoinCost = card.getCoinCost();
         currentPotionCost = card.getPotionCost();
@@ -76,8 +92,7 @@ public class KingdomPile
         embargoTokens = 0;
     }
 
-    // this one is just for reading info from the card inside, not actual
-    // gameplay
+    // this one is just for reading info from the card inside, not actual gameplay
     public DominionCard getCard()
     {
         return card;
@@ -85,7 +100,7 @@ public class KingdomPile
 
     public int getCardsRemaining()
     {
-        return cardsRemaining;
+        return cardSupply.size();
     }
 
     public void addCoinDiscount( int amount )
@@ -148,32 +163,21 @@ public class KingdomPile
 
     public boolean isBuyable()
     {
-        return !banned && cardsRemaining > 0;
+        return !banned && !cardSupply.empty();
     }
 
     public DominionCard takeCard()
     {
-        if ( cardsRemaining <= 0 )
+        if ( cardSupply.empty() )
         {
             return null;
         }
 
-        cardsRemaining--;
-        try
-        {
-            return card.getClass().newInstance();
-        }
-        catch ( InstantiationException | IllegalAccessException ie )
-        {
-            // should never happen, at least once we get everything straightened
-            // out, as there is no variable input to this call.
-            // when we have logging, log this exception and fail.
-            return null;
-        }
+        return cardSupply.pop();
     }
 
-    public void returnCard()
+    public void returnCard( DominionCard card )
     {
-        cardsRemaining++;
+        cardSupply.push( card );
     }
 }

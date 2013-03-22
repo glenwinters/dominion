@@ -28,7 +28,7 @@ public abstract class DominionCard implements Comparable<DominionCard>
     protected final int potionCost;
     protected final EnumSet<CardType> type;
     protected final CardSet set; // not sure this is useful like this. may need to put this somewhere else.
-    //protected final int id; //
+    protected int id = -1;
 
     protected boolean bane = false;
     protected boolean trashed = false; // for cards that get trashed when played.
@@ -99,6 +99,16 @@ public abstract class DominionCard implements Comparable<DominionCard>
     {
         this.bane = bane;
     }
+    
+    public int getId()
+    {
+        return id;
+    }
+    
+    public void setId( int id )
+    {
+        this.id = id;
+    }
 
     public boolean isNotInSupply()
     {
@@ -140,7 +150,7 @@ public abstract class DominionCard implements Comparable<DominionCard>
 
         DominionCard otherCard = (DominionCard) obj;
         
-        return (otherCard.name.equals( this.name ));// && otherCard.id == this.id);
+        return (otherCard.name.equals( this.name ) && otherCard.id == this.id);
     }
 
     /*
@@ -173,6 +183,6 @@ public abstract class DominionCard implements Comparable<DominionCard>
     @Override
     public String toString()
     {
-        return this.name;// + " " + this.id;
+        return this.name + " " + this.id;
     }
 }
