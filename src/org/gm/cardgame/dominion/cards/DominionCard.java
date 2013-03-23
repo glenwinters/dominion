@@ -3,6 +3,7 @@ package org.gm.cardgame.dominion.cards;
 import java.util.EnumSet;
 
 import org.gm.cardgame.dominion.DominionGame;
+import org.gm.cardgame.dominion.DominionPlayer;
 
 public abstract class DominionCard implements Comparable<DominionCard>
 {
@@ -65,7 +66,7 @@ public abstract class DominionCard implements Comparable<DominionCard>
         this.trashed = true;
     }
 
-    public void onReveal( DominionGame game )
+    public void onReveal( DominionGame game, DominionPlayer owner )
     {
     }
 

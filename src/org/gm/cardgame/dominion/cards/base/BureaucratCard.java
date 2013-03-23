@@ -23,18 +23,21 @@ public class BureaucratCard extends DominionCard
 
         for ( DominionPlayer opponent : game.getOpponents() )
         {
-            DominionCard vCard = opponent.promptToChooseOneCard( 
-                    currentPlayer.getCardsByType( DominionCard.CardType.VICTORY ),
-                    "Choose a victory card to reveal", false );
-            if ( vCard != null )
+            if( !game.isVulnerableToAttack( opponent ) )
             {
-                // game.reveal(vCard);
-                opponent.getHand().remove( vCard );
-                opponent.placeCardOnDeck( vCard );
-            }
-            else
-            {
-                // game.reveal( opponent.getHand() );
+                DominionCard vCard = opponent.promptToChooseOneCard( 
+                        currentPlayer.getCardsByType( DominionCard.CardType.VICTORY ),
+                        "Choose a victory card to reveal", false );
+                if ( vCard != null )
+                {
+                    // TODO game.reveal(vCard);
+                    opponent.getHand().remove( vCard );
+                    opponent.placeCardOnDeck( vCard );
+                }
+                else
+                {
+                    // TODO game.reveal( opponent.getHand() );
+                }
             }
         }
     }

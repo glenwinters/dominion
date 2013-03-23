@@ -1,6 +1,8 @@
 package org.gm.cardgame.dominion;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.gm.cardgame.Game;
@@ -21,6 +23,13 @@ public class DominionGame extends Game
     protected int actions;
     protected int buys;
     protected List<DominionCard> playArea;
+    
+    protected HashMap<DominionPlayer, Boolean> moatPlayed;
+    
+    // a lot of Seaside cards are in effect across turns, but this may not be the best way to keep track of them.
+    // According to DXV, When a duration card is TRed/KCed/Processioned, the modifier card stays out too so we need
+    // somewhere to put it.
+    protected HashMap<DominionPlayer, List<DominionCard>> durationCards;
 
     public DominionGame( List<User> users, List<DominionCard> cards )
     {
@@ -37,6 +46,13 @@ public class DominionGame extends Game
         }
         this.table = new DominionTable( cards, this.players.length, useColonies );
         playArea = new ArrayList<DominionCard>();
+        moatPlayed = new HashMap<DominionPlayer, Boolean>();
+        durationCards = new HashMap<DominionPlayer, List<DominionCard>>();
+        for( DominionPlayer player : players )
+        {
+            moatPlayed.put( player, false );
+            durationCards.put( player, new LinkedList<DominionCard>() );
+        }
     }
 
     // this may not be necessary
@@ -155,6 +171,10 @@ public class DominionGame extends Game
         currentPlayer.takePlayedCards( playArea );
         playArea.clear();
         currentPlayer.drawCards( 5 );
+        for( DominionPlayer player : players )
+        {
+            moatPlayed.put( player, false );
+        }
     }
 
     public void playCard( DominionPlayer currentPlayer, DominionCard cardToPlay )
@@ -167,16 +187,21 @@ public class DominionGame extends Game
             List<DominionPlayer> opponents = getOpponents();
             for( DominionPlayer opponent : opponents )
             {
-                List<DominionCard> reactions = opponent.getReactions( DominionCard.ReactionTriggerType.ATTACK );
-                if( reactions.size() > 0)
+                if( opponent.hasReactionTypeInHand( DominionCard.ReactionTriggerType.ATTACK ) )
                 {
                     DominionCard reaction;
                     do
                     {
+                        List<DominionCard> reactions = opponent.getReactions( DominionCard.ReactionTriggerType.ATTACK );
+                        if( reactions.size() == 0 )
+                        {
+                            // reactions can modify the hand, so we need to check each time.
+                            break;
+                        }
                         reaction = opponent.promptToChooseOneCard( reactions, "Choose a reaction", true );
                         if( reaction != null )
                         {
-                            reaction.onReveal( this );
+                            reaction.onReveal( this, opponent );
                         }
                     } while( reaction != null );
                 }
@@ -290,5 +315,15 @@ public class DominionGame extends Game
             opponents.add( players[(currentPlayerIndex + 1 + i) % players.length] );
         }
         return opponents;
+    }
+    
+    public boolean isVulnerableToAttack( DominionPlayer player )
+    {
+        return !moatPlayed.get( player ); // && no Lightouse in play. i can't remember if there are any more defense cards.
+    }
+    
+    public void setMoatPlayed( DominionPlayer player, boolean played )
+    {
+        moatPlayed.put( player, played );
     }
 }

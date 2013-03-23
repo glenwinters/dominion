@@ -22,15 +22,18 @@ public class MilitiaCard extends DominionCard
 
         for (DominionPlayer opponent : game.getOpponents())
         {
-            int numCardsToDiscard = opponent.getHand().size() - 3;
-            if( numCardsToDiscard > 0 )
+            if( !game.isVulnerableToAttack( opponent ) )
             {
-                List<DominionCard> cardsToDiscard = 
-                        opponent.promptToChooseMultipleCards( opponent.getHand(), numCardsToDiscard, numCardsToDiscard, 
-                        "Choose " + numCardsToDiscard + " cards to discard", false);
-                for( DominionCard card : cardsToDiscard )
+                int numCardsToDiscard = opponent.getHand().size() - 3;
+                if( numCardsToDiscard > 0 )
                 {
-                    opponent.discardCard( card );
+                    List<DominionCard> cardsToDiscard = 
+                            opponent.promptToChooseMultipleCards( opponent.getHand(), numCardsToDiscard, numCardsToDiscard, 
+                            "Choose " + numCardsToDiscard + " cards to discard", false);
+                    for( DominionCard card : cardsToDiscard )
+                    {
+                        opponent.discardCard( card );
+                    }
                 }
             }
         }

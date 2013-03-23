@@ -3,6 +3,7 @@ package org.gm.cardgame.dominion.cards.base;
 import java.util.EnumSet;
 
 import org.gm.cardgame.dominion.DominionGame;
+import org.gm.cardgame.dominion.DominionPlayer;
 import org.gm.cardgame.dominion.cards.DominionCard;
 
 public class MoatCard extends DominionCard
@@ -20,9 +21,9 @@ public class MoatCard extends DominionCard
     }
 
     @Override
-    public void onReveal( DominionGame game )
+    public void onReveal( DominionGame game, DominionPlayer owner )
     {
-        // get card's owner, and set 'moat played' for this turn?
+        game.setMoatPlayed( owner, true );
     }
 
     @Override

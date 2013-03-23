@@ -290,6 +290,18 @@ public class DominionPlayer extends Player
         return cards;
     }
     
+    public boolean hasReactionTypeInHand( DominionCard.ReactionTriggerType trigger )
+    {
+        for ( DominionCard card : hand )
+        {
+            if ( card.canReact( trigger ) )
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    
     /**
      * Reactions 
      * @param type The trigger type to check for
