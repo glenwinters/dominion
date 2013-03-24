@@ -196,12 +196,13 @@ public class DominionPlayer extends Player
         // TODO Look into using Comparable<DominionCard> to sort by coin cost
         for ( i = 0; i < piles.size(); i++ )
         {
-            System.out.printf( "%02d) %-20s $%-2d %d P (%-2d left)\n", i + 1, piles.get( i ).getCard().getName(), piles
-                    .get( i ).getCard().getCoinCost(), piles.get( i ).getCard().getPotionCost(), piles.get( i )
-                    .getCardsRemaining() );
+            DominionCard card = piles.get( i ).getCard();
+            int cardsRemaining = piles.get( i ).getCardsRemaining();
+            System.out.printf( "%02d) %-20s $%-2d %d P (%-2d left)\n", i + 1, card.getName(), card.getCoinCost(),
+                    card.getPotionCost(), cardsRemaining );
         }
         i++;
-        System.out.printf( "%d) Done\n", i );
+        System.out.printf( "%02d) Done\n", i );
         System.out.print( "> " );
 
         // Get user's card choice
