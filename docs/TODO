@@ -32,3 +32,5 @@ Client-Server communication
    > Wiki explanation: http://en.wikipedia.org/wiki/Java_remote_method_invocation
    > Code example: http://stackoverflow.com/questions/7083908/do-i-need-all-classes-on-the-client-server-and-registry-for-rmi-to-work
    > Oracle tutorial: http://docs.oracle.com/javase/7/docs/technotes/guides/rmi/hello/hello-world.html
+
+Add option to play all treasures
