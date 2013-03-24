@@ -320,9 +320,11 @@ public class DominionPlayer extends Player
         return reactions;
     }
 
-    public void drawCards( int numCards )
+    public List<DominionCard> drawCards( int numCards )
     {
-        hand.addAll( deck.drawCards( numCards ) );
+        List<DominionCard> drawnCards = deck.drawCards( numCards );
+        hand.addAll( drawnCards );
+        return drawnCards;
     }
 
     public void gainCard( DominionCard cardToGain )
