@@ -175,9 +175,9 @@ public class DominionGame extends Game
         }
     }
 
-    public void playCard( DominionPlayer currentPlayer, DominionCard cardToPlay )
+    public void playCard( DominionPlayer player, DominionCard cardToPlay )
     {
-        currentPlayer.getHand().remove( cardToPlay );
+        player.getHand().remove( cardToPlay );
 
         if( cardToPlay.getType().contains( DominionCard.CardType.ATTACK ) )
         {

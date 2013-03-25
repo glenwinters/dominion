@@ -321,10 +321,29 @@ public class DominionPlayer extends Player
         return reactions;
     }
 
+    /**
+     * Draw a certain number of cards from the deck into the player's hand.
+     * @param numCards The number of cards to draw
+     * @return A list of the cards drawn. May be fewer than the number requested if there aren't
+     * enough in the deck to meet the request.
+     */
     public List<DominionCard> drawCards( int numCards )
     {
         List<DominionCard> drawnCards = deck.drawCards( numCards );
         hand.addAll( drawnCards );
+        return drawnCards;
+    }
+    
+    /**
+     * Same as above, but don't put the cards in hand (for revealing, setting aside and such). The caller needs to maintain
+     * a proper location for these cards as they are removed from the deck.
+     * @param numCards The number of cards to take
+     * @return A list of the cards taken from the deck. May be fewer than the number requested if there aren't
+     * enough in the deck to meet the request.
+     */
+    public List<DominionCard> takeCardsFromDeck( int numCards )
+    {
+        List<DominionCard> drawnCards = deck.drawCards( numCards );
         return drawnCards;
     }
 
