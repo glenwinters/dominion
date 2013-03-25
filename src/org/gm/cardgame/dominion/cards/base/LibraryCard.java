@@ -1,6 +1,7 @@
 package org.gm.cardgame.dominion.cards.base;
 
 import java.util.EnumSet;
+import java.util.List;
 
 import org.gm.cardgame.dominion.DominionGame;
 import org.gm.cardgame.dominion.DominionPlayer;
@@ -21,7 +22,14 @@ public class LibraryCard extends DominionCard
         while ( currentPlayer.getHand().size() < 7 )
         {
             // Draw a card
-            DominionCard cardDrawn = currentPlayer.drawCards( 1 ).get( 0 );
+            List<DominionCard> cardsDrawn = currentPlayer.drawCards( 1 );
+            if( cardsDrawn.size() == 0 )
+            {
+                // no cards left to draw. just stop.
+                break;
+            }
+            
+            DominionCard cardDrawn = cardsDrawn.get( 0 );
 
             // Prompt to set aside action cards
             if ( cardDrawn.getType().contains( DominionCard.CardType.ACTION ) )

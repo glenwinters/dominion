@@ -66,6 +66,8 @@ public abstract class DominionCard implements Comparable<DominionCard>
         this.trashed = true;
     }
 
+    // Reveals may or may not be done by players other than the current player, so we need
+    // to include the player doing the revealing
     public void onReveal( DominionGame game, DominionPlayer owner )
     {
     }
