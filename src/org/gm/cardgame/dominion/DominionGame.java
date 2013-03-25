@@ -166,7 +166,7 @@ public class DominionGame extends Game
 
         // clean-up phase
         currentPlayer.discardHand();
-        currentPlayer.takePlayedCards( playArea );
+        currentPlayer.addCardsToDiscardPile( playArea );
         playArea.clear();
         currentPlayer.drawCards( 5 );
         for( DominionPlayer player : players )

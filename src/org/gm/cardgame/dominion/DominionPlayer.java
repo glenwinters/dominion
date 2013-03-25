@@ -365,10 +365,7 @@ public class DominionPlayer extends Player
      */
     public void addCardsToDiscardPile( List<DominionCard> cardsToAdd )
     {
-        for( DominionCard card : cardsToAdd )
-        {
-            deck.discardCard( card );
-        }
+        deck.discardCards( cardsToAdd );
     }
 
     /**
@@ -438,10 +435,5 @@ public class DominionPlayer extends Player
     public void addCardTohand( DominionCard cardToAdd )
     {
         hand.add( cardToAdd );
-    }
-
-    public void takePlayedCards( List<DominionCard> playedCards )
-    {
-        deck.discardCards( playedCards );
     }
 }
