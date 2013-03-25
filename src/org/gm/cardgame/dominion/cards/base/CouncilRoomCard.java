@@ -22,7 +22,7 @@ public class CouncilRoomCard extends DominionCard
 
         currentPlayer.drawCards( 4 );
 
-        for ( DominionPlayer opponent : game.getOpponents() )
+        for ( DominionPlayer opponent : game.getOpponents( currentPlayer ) )
         {
             opponent.drawCards( 1 );
         }

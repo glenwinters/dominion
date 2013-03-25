@@ -21,7 +21,7 @@ public abstract class DominionCard implements Comparable<DominionCard>
     // Things that can trigger a reaction
     public enum ReactionTriggerType
     {
-        ATTACK, BUY, CURRENT_PLAYER_GAIN, OTHER_PLAYER_GAIN, TRASH
+        ATTACK, BUY, OWNER_PRE_GAIN, OWNER_GAIN, OTHER_PLAYER_GAIN, TRASH
     }
 
     protected final String name;
@@ -32,7 +32,7 @@ public abstract class DominionCard implements Comparable<DominionCard>
     protected int id = -1;
 
     protected boolean bane = false;
-    protected boolean trashed = false; // for cards that get trashed when played.
+    protected boolean trashed = false; // to make sure cards don't end up in the trash multiple times
     protected boolean notInSupply = false; // for black market / madman / mercenary / prizes / spoils / shelters
 
     protected DominionCard( String name, int coinCost, int potionCost, EnumSet<CardType> type, CardSet set )
@@ -53,23 +53,39 @@ public abstract class DominionCard implements Comparable<DominionCard>
     {
     }
 
-    public void onGain( DominionGame game )
+    /*
+     * For actions that can happen to players other than the current player, we need to know
+     * who's doing the gaining/discarding/trashing/revealing.
+     */
+    public void onGain( DominionGame game, DominionPlayer owner )
     {
     }
 
-    public void onDiscard( DominionGame game )
+    public void onDiscard( DominionGame game, DominionPlayer owner )
     {
     }
 
-    public void onTrash( DominionGame game )
+    public void onTrash( DominionGame game, DominionPlayer owner )
     {
-        this.trashed = true;
     }
 
-    // Reveals may or may not be done by players other than the current player, so we need
-    // to include the player doing the revealing
     public void onReveal( DominionGame game, DominionPlayer owner )
     {
+    }
+    
+    /*
+     * Effects in cards revealed on opponent gain can depend on the card gained. 
+     */
+    public void onOpponentGainReveal( DominionGame game, DominionPlayer player, DominionCard cardgained )
+    {
+    }
+    
+    /*
+     * Cards that get revealed on owner gain can interrupt the gaining, so we need a special hook for them. 
+     */
+    public DominionCard onOwnerGainReveal( DominionGame game, DominionPlayer owner, DominionCard cardToGain )
+    {
+        return cardToGain;
     }
 
     public boolean canReact( ReactionTriggerType actionType )

@@ -111,6 +111,45 @@ public class DominionTable
         return pile.takeCard();
     }
     
+    public boolean returnCard( DominionCard card )
+    {
+        KingdomPile pile = supply.get( card.getName() );
+        if( pile == null )                
+        {
+            // TODO: make sure that there aren't any cases where we want to return cards that aren't in the supply.
+            return false;
+        }
+        pile.returnCard( card );
+        return true;
+    }
+    
+    /*
+     * Apply a discount to the cards in the supply. If type is specified, the discount only applies
+     * to cards of that type; otherwise, it applies to all cards.
+     */
+    public void applyCoinDiscount( int discount, DominionCard.CardType type )
+    {
+        for( KingdomPile pile : supply.values() )
+        {
+            if( type != null && !pile.getCard().getType().contains( type ) )
+            {
+                continue;
+            }
+            pile.addCoinDiscount( discount );
+        }
+    }
+    
+    /*
+     * Clear all discounts, banned flags, and other things that only apply till the end of the turn.
+     */
+    public void resetCards()
+    {
+        for( KingdomPile pile : supply.values() )
+        {
+            pile.resetCard();
+        }
+    }
+    
     public int getCardCurrentCoinCost( String cardName ) 
     {
         KingdomPile pile = supply.get( cardName );
@@ -133,7 +172,11 @@ public class DominionTable
 
     public void trashCard( DominionCard card )
     {
-        trash.add( card );
+        if( !card.isTrashed() )
+        {
+            trash.add( card );
+            card.setTrashed( true );
+        }
     }
 
     public List<DominionCard> getTrash()

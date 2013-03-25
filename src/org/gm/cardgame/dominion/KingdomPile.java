@@ -9,6 +9,8 @@ import org.gm.cardgame.dominion.cards.alchemy.*;
 
 public class KingdomPile
 {
+    // TODO: Decide if discounts need to be here. We need to keep track of discounts in DominionGame, so there may be
+    // no need to replicate that sort of info.
     private final DominionCard card;
     private Stack<DominionCard> cardSupply;
     private int currentCoinCost;
@@ -103,6 +105,7 @@ public class KingdomPile
         return cardSupply.size();
     }
 
+    // TODO: scheduled for deletion pending revision of how discounts are stored and applied
     public void addCoinDiscount( int amount )
     {
         currentCoinCost -= amount;
@@ -112,11 +115,13 @@ public class KingdomPile
         }
     }
 
+    // TODO: scheduled for deletion pending revision of how discounts are stored and applied
     public int getCoinCost()
     {
         return currentCoinCost;
     }
 
+    // TODO: scheduled for deletion pending revision of how discounts are stored and applied
     public int getPotionCost()
     {
         return currentPotionCost;

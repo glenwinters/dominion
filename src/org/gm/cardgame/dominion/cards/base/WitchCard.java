@@ -21,11 +21,11 @@ public class WitchCard extends DominionCard
 
         currentPlayer.drawCards( 2 );
 
-        for ( DominionPlayer opponent : game.getOpponents() )
+        for ( DominionPlayer opponent : game.getOpponents( currentPlayer ) )
         {
             if( game.isVulnerableToAttack( opponent ) )
             {
-                opponent.addCardToDiscardPile( game.takeCardFromSupply( "Curse" ) );
+                opponent.addCardToDiscardPile( game.takeCardFromSupply( "Curse", opponent ) );
             }
         }
     }

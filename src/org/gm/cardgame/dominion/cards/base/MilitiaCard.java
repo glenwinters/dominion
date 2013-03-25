@@ -20,7 +20,7 @@ public class MilitiaCard extends DominionCard
     {
         game.addCoins( 2 );
 
-        for (DominionPlayer opponent : game.getOpponents())
+        for (DominionPlayer opponent : game.getOpponents( game.getCurrentPlayer() ) )
         {
             if( game.isVulnerableToAttack( opponent ) )
             {

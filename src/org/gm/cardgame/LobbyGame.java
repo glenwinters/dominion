@@ -7,6 +7,7 @@ import org.gm.cardgame.Game.GameName;
 import org.gm.cardgame.dominion.DominionGame;
 import org.gm.cardgame.dominion.cards.DominionCard;
 import org.gm.cardgame.dominion.cards.base.*;
+import org.gm.cardgame.dominion.cards.hinterlands.TraderCard;
 
 public class LobbyGame
 {
@@ -33,7 +34,7 @@ public class LobbyGame
             // Add 10 base cards to the card list
             // TODO Allow user to select which cards to play with
             cards.add( new CellarCard() );
-            cards.add( new ChancellorCard() );
+            cards.add( new TraderCard() );
             cards.add( new ChapelCard() );
             cards.add( new CouncilRoomCard() );
             cards.add( new FestivalCard() );

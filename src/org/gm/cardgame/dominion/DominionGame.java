@@ -8,6 +8,7 @@ import java.util.List;
 import org.gm.cardgame.Game;
 import org.gm.cardgame.User;
 import org.gm.cardgame.dominion.cards.DominionCard;
+import org.gm.cardgame.dominion.cards.DominionCard.ReactionTriggerType;
 
 public class DominionGame extends Game
 {
@@ -20,6 +21,8 @@ public class DominionGame extends Game
     protected int potions;
     protected int actions;
     protected int buys;
+    protected int coinDiscount; // from bridge, highway, princess; applies to all cards
+    protected int quarriesPlayed; // $2 off per quarry, but only action cards.
     protected List<DominionCard> playArea;
     
     protected HashMap<DominionPlayer, Boolean> moatPlayed;
@@ -79,6 +82,8 @@ public class DominionGame extends Game
         coins = 0;
         actions = 1;
         buys = 1;
+        quarriesPlayed = 0;
+        coinDiscount = 0;
         boolean doneBuys = false;
         DominionPlayer currentPlayer = players[currentPlayerIndex];
 
@@ -154,13 +159,10 @@ public class DominionGame extends Game
                 buys--;
                 coins -= table.getCardCurrentCoinCost( cardName );
                 potions -= table.getCardCurrentPotionCost( cardName );
+                
                 // TODO: check for on-buy reactions, which happen whether or not the card is actually gained
-                DominionCard cardToGain = takeCardFromSupply( cardName );
-                if( cardToGain != null )
-                {
-                    // some effects can prevent card gain, so we need to make sure something is actually gained.
-                    currentPlayer.addCardToDiscardPile( cardToGain );
-                }
+                
+                currentPlayer.addCardToDiscardPile( takeCardFromSupply( cardName, currentPlayer ) );
             }
         }
 
@@ -182,7 +184,7 @@ public class DominionGame extends Game
         if( cardToPlay.getType().contains( DominionCard.CardType.ATTACK ) )
         {
             // The only on-play reactions are opponents reacting to an attack.
-            List<DominionPlayer> opponents = getOpponents();
+            List<DominionPlayer> opponents = getOpponents( player );
             for( DominionPlayer opponent : opponents )
             {
                 if( opponent.hasReactionTypeInHand( DominionCard.ReactionTriggerType.ATTACK ) )
@@ -215,34 +217,119 @@ public class DominionGame extends Game
         }
     }
 
-    // there may be a better way to do this
+    // TODO: name this method better?
     /*
      * Take a card from the kingdom and return it Note the returned card may not
      * be the named one, due to reactions If this returns null, no card is
      * gained.
      */
-    public DominionCard takeCardFromSupply( String cardName )
+    public DominionCard takeCardFromSupply( String cardName, DominionPlayer owner )
     {
-        DominionCard cardToTake = table.takeCard( cardName );
+        DominionCard cardToGain = table.takeCard( cardName );
 
-        if ( cardToTake == null )
+        if ( cardToGain == null )
         {
             // Should never happen.
             // Log an exception and abort game, because whatever allowed this to
             // happen needs fixing.
         }
 
-        // TODO: check for on-gain effects
-        // Reactions:
-        // trader might replace 'cardToGain' with a Silver card and put the
-        // other one back in the kingdom
-        // Watchtower might redirect it to the player's deck or the trash pile
-        // instead.
-
-        // Effects:
-        // A lot of Hinterlands cards have "when you gain this..." effects
-        // despite not being reactions.
-        return cardToTake;
+        // check for owner pre-gain reactions. These can actually prevent the gain, 
+        // and any on-gain effects, from happening.
+        if( owner.hasReactionTypeInHand( ReactionTriggerType.OWNER_PRE_GAIN ) )
+        {
+            DominionCard originalCard = cardToGain;
+            List<DominionCard> reactions = owner.getReactions( ReactionTriggerType.OWNER_PRE_GAIN );
+            // The only pre-gain reaction right now is Trader, and it can only apply once to a gained card
+            // regardless of how many traders are in hand. At some point we may need to allow for different kinds of
+            // pre-gain reactions and loop through this like other reactions, but not for now.
+            DominionCard reactionToReveal = owner.promptToChooseOneCard( reactions, "Choose a reaction to reveal", true );
+            if( reactionToReveal != null )
+            {
+                cardToGain = reactionToReveal.onOwnerGainReveal( this, owner, cardToGain );
+            }
+            
+            if( !originalCard.equals( cardToGain ) )
+            {
+                // The original card is no longer gained. Any on-gain effects for the new card have already happened.
+                // just return.
+                return cardToGain;
+            }
+                
+        }
+        
+        // Resolve any non-reaction gain effects. These never affect the gained card.
+        cardToGain.onGain( this, owner );
+        
+        // Check for other-player gain reactions. These never affect the gained card.
+        for( DominionPlayer opponent : getOpponents( owner ) )
+        {
+            if( opponent.hasReactionTypeInHand( ReactionTriggerType.OTHER_PLAYER_GAIN ) )
+            {
+                List<DominionCard> reactions = opponent.getReactions( ReactionTriggerType.OTHER_PLAYER_GAIN );
+                DominionCard reactionToReveal = opponent.promptToChooseOneCard( reactions, "Choose a reaction to reveal", true );
+                if( reactionToReveal != null )
+                {
+                    reactionToReveal.onOpponentGainReveal( this, owner, cardToGain );
+                }
+            }
+        }
+        
+        // check for owner gain reactions. These only take effect once the gain has already happened and can affect
+        // where the gained card goes, so we still need to keep track of cardToGain.
+        if( owner.hasReactionTypeInHand( ReactionTriggerType.OWNER_GAIN ) )
+        {
+            List<DominionCard> reactions = owner.getReactions( ReactionTriggerType.OWNER_GAIN );
+            DominionCard reactionToReveal = null;
+            do
+            { 
+                reactionToReveal = owner.promptToChooseOneCard( reactions, "Choose a reaction to reveal", true );
+                if( reactionToReveal != null )
+                {
+                    cardToGain = reactionToReveal.onOwnerGainReveal( this, owner, cardToGain );
+                }
+            } while( reactionToReveal != null && cardToGain != null );
+        }
+        
+        return cardToGain;
+    }
+    
+    /*
+     * Return a card to the supply, through something like Ambassador or Trader.
+     * Do not use this for non-supply cards that return themselves when played, like Spoils and Madman.
+     */
+    public boolean returnCardToSupply( DominionCard card )
+    {
+        return table.returnCard( card );
+    }
+    
+    /*
+     * Put a card in the trash and trigger any onTrash effects it has.
+     * Caller must remove the card from if applicable before calling this, as trashing isn't always done from the hand
+     * and that isn't addressed here.
+     */
+    public void trashCard( DominionCard card, DominionPlayer owner )
+    {
+        card.onTrash( this, owner );
+        table.trashCard( card );
+    }
+    
+    /*
+     * Get a card's current coin cost
+     */
+    public int getCurrentCoinCost( DominionCard card )
+    {
+        int currentCost = card.getCoinCost();
+        if( card.getType().contains( DominionCard.CardType.ACTION ) )
+        {
+            currentCost -= (2 * quarriesPlayed);
+        }
+        currentCost -= coinDiscount;
+        if( currentCost < 0 )
+        {
+            currentCost = 0;
+        }
+        return currentCost;
     }
 
     public int getCoins()
@@ -284,6 +371,11 @@ public class DominionGame extends Game
     {
         buys += buysToAdd;
     }
+    
+    public List<DominionCard> getPlayedCards()
+    {
+        return playArea;
+    }
 
     public DominionPlayer getCurrentPlayer()
     {
@@ -301,16 +393,26 @@ public class DominionGame extends Game
     }
 
     /**
-     * Gets the opponents, in order.
-     * 
+     * Gets the opponents, in play order, of the player passed in.
+     * @param player The Player to use as a reference point when checking for opponents.
      * @return a List of the other players, in play order.
      */
-    public List<DominionPlayer> getOpponents()
+    public List<DominionPlayer> getOpponents( DominionPlayer player )
     {
         ArrayList<DominionPlayer> opponents = new ArrayList<DominionPlayer>();
+        int basePlayerIndex = -1;
         for ( int i = 0; i < players.length; i++ )
         {
-            opponents.add( players[(currentPlayerIndex + 1 + i) % players.length] );
+            if( players[i].equals(player) )
+            {
+                basePlayerIndex = i;
+                break;
+            }
+        }
+        
+        for( int i = 0; i < players.length; i++ )
+        {
+            opponents.add( players[(basePlayerIndex + 1 + i) % players.length] );
         }
         return opponents;
     }

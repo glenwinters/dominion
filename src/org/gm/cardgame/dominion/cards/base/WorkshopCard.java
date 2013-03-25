@@ -23,7 +23,7 @@ public class WorkshopCard extends DominionCard
         // be.
         if ( cardToGain != null )
         {
-            currentPlayer.addCardToDiscardPile( game.takeCardFromSupply( cardToGain.getName() ) );
+            currentPlayer.addCardToDiscardPile( game.takeCardFromSupply( cardToGain.getName(), currentPlayer ) );
         }
     }
 }

@@ -19,9 +19,9 @@ public class BureaucratCard extends DominionCard
     {
         DominionPlayer currentPlayer = game.getCurrentPlayer();
 
-        currentPlayer.placeCardOnDeck( game.takeCardFromSupply( "Silver" ) );
+        currentPlayer.placeCardOnDeck( game.takeCardFromSupply( "Silver", currentPlayer ) );
 
-        for ( DominionPlayer opponent : game.getOpponents() )
+        for ( DominionPlayer opponent : game.getOpponents( currentPlayer ) )
         {
             if( game.isVulnerableToAttack( opponent ) )
             {

@@ -33,3 +33,6 @@ Client-Server communication
    > Oracle tutorial: http://docs.oracle.com/javase/7/docs/technotes/guides/rmi/hello/hello-world.html
 
 Add option to play all treasures
+
+Figure out what kind of info should be given to each player; i.e. each player can count their own deck but not the other player's. cards that get discarded
+don't need to be revealed, except the top card on the discard pile. (in real life, anyway) Only the player replacing cards gets to see which cards they replaced.
