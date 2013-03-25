@@ -2,7 +2,6 @@ package org.gm.cardgame.dominion.cards.prosperity;
 
 import java.util.Arrays;
 import java.util.EnumSet;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.gm.cardgame.dominion.DominionGame;
