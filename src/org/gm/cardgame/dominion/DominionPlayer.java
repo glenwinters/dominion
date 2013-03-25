@@ -346,15 +346,35 @@ public class DominionPlayer extends Player
         List<DominionCard> drawnCards = deck.drawCards( numCards );
         return drawnCards;
     }
-
-    public void gainCard( DominionCard cardToGain )
+    
+    /**
+     * Add a card to the player's discard pile from an external source. Can be used to gain cards.
+     * @param cardToDiscard The card to add to the pile. If cardToAdd is null, no action is performed.
+     */
+    public void addCardToDiscardPile( DominionCard cardToAdd )
     {
-        if ( cardToGain != null )
+        if ( cardToAdd != null )
         {
-            deck.discardCard( cardToGain );
+            deck.discardCard( cardToAdd );
+        }
+    }
+    
+    /**
+     * Add a list of cards to the player's discard pile from an external source. 
+     * @param cardsToAdd The list of cards to add to the pile.
+     */
+    public void addCardsToDiscardPile( List<DominionCard> cardsToAdd )
+    {
+        for( DominionCard card : cardsToAdd )
+        {
+            deck.discardCard( card );
         }
     }
 
+    /**
+     * Discard a card from the player's hand
+     * @param cardToDiscard The specific card to discard
+     */
     public void discardCard( DominionCard cardToDiscard )
     {
         ListIterator<DominionCard> it = hand.listIterator();

@@ -159,7 +159,7 @@ public class DominionGame extends Game
                 if( cardToGain != null )
                 {
                     // some effects can prevent card gain, so we need to make sure something is actually gained.
-                    currentPlayer.gainCard( cardToGain );
+                    currentPlayer.addCardToDiscardPile( cardToGain );
                 }
             }
         }
