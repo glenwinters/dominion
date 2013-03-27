@@ -88,7 +88,23 @@ public abstract class DominionCard implements Comparable<DominionCard>
         return cardToGain;
     }
 
+    /**
+     * Determine whether this card can react to a given action
+     * @param actionType The potential reaction trigger
+     * @return <b>true</b> if this card can react, <b>false</b> if not.
+     */
     public boolean canReact( ReactionTriggerType actionType )
+    {
+        return false;
+    }
+    
+    /**
+     * Determine whether this card can react to a given action related to a certain card
+     * @param actionType The potential reaction trigger
+     * @param card The card in question
+     * @return <b>true</b> if this card can react, <b>false</b> if not.
+     */
+    public boolean canReact( ReactionTriggerType actionType, DominionCard card )
     {
         return false;
     }
@@ -142,6 +158,13 @@ public abstract class DominionCard implements Comparable<DominionCard>
     public EnumSet<CardType> getType()
     {
         return type;
+    }
+    
+    // on your marks
+    public CardSet getSet()
+    {
+        // GO!
+        return set;
     }
 
     public boolean isTrashed()

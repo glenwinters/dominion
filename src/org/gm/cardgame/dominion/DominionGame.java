@@ -1,9 +1,8 @@
 package org.gm.cardgame.dominion;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 import org.gm.cardgame.Game;
 import org.gm.cardgame.User;
@@ -25,20 +24,37 @@ public class DominionGame extends Game
     protected int quarriesPlayed; // $2 off per quarry, but only action cards.
     protected List<DominionCard> playArea;
     
-    protected HashMap<DominionPlayer, Boolean> moatPlayed;
-    
-    // a lot of Seaside cards are in effect across turns, but this may not be the best way to keep track of them.
-    // According to DXV, When a duration card is TRed/KCed/Processioned, the modifier card stays out too so we need
-    // somewhere to put it.
-    protected HashMap<DominionPlayer, List<DominionCard>> durationCards;
-
     public DominionGame( List<User> users, List<DominionCard> cards )
     {
         super();
         boolean useShelters = false; // this affects players' starting hands
         boolean useColonies = false; // this affects whether or not colonies and
                                      // platinums are on the table
-
+        Random random = new Random();
+        float sheltersChance = 0.0f;
+        float coloniesChance = 0.0f;
+        for( DominionCard card : cards )
+        {
+            // each card of the appropriate set adds a 10% chance of using that set's extra cards
+            if( card.getSet() == DominionCard.CardSet.DARKAGES )
+            {
+                sheltersChance += 0.1f;
+            }
+            if( card.getSet() == DominionCard.CardSet.PROSPERITY )
+            {
+                coloniesChance += 0.1f;
+            }
+        }
+        if( random.nextFloat() <= sheltersChance )
+        {
+            useShelters = true;
+        }
+        if( random.nextFloat() <= coloniesChance )
+        {
+            useColonies = true;
+        }
+        
+        
         this.players = new DominionPlayer[users.size()];
         for ( int i = 0; i < users.size(); i++ )
         {
@@ -47,13 +63,6 @@ public class DominionGame extends Game
         }
         this.table = new DominionTable( cards, this.players.length, useColonies );
         playArea = new ArrayList<DominionCard>();
-        moatPlayed = new HashMap<DominionPlayer, Boolean>();
-        durationCards = new HashMap<DominionPlayer, List<DominionCard>>();
-        for( DominionPlayer player : players )
-        {
-            moatPlayed.put( player, false );
-            durationCards.put( player, new LinkedList<DominionCard>() );
-        }
     }
 
     // this may not be necessary
@@ -159,22 +168,37 @@ public class DominionGame extends Game
                 buys--;
                 coins -= table.getCardCurrentCoinCost( cardName );
                 potions -= table.getCardCurrentPotionCost( cardName );
+                DominionCard boughtCard = table.getCardPrototype( cardName );
                 
-                // TODO: check for on-buy reactions, which happen whether or not the card is actually gained
+                // On-buy reactions never affect the bought card, but we still need to know what it is in case they depend
+                // on something about that card
+                if( currentPlayer.hasReactionTypeInHand( ReactionTriggerType.BUY, boughtCard ) )
+                {
+                    DominionCard reactionToReveal = null;
+                    do
+                    {
+                        List<DominionCard> reactions = currentPlayer.getReactions( ReactionTriggerType.BUY, boughtCard );
+                        if( reactions.size() == 0 )
+                        {
+                            break;
+                        }
+                        reactionToReveal = currentPlayer.promptToChooseOneCard( reactions, "Choose a reaction to reveal", true );
+                        if( reactionToReveal != null )
+                        {
+                            reactionToReveal.onReveal( this, currentPlayer );
+                        }
+                    } while( reactionToReveal != null );
+                }
+                
+                // TODO: on-buy effects for non-reaction cards.
                 
                 currentPlayer.addCardToDiscardPile( takeCardFromSupply( cardName, currentPlayer ) );
             }
         }
 
         // clean-up phase
-        currentPlayer.discardHand();
-        currentPlayer.addCardsToDiscardPile( playArea );
+        currentPlayer.endTurn( playArea );
         playArea.clear();
-        currentPlayer.drawCards( 5 );
-        for( DominionPlayer player : players )
-        {
-            moatPlayed.put( player, false );
-        }
     }
 
     public void playCard( DominionPlayer player, DominionCard cardToPlay )
@@ -221,7 +245,8 @@ public class DominionGame extends Game
     /*
      * Take a card from the kingdom and return it Note the returned card may not
      * be the named one, due to reactions If this returns null, no card is
-     * gained.
+     * gained through the normal channel, though it is possible that a card was still gained
+     * through a reaction.
      */
     public DominionCard takeCardFromSupply( String cardName, DominionPlayer owner )
     {
@@ -229,13 +254,12 @@ public class DominionGame extends Game
 
         if ( cardToGain == null )
         {
-            // Should never happen.
-            // Log an exception and abort game, because whatever allowed this to
-            // happen needs fixing.
+            // can happen if the supply pile is empty. No further gain effects can happen.
+            return null;
         }
 
         // check for owner pre-gain reactions. These can actually prevent the gain, 
-        // and any on-gain effects, from happening.
+        // and any on-gain effects, from happening. They don't depend on what the gained card is.
         if( owner.hasReactionTypeInHand( ReactionTriggerType.OWNER_PRE_GAIN ) )
         {
             DominionCard originalCard = cardToGain;
@@ -261,12 +285,12 @@ public class DominionGame extends Game
         // Resolve any non-reaction gain effects. These never affect the gained card.
         cardToGain.onGain( this, owner );
         
-        // Check for other-player gain reactions. These never affect the gained card.
+        // Check for other-player gain reactions. These never affect the gained card, but can depend on what the gained card is.
         for( DominionPlayer opponent : getOpponents( owner ) )
         {
             if( opponent.hasReactionTypeInHand( ReactionTriggerType.OTHER_PLAYER_GAIN ) )
             {
-                List<DominionCard> reactions = opponent.getReactions( ReactionTriggerType.OTHER_PLAYER_GAIN );
+                List<DominionCard> reactions = opponent.getReactions( ReactionTriggerType.OTHER_PLAYER_GAIN, cardToGain );
                 DominionCard reactionToReveal = opponent.promptToChooseOneCard( reactions, "Choose a reaction to reveal", true );
                 if( reactionToReveal != null )
                 {
@@ -415,15 +439,5 @@ public class DominionGame extends Game
             opponents.add( players[(basePlayerIndex + 1 + i) % players.length] );
         }
         return opponents;
-    }
-    
-    public boolean isVulnerableToAttack( DominionPlayer player )
-    {
-        return !moatPlayed.get( player ); // && no Lightouse in play. i can't remember if there are any more defense cards.
-    }
-    
-    public void setMoatPlayed( DominionPlayer player, boolean played )
-    {
-        moatPlayed.put( player, played );
     }
 }

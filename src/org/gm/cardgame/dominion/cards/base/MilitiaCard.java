@@ -22,7 +22,7 @@ public class MilitiaCard extends DominionCard
 
         for (DominionPlayer opponent : game.getOpponents( game.getCurrentPlayer() ) )
         {
-            if( game.isVulnerableToAttack( opponent ) )
+            if( opponent.isVulnerableToAttack() )
             {
                 int numCardsToDiscard = opponent.getHand().size() - 3;
                 if( numCardsToDiscard > 0 )

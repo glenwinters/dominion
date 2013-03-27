@@ -23,7 +23,7 @@ public class BureaucratCard extends DominionCard
 
         for ( DominionPlayer opponent : game.getOpponents( currentPlayer ) )
         {
-            if( game.isVulnerableToAttack( opponent ) )
+            if( opponent.isVulnerableToAttack() )
             {
                 DominionCard vCard = opponent.promptToChooseOneCard( 
                         currentPlayer.getCardsByType( DominionCard.CardType.VICTORY ),

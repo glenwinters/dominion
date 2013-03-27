@@ -7,6 +7,9 @@ import java.util.LinkedList;
 import org.gm.cardgame.dominion.cards.DominionCard;
 import org.gm.cardgame.dominion.cards.common.CopperCard;
 import org.gm.cardgame.dominion.cards.common.EstateCard;
+import org.gm.cardgame.dominion.cards.darkages.HovelCard;
+import org.gm.cardgame.dominion.cards.darkages.NecropolisCard;
+import org.gm.cardgame.dominion.cards.darkages.OvergrownEstateCard;
 
 public class Deck
 {
@@ -24,10 +27,9 @@ public class Deck
         }
         if ( useShelters )
         {
-            // TODO: uncomment this when dark ages cards are implemented
-            // drawPile.add( new HovelCard() );
-            // drawPile.add( new NecropolisCard() );
-            // drawPile.add( new OvergrownEstateCard() );
+            drawPile.add( new HovelCard() );
+            drawPile.add( new NecropolisCard() );
+            drawPile.add( new OvergrownEstateCard() );
         }
         else
         {

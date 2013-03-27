@@ -33,24 +33,20 @@ public class FoolsGoldCard extends DominionCard
     }
     
     @Override
-    public boolean canReact( ReactionTriggerType actionType )
+    public boolean canReact( ReactionTriggerType actionType, DominionCard card )
     {
-        return actionType == ReactionTriggerType.OTHER_PLAYER_GAIN;
+        return actionType == ReactionTriggerType.OTHER_PLAYER_GAIN && card instanceof org.gm.cardgame.dominion.cards.common.ProvinceCard;
     }
     
     @Override
     public void onOpponentGainReveal( DominionGame game, DominionPlayer owner, DominionCard cardToGain )
     {
-        // When another player gains a Province, you may trash this from your hand. If you do, gain a Gold,
-        // putting it on your deck.
-        if( cardToGain instanceof org.gm.cardgame.dominion.cards.common.ProvinceCard )
+        //TODO: check if we actually want to prompt this here
+        if( owner.promptYesNo( "Trash Fool's Gold to gain Gold on your deck?" ) )
         {
-            if( owner.promptYesNo( "Trash Fool's Gold to gain Gold on your deck?" ) )
-            {
-                owner.removeCardFromHand( this );
-                game.trashCard( this, owner );
-                owner.placeCardOnDeck( game.takeCardFromSupply( "Gold", owner ) );
-            }
+            owner.removeCardFromHand( this );
+            game.trashCard( this, owner );
+            owner.placeCardOnDeck( game.takeCardFromSupply( "Gold", owner ) );
         }
     }
 }

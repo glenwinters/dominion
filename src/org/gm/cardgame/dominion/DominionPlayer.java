@@ -15,9 +15,14 @@ public class DominionPlayer extends Player
 {
     private Deck deck;
     private List<DominionCard> hand;
+    private List<DominionCard> oldDurationCards; //cards played during the player's last turn
+    private List<DominionCard> newDurationCards; //cards played during this player's turn in progress
+    private boolean moatPlayed;
 
     public DominionPlayer( boolean useShelters )
     {
+        oldDurationCards = new LinkedList<DominionCard>();
+        newDurationCards = new LinkedList<DominionCard>();
         deck = new Deck( useShelters );
         hand = new ArrayList<DominionCard>();
         drawCards( 5 );
@@ -255,7 +260,7 @@ public class DominionPlayer extends Player
         // TODO Look into using Comparable<DominionCard> to sort by coin cost
         for ( i = 0; i < piles.size(); i++ )
         {
-            DominionCard card = piles.get( i ).getCard();
+            DominionCard card = piles.get( i ).getCardPrototype();
             int cardsRemaining = piles.get( i ).getCardsRemaining();
             System.out.printf( "%02d) %-20s $%-2d %d P (%-2d left)\n", i + 1, card.getName(), card.getCoinCost(),
                     card.getPotionCost(), cardsRemaining );
@@ -284,7 +289,7 @@ public class DominionPlayer extends Player
                 choice = Integer.parseInt( input );
                 if ( choice > 0 && choice < piles.size() + 1 )
                 {
-                    card = piles.get( choice - 1 ).getCard();
+                    card = piles.get( choice - 1 ).getCardPrototype();
                 }
                 else if ( choice == piles.size() + 1 )
                 {
@@ -373,7 +378,24 @@ public class DominionPlayer extends Player
     }
     
     /**
-     * Reactions 
+     * Check whether the player has an applicable reaction card in hand.
+     * @param trigger The reaction trigger type
+     * @return <b>true</b> if the player has an applicable reaction card in hand, <b>false</b> if not.
+     */
+    public boolean hasReactionTypeInHand( DominionCard.ReactionTriggerType trigger, DominionCard card )
+    {
+        for ( DominionCard handCard : hand )
+        {
+            if ( handCard.canReact( trigger, card ) )
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * Get all non-card-specific reactions in hand matching a trigger type.
      * @param type The trigger type to check for
      * @return A List of the cards matching that trigger type.
      */
@@ -385,6 +407,25 @@ public class DominionPlayer extends Player
             if( card.canReact( type ) )
             {
                 reactions.add( card );
+            }
+        }
+        return reactions;
+    }
+    
+    /**
+     * Get all card-specific reactions in hand matching a trigger type.
+     * @param type The trigger type to check for.
+     * @param card The card related to the action
+     * @return A List of cards matching that trigger type and card.
+     */
+    public List<DominionCard> getReactions( DominionCard.ReactionTriggerType type, DominionCard card )
+    {
+        LinkedList<DominionCard> reactions = new LinkedList<DominionCard>();
+        for ( DominionCard handCard : hand ) 
+        {
+            if( handCard.canReact( type, card ) )
+            {
+                reactions.add( handCard );
             }
         }
         return reactions;
@@ -506,11 +547,42 @@ public class DominionPlayer extends Player
     /**
      * Put a card in the hand from some external source, e.g. mine, masquerade, native village mat, or torturer.
      * If this card wasn't originally set aside from a player's deck, this is gaining a card, so the caller needs
-     * to watch for gain reactions.
+     * to check for gain reactions if appropriate.
      * @param cardToAdd The card to add to the player's hand
      */
     public void addCardTohand( DominionCard cardToAdd )
     {
         hand.add( cardToAdd );
+    }
+    
+    /**
+     * Perform any turn-end maintenance.
+     */
+    public void endTurn( List<DominionCard> playedCards )
+    {
+        addCardsToDiscardPile( playedCards ); //TODO: duration cards played this turn don't go into discard
+        addCardsToDiscardPile( oldDurationCards );
+        discardHand();
+        drawCards( 5 );
+        oldDurationCards = newDurationCards;
+        newDurationCards = new LinkedList<DominionCard>();
+        moatPlayed = false;
+    }
+    
+    public void moatRevealed()
+    {
+        moatPlayed = true;
+    }
+    
+    public boolean isVulnerableToAttack()
+    {
+        for( DominionCard card : oldDurationCards )
+        {
+            //if( card instanceof org.gm.cardgame.dominion.cards.seaside.LighthouseCard )
+            //{
+            //     return false;
+            //}
+        }
+        return moatPlayed;
     }
 }

@@ -12,15 +12,15 @@ Cards
  - Seaside set
    > All
  - Alchemy set
-   > All
+   > All except Potion
  - Prosperity set
-   > All
+   > All except Colony, Platinum, and Watchtower
  - Cornucopia set
    > All
  - Hinterlands set
-   > All
+   > All except Trader and Fool's Gold
  - Dark Ages set
-   > All
+   > All except shelters
  - Promo set
    > All
 
@@ -36,3 +36,6 @@ Add option to play all treasures
 
 Figure out what kind of info should be given to each player; i.e. each player can count their own deck but not the other player's. cards that get discarded
 don't need to be revealed, except the top card on the discard pile. (in real life, anyway) Only the player replacing cards gets to see which cards they replaced.
+
+Currently, players seem to get the same initial shuffles. Need to seed each player with a different RNG, or consider the option to force identical starting hands
+by giving them the same RNG on purpose.

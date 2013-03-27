@@ -23,7 +23,7 @@ public class MoatCard extends DominionCard
     @Override
     public void onReveal( DominionGame game, DominionPlayer owner )
     {
-        game.setMoatPlayed( owner, true );
+        owner.moatRevealed();
     }
 
     @Override

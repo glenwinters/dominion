@@ -95,7 +95,7 @@ public class KingdomPile
     }
 
     // this one is just for reading info from the card inside, not actual gameplay
-    public DominionCard getCard()
+    public DominionCard getCardPrototype()
     {
         return card;
     }

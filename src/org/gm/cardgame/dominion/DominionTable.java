@@ -16,6 +16,7 @@ import org.gm.cardgame.dominion.cards.alchemy.PotionCard;
 public class DominionTable
 {
     private HashMap<String, KingdomPile> supply;
+    private HashMap<String, DominionCard> allCards;
     private TreeMap<String, KingdomPile> kingdom;
     private List<KingdomPile> basicTreasures;
     private List<KingdomPile> basicVP;
@@ -26,6 +27,7 @@ public class DominionTable
     {
         supply = new HashMap<String, KingdomPile>();
         kingdom = new TreeMap<String, KingdomPile>();
+        allCards = new HashMap<String, DominionCard>(); // even ones that aren't in the supply
         trash = new LinkedList<DominionCard>();
         basicVP = new ArrayList<KingdomPile>();
         basicTreasures = new ArrayList<KingdomPile>();
@@ -53,6 +55,7 @@ public class DominionTable
             KingdomPile newPile = new KingdomPile( card, numPlayers );
             kingdom.put( card.getName(), newPile );
             supply.put( card.getName(), newPile );
+            allCards.put( card.getName(), card );
 
             if ( card.getPotionCost() > 0 )
             {
@@ -87,17 +90,20 @@ public class DominionTable
 
         for ( KingdomPile pile : basicVP )
         {
-            supply.put( pile.getCard().getName(), pile );
+            supply.put( pile.getCardPrototype().getName(), pile );
+            allCards.put( pile.getCardPrototype().getName(), pile.getCardPrototype() );
         }
 
         for ( KingdomPile pile : basicTreasures )
         {
-            supply.put( pile.getCard().getName(), pile );
+            supply.put( pile.getCardPrototype().getName(), pile );
+            allCards.put( pile.getCardPrototype().getName(), pile.getCardPrototype() );
         }
 
         for ( KingdomPile pile : extraPiles )
         {
-            supply.put( pile.getCard().getName(), pile );
+            supply.put( pile.getCardPrototype().getName(), pile );
+            allCards.put( pile.getCardPrototype().getName(), pile.getCardPrototype() );
         }
     }
 
@@ -131,7 +137,7 @@ public class DominionTable
     {
         for( KingdomPile pile : supply.values() )
         {
-            if( type != null && !pile.getCard().getType().contains( type ) )
+            if( type != null && !pile.getCardPrototype().getType().contains( type ) )
             {
                 continue;
             }
@@ -178,6 +184,11 @@ public class DominionTable
             card.setTrashed( true );
         }
     }
+    
+    public DominionCard getCardPrototype( String name )
+    {
+        return allCards.get( name );
+    }
 
     public List<DominionCard> getTrash()
     {
@@ -216,7 +227,7 @@ public class DominionTable
         {
             if ( pile.getCardsRemaining() == 0 )
             {
-                DominionCard card = pile.getCard();
+                DominionCard card = pile.getCardPrototype();
                 if ( card.getName().equals( "Province" ) || card.getName().equals( "Colony" ) )
                 {
                     return true;
