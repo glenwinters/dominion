@@ -1,0 +1,34 @@
+Just for the hell of it. May never actually get implemented.
+
+Auction
+Cost: 5 coin
+Type: Reaction
+Effects: When another player buys a card, you may reveal this from your hand. If you do, buy that card instead of the other player, paying 1 coin more than they would have.
+or maybe: you discard the auction, and they get a chance to buy back at 1 higher.
+or: the effect continues until someone can't or doesn't want to pay.
+
+
+
+Consolation
+Cost: 7 coin
+Type: Action
+Effects: While this card is in play, all treasures' values and costs are switched.
+Note: this one became a bit less relevant since Prosperity was released.
+
+
+
+Catapult
+Cost: 5 coin
+Type: Action
+Effects: Choose a card from each opponents' hand without looking at the contents of their hand. He discards the card you chose.
+
+
+
+Filibuster
+Cost: 1 coin
+Type: Action
+Effects: +1 action. You may immediately return Filibuster from the play area to your hand.
+Note: this one's basically a joke, though if KCed or TRed it could actually end up useful.
+
+
+
