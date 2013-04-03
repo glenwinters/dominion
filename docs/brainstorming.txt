@@ -1,0 +1,9 @@
+Other games to implement:
+
+- Innovation
+- Royalty
+- Mille Bornes
+- Chaos
+- Standard deck games - maybe allow dynamic rules so it's easy to add things like hearts/spades/kaiser
+
+Leaderboards? Use the same sort of 'TrueSkill' ranking that Iso does, or just wins/losses/ties per game?
