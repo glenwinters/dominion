@@ -434,7 +434,7 @@ public class DominionGame extends Game
             }
         }
         
-        for( int i = 0; i < players.length; i++ )
+        for( int i = 0; i < players.length - 1; i++ )
         {
             opponents.add( players[(basePlayerIndex + 1 + i) % players.length] );
         }
