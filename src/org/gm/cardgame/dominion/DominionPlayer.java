@@ -28,6 +28,15 @@ public class DominionPlayer extends Player
         drawCards( 5 );
     }
 
+    public DominionPlayer( List<DominionCard> cardList )
+    {
+        oldDurationCards = new LinkedList<DominionCard>();
+        newDurationCards = new LinkedList<DominionCard>();
+        deck = new Deck( cardList );
+        hand = new ArrayList<DominionCard>();
+        drawCards( 5 );
+    }
+
     public List<DominionCard> getHand()
     {
         return hand;

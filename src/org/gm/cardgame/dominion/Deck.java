@@ -41,6 +41,15 @@ public class Deck
         shuffleDrawPile();
     }
 
+    public Deck( List<DominionCard> cardList )
+    {
+        drawPile = new LinkedList<DominionCard>();
+        discardPile = new LinkedList<DominionCard>();
+
+        drawPile.addAll( cardList );
+        shuffleDrawPile();
+    }
+
     public void shuffleDrawPile()
     {
         Collections.shuffle( drawPile );
