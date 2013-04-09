@@ -556,6 +556,15 @@ public class DominionPlayer extends Player
     }
     
     /**
+     * Put a list of cards in the hand from some external source
+     * @param cardsToAdd The card list to add to the player's hand
+     */
+    public void addCardsToHand( List<DominionCard> cardsToAdd)
+    {
+        hand.addAll( cardsToAdd );
+    }
+
+    /**
      * Perform any turn-end maintenance.
      */
     public void endTurn( List<DominionCard> playedCards )

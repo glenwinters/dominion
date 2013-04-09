@@ -1,6 +1,7 @@
 package org.gm.cardgame.dominion.cards.base;
 
 import java.util.EnumSet;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.gm.cardgame.dominion.DominionGame;
@@ -19,33 +20,39 @@ public class AdventurerCard extends DominionCard
     {
         int treasureCount = 0;
         DominionPlayer currentPlayer = game.getCurrentPlayer();
-        List<DominionCard> playerHand = currentPlayer.getHand();
-        int handSize = playerHand.size();
-        int prevHandSize = -1;
+        List<DominionCard> cardsRevealed = new LinkedList<DominionCard>();
+        List<DominionCard> treasuresRevealed = new LinkedList<DominionCard>();
+
         while ( treasureCount < 2 )
         {
-            currentPlayer.drawCards( 1 );
-
-            // TODO Should reveal cards to the other players, not just draw
+            List<DominionCard> cardRevealedList = currentPlayer.takeCardsFromDeck( 1 );
 
             // Stop if there are no cards left to draw
-            handSize = playerHand.size();
-            if ( handSize == prevHandSize )
+            if ( cardRevealedList.size() == 0 )
             {
                 break;
             }
 
-            DominionCard drawnCard = playerHand.get( handSize - 1 );
+            DominionCard cardRevealed = cardRevealedList.get( 0 );
+
+            // Add revealed card to list of revealed cards
+            cardsRevealed.add( cardRevealed );
+
+            // TODO Should reveal card to the other players
 
             // If the drawn card is a Treasure card, increment the treasure
             // count
-            if ( drawnCard.getType().contains( DominionCard.CardType.TREASURE ) )
+            if ( cardRevealed.getType().contains( DominionCard.CardType.TREASURE ) )
             {
+                treasuresRevealed.add( cardRevealed );
+                cardsRevealed.remove( cardRevealed );
                 treasureCount++;
             }
-
-            prevHandSize = handSize;
         }
+
+        // Put the Treasure cards into the player's hand and discard the others
+        currentPlayer.addCardsToDiscardPile( cardsRevealed );
+        currentPlayer.addCardsToHand( treasuresRevealed );
     }
 
 }
