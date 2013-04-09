@@ -592,6 +592,6 @@ public class DominionPlayer extends Player
             //     return false;
             //}
         }
-        return moatPlayed;
+        return !moatPlayed;
     }
 }
