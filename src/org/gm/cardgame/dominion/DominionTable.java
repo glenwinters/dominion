@@ -27,7 +27,8 @@ public class DominionTable
     {
         supply = new HashMap<String, KingdomPile>();
         kingdom = new TreeMap<String, KingdomPile>();
-        allCards = new HashMap<String, DominionCard>(); // even ones that aren't in the supply
+        allCards = new HashMap<String, DominionCard>(); // even ones that aren't
+                                                        // in the supply
         trash = new LinkedList<DominionCard>();
         basicVP = new ArrayList<KingdomPile>();
         basicTreasures = new ArrayList<KingdomPile>();
@@ -116,60 +117,63 @@ public class DominionTable
         }
         return pile.takeCard();
     }
-    
+
     public boolean returnCard( DominionCard card )
     {
         KingdomPile pile = supply.get( card.getName() );
-        if( pile == null )                
+        if ( pile == null )
         {
-            // TODO: make sure that there aren't any cases where we want to return cards that aren't in the supply.
+            // TODO: make sure that there aren't any cases where we want to
+            // return cards that aren't in the supply.
             return false;
         }
         pile.returnCard( card );
         return true;
     }
-    
+
     /*
-     * Apply a discount to the cards in the supply. If type is specified, the discount only applies
-     * to cards of that type; otherwise, it applies to all cards.
+     * Apply a discount to the cards in the supply. If type is specified, the
+     * discount only applies to cards of that type; otherwise, it applies to all
+     * cards.
      */
     public void applyCoinDiscount( int discount, DominionCard.CardType type )
     {
-        for( KingdomPile pile : supply.values() )
+        for ( KingdomPile pile : supply.values() )
         {
-            if( type != null && !pile.getCardPrototype().getType().contains( type ) )
+            if ( type != null && !pile.getCardPrototype().getType().contains( type ) )
             {
                 continue;
             }
             pile.addCoinDiscount( discount );
         }
     }
-    
+
     /*
-     * Clear all discounts, banned flags, and other things that only apply till the end of the turn.
+     * Clear all discounts, banned flags, and other things that only apply till
+     * the end of the turn.
      */
     public void resetCards()
     {
-        for( KingdomPile pile : supply.values() )
+        for ( KingdomPile pile : supply.values() )
         {
             pile.resetCard();
         }
     }
-    
-    public int getCardCurrentCoinCost( String cardName ) 
+
+    public int getCardCurrentCoinCost( String cardName )
     {
         KingdomPile pile = supply.get( cardName );
-        if( pile == null )
+        if ( pile == null )
         {
             throw new IllegalArgumentException( "Card " + cardName + " not found in supply." );
         }
         return pile.getCoinCost();
     }
-    
-    public int getCardCurrentPotionCost( String cardName ) 
+
+    public int getCardCurrentPotionCost( String cardName )
     {
         KingdomPile pile = supply.get( cardName );
-        if( pile == null )
+        if ( pile == null )
         {
             throw new IllegalArgumentException( "Card " + cardName + " not found in supply." );
         }
@@ -178,13 +182,13 @@ public class DominionTable
 
     public void trashCard( DominionCard card )
     {
-        if( !card.isTrashed() )
+        if ( !card.isTrashed() )
         {
             trash.add( card );
             card.setTrashed( true );
         }
     }
-    
+
     public DominionCard getCardPrototype( String name )
     {
         return allCards.get( name );

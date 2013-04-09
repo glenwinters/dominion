@@ -15,8 +15,10 @@ public class DominionPlayer extends Player
 {
     private Deck deck;
     private List<DominionCard> hand;
-    private List<DominionCard> oldDurationCards; //cards played during the player's last turn
-    private List<DominionCard> newDurationCards; //cards played during this player's turn in progress
+    private List<DominionCard> oldDurationCards; // cards played during the
+                                                 // player's last turn
+    private List<DominionCard> newDurationCards; // cards played during this
+                                                 // player's turn in progress
     private boolean moatPlayed;
 
     public DominionPlayer( boolean useShelters )
@@ -47,7 +49,6 @@ public class DominionPlayer extends Player
     {
         return promptToChooseOneCard( null, "Choose a card to play", false );
     }
-
 
     public boolean promptYesNo( String prompt )
     {
@@ -87,29 +88,31 @@ public class DominionPlayer extends Player
         }
 
     }
-    
+
     /**
      * 
-     * @param choices A list of choices to display to the user
-     * @param optional true if a choice does not have to be made.
+     * @param choices
+     *            A list of choices to display to the user
+     * @param optional
+     *            true if a choice does not have to be made.
      * @return the index of the chosen option, or -1 if none were chosen.
      */
     public int promptMultipleChoice( List<String> choices, boolean optional )
     {
         boolean done = false;
         BufferedReader br = new BufferedReader( new InputStreamReader( System.in ) );
-        
+
         // TODO: pass this to the client.
-        
+
         String input = new String( "" );
         int choice = -1;
         do
         {
-            for( int i = 0; i < choices.size(); i++ )
+            for ( int i = 0; i < choices.size(); i++ )
             {
-                System.out.printf( "%s) %s\n", i+1, choices.get( i ) );
+                System.out.printf( "%s) %s\n", i + 1, choices.get( i ) );
             }
-            if( optional )
+            if ( optional )
             {
                 System.out.println( "0) None" );
             }
@@ -142,7 +145,7 @@ public class DominionPlayer extends Player
                     System.out.println( "That is not a possible choice." );
                 }
             }
-        } while( !done );
+        } while ( !done );
         return choice - 1;
     }
 
@@ -159,15 +162,15 @@ public class DominionPlayer extends Player
         // Test terminal code
         BufferedReader br = new BufferedReader( new InputStreamReader( System.in ) );
         String input = null;
-        
-        if( possibleCards.size() == 0 )
+
+        if ( possibleCards.size() == 0 )
         {
             return null;
         }
 
         // Print prompt
         System.out.println( prompt );
-        
+
         // Get user's card choice
         int i = 0;
         int choice = -1;
@@ -221,33 +224,33 @@ public class DominionPlayer extends Player
             boolean optional )
     {
         // TODO: pass call to client and let the client handle it.
-        
-        
+
         // for now,
         // go through hand, build a list of cards that match the specified type.
         // or if type == null, just list the whole hand.
         // if list size > 0, prompt user to pick as many as they want and return
         // the list of chosen cards.
-        
+
         LinkedList<DominionCard> chosenCards = new LinkedList<DominionCard>();
         DominionCard cardPicked;
         do
         {
             cardPicked = promptToChooseOneCard( cards, prompt, optional );
-            if( cardPicked != null )
+            if ( cardPicked != null )
             {
                 chosenCards.add( cardPicked );
             }
-        } while( cardPicked != null );
-        
+        } while ( cardPicked != null );
+
         return chosenCards;
     }
 
-    // TODO: Might want to pass list of cards to this, already adjusted for discount, rather than the entire Table.
+    // TODO: Might want to pass list of cards to this, already adjusted for
+    // discount, rather than the entire Table.
     public String promptToBuy( DominionTable table, int maxCoins, int maxPotions )
     {
-        //TODO: put all this UI logic in the client.
-        
+        // TODO: put all this UI logic in the client.
+
         // prompt player to buy a card. return name of card to buy, or null if
         // none
 
@@ -258,9 +261,9 @@ public class DominionPlayer extends Player
         int i = 0;
         LinkedList<KingdomPile> allPiles = new LinkedList<KingdomPile>( table.getSupply() );
         LinkedList<KingdomPile> piles = new LinkedList<KingdomPile>();
-        for( KingdomPile pile : allPiles )
+        for ( KingdomPile pile : allPiles )
         {
-            if( pile.getCoinCost() <= maxCoins && pile.getPotionCost() <= maxPotions )
+            if ( pile.getCoinCost() <= maxCoins && pile.getPotionCost() <= maxPotions )
             {
                 piles.add( pile );
             }
@@ -323,10 +326,14 @@ public class DominionPlayer extends Player
     }
 
     // this will need restriction by type as well
-    public DominionCard promptToGain( boolean optional, int coinCostMin, int coinCostMax ) // might also need potion limit
+    public DominionCard promptToGain( boolean optional, int coinCostMin, int coinCostMax ) // might
+                                                                                           // also
+                                                                                           // need
+                                                                                           // potion
+                                                                                           // limit
     {
         // TODO: pass call to client.
-        
+
         // prompt to gain a card for some reason other than buying.
         // even if optional is true, this could return null if there are no
         // eligible cards
@@ -336,8 +343,11 @@ public class DominionPlayer extends Player
     // hand-related methods
     /**
      * Check whether the player has a card of a certain type in hand.
-     * @param type The card type to check for
-     * @return <b>true</b> if the player has a card of that type in hand, <b>false</b> if not
+     * 
+     * @param type
+     *            The card type to check for
+     * @return <b>true</b> if the player has a card of that type in hand,
+     *         <b>false</b> if not
      */
     public boolean hasCardTypeInHand( DominionCard.CardType type )
     {
@@ -350,29 +360,34 @@ public class DominionPlayer extends Player
         }
         return false;
     }
-    
+
     /**
      * Get all cards in the player's hand that are of the specified type.
-     * @param type The card type to check for
+     * 
+     * @param type
+     *            The card type to check for
      * @return A List of cards matching that card type.
      */
     public List<DominionCard> getCardsByType( DominionCard.CardType type )
     {
         LinkedList<DominionCard> cards = new LinkedList<DominionCard>();
-        for ( DominionCard card : hand ) 
+        for ( DominionCard card : hand )
         {
-            if( card.getType().contains( type ) )
+            if ( card.getType().contains( type ) )
             {
                 cards.add( card );
             }
         }
         return cards;
     }
-    
+
     /**
      * Check whether the player has an applicable reaction card in hand.
-     * @param trigger The reaction trigger type
-     * @return <b>true</b> if the player has an applicable reaction card in hand, <b>false</b> if not.
+     * 
+     * @param trigger
+     *            The reaction trigger type
+     * @return <b>true</b> if the player has an applicable reaction card in
+     *         hand, <b>false</b> if not.
      */
     public boolean hasReactionTypeInHand( DominionCard.ReactionTriggerType trigger )
     {
@@ -385,11 +400,14 @@ public class DominionPlayer extends Player
         }
         return false;
     }
-    
+
     /**
      * Check whether the player has an applicable reaction card in hand.
-     * @param trigger The reaction trigger type
-     * @return <b>true</b> if the player has an applicable reaction card in hand, <b>false</b> if not.
+     * 
+     * @param trigger
+     *            The reaction trigger type
+     * @return <b>true</b> if the player has an applicable reaction card in
+     *         hand, <b>false</b> if not.
      */
     public boolean hasReactionTypeInHand( DominionCard.ReactionTriggerType trigger, DominionCard card )
     {
@@ -402,37 +420,42 @@ public class DominionPlayer extends Player
         }
         return false;
     }
-    
+
     /**
      * Get all non-card-specific reactions in hand matching a trigger type.
-     * @param type The trigger type to check for
+     * 
+     * @param type
+     *            The trigger type to check for
      * @return A List of the cards matching that trigger type.
      */
     public List<DominionCard> getReactions( DominionCard.ReactionTriggerType type )
     {
         LinkedList<DominionCard> reactions = new LinkedList<DominionCard>();
-        for ( DominionCard card : hand ) 
+        for ( DominionCard card : hand )
         {
-            if( card.canReact( type ) )
+            if ( card.canReact( type ) )
             {
                 reactions.add( card );
             }
         }
         return reactions;
     }
-    
+
     /**
      * Get all card-specific reactions in hand matching a trigger type.
-     * @param type The trigger type to check for.
-     * @param card The card related to the action
+     * 
+     * @param type
+     *            The trigger type to check for.
+     * @param card
+     *            The card related to the action
      * @return A List of cards matching that trigger type and card.
      */
     public List<DominionCard> getReactions( DominionCard.ReactionTriggerType type, DominionCard card )
     {
         LinkedList<DominionCard> reactions = new LinkedList<DominionCard>();
-        for ( DominionCard handCard : hand ) 
+        for ( DominionCard handCard : hand )
         {
-            if( handCard.canReact( type, card ) )
+            if ( handCard.canReact( type, card ) )
             {
                 reactions.add( handCard );
             }
@@ -442,9 +465,11 @@ public class DominionPlayer extends Player
 
     /**
      * Draw a certain number of cards from the deck into the player's hand.
-     * @param numCards The number of cards to draw
-     * @return A list of the cards drawn. May be fewer than the number requested if there aren't
-     * enough in the deck to meet the request.
+     * 
+     * @param numCards
+     *            The number of cards to draw
+     * @return A list of the cards drawn. May be fewer than the number requested
+     *         if there aren't enough in the deck to meet the request.
      */
     public List<DominionCard> drawCards( int numCards )
     {
@@ -452,23 +477,31 @@ public class DominionPlayer extends Player
         hand.addAll( drawnCards );
         return drawnCards;
     }
-    
+
     /**
-     * Same as above, but don't put the cards in hand (for revealing, setting aside and such). The caller needs to maintain
-     * a proper location for these cards as they are removed from the deck.
-     * @param numCards The number of cards to take
-     * @return A list of the cards taken from the deck. May be fewer than the number requested if there aren't
-     * enough in the deck to meet the request.
+     * Same as above, but don't put the cards in hand (for revealing, setting
+     * aside and such). The caller needs to maintain a proper location for these
+     * cards as they are removed from the deck.
+     * 
+     * @param numCards
+     *            The number of cards to take
+     * @return A list of the cards taken from the deck. May be fewer than the
+     *         number requested if there aren't enough in the deck to meet the
+     *         request.
      */
     public List<DominionCard> takeCardsFromDeck( int numCards )
     {
         List<DominionCard> drawnCards = deck.drawCards( numCards );
         return drawnCards;
     }
-    
+
     /**
-     * Add a card to the player's discard pile from an external source. Can be used to gain cards.
-     * @param cardToAdd The card to add to the pile. If cardToAdd is null, no action is performed.
+     * Add a card to the player's discard pile from an external source. Can be
+     * used to gain cards.
+     * 
+     * @param cardToAdd
+     *            The card to add to the pile. If cardToAdd is null, no action
+     *            is performed.
      */
     public void addCardToDiscardPile( DominionCard cardToAdd )
     {
@@ -477,10 +510,12 @@ public class DominionPlayer extends Player
             deck.discardCard( cardToAdd );
         }
     }
-    
+
     /**
-     * Add a list of cards to the player's discard pile from an external source. 
-     * @param cardsToAdd The list of cards to add to the pile.
+     * Add a list of cards to the player's discard pile from an external source.
+     * 
+     * @param cardsToAdd
+     *            The list of cards to add to the pile.
      */
     public void addCardsToDiscardPile( List<DominionCard> cardsToAdd )
     {
@@ -489,7 +524,9 @@ public class DominionPlayer extends Player
 
     /**
      * Discard a card from the player's hand
-     * @param cardToDiscard The specific card to discard
+     * 
+     * @param cardToDiscard
+     *            The specific card to discard
      */
     public void discardCard( DominionCard cardToDiscard )
     {
@@ -517,9 +554,12 @@ public class DominionPlayer extends Player
     }
 
     /**
-     * Place a card on top of the player's draw pile. If the card was not already in the player's possession, this is
-     * a gain and the caller needs to handle that.
-     * @param card The card to place on the deck.
+     * Place a card on top of the player's draw pile. If the card was not
+     * already in the player's possession, this is a gain and the caller needs
+     * to handle that.
+     * 
+     * @param card
+     *            The card to place on the deck.
      */
     public void placeCardOnDeck( DominionCard card )
     {
@@ -535,9 +575,12 @@ public class DominionPlayer extends Player
     }
 
     /**
-     * Remove a card from the hand without putting it in the discard.
-     * The caller must handle putting the card in the right place, because the Player loses the card altogether at this point.
-     * @param cardToRemove The card to remove from the player's hand.
+     * Remove a card from the hand without putting it in the discard. The caller
+     * must handle putting the card in the right place, because the Player loses
+     * the card altogether at this point.
+     * 
+     * @param cardToRemove
+     *            The card to remove from the player's hand.
      */
     public void removeCardFromHand( DominionCard cardToRemove )
     {
@@ -552,23 +595,28 @@ public class DominionPlayer extends Player
             }
         }
     }
-    
+
     /**
-     * Put a card in the hand from some external source, e.g. mine, masquerade, native village mat, or torturer.
-     * If this card wasn't originally set aside from a player's deck, this is gaining a card, so the caller needs
-     * to check for gain reactions if appropriate.
-     * @param cardToAdd The card to add to the player's hand
+     * Put a card in the hand from some external source, e.g. mine, masquerade,
+     * native village mat, or torturer. If this card wasn't originally set aside
+     * from a player's deck, this is gaining a card, so the caller needs to
+     * check for gain reactions if appropriate.
+     * 
+     * @param cardToAdd
+     *            The card to add to the player's hand
      */
     public void addCardTohand( DominionCard cardToAdd )
     {
         hand.add( cardToAdd );
     }
-    
+
     /**
      * Put a list of cards in the hand from some external source
-     * @param cardsToAdd The card list to add to the player's hand
+     * 
+     * @param cardsToAdd
+     *            The card list to add to the player's hand
      */
-    public void addCardsToHand( List<DominionCard> cardsToAdd)
+    public void addCardsToHand( List<DominionCard> cardsToAdd )
     {
         hand.addAll( cardsToAdd );
     }
@@ -578,7 +626,8 @@ public class DominionPlayer extends Player
      */
     public void endTurn( List<DominionCard> playedCards )
     {
-        addCardsToDiscardPile( playedCards ); //TODO: duration cards played this turn don't go into discard
+        addCardsToDiscardPile( playedCards ); // TODO: duration cards played
+                                              // this turn don't go into discard
         addCardsToDiscardPile( oldDurationCards );
         discardHand();
         drawCards( 5 );
@@ -586,20 +635,21 @@ public class DominionPlayer extends Player
         newDurationCards = new LinkedList<DominionCard>();
         moatPlayed = false;
     }
-    
+
     public void moatRevealed()
     {
         moatPlayed = true;
     }
-    
+
     public boolean isVulnerableToAttack()
     {
-        for( DominionCard card : oldDurationCards )
+        for ( DominionCard card : oldDurationCards )
         {
-            //if( card instanceof org.gm.cardgame.dominion.cards.seaside.LighthouseCard )
-            //{
-            //     return false;
-            //}
+            // if( card instanceof
+            // org.gm.cardgame.dominion.cards.seaside.LighthouseCard )
+            // {
+            // return false;
+            // }
         }
         return !moatPlayed;
     }

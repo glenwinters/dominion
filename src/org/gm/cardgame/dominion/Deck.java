@@ -10,6 +10,7 @@ import org.gm.cardgame.dominion.cards.common.EstateCard;
 import org.gm.cardgame.dominion.cards.darkages.HovelCard;
 import org.gm.cardgame.dominion.cards.darkages.NecropolisCard;
 import org.gm.cardgame.dominion.cards.darkages.OvergrownEstateCard;
+import org.gm.cardgame.dominion.cards.prosperity.PlatinumCard;
 
 public class Deck
 {
@@ -23,7 +24,7 @@ public class Deck
 
         for ( int i = 0; i < 7; i++ )
         {
-            drawPile.add( new CopperCard() );
+            drawPile.add( new PlatinumCard() );
         }
         if ( useShelters )
         {
