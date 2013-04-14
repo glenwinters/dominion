@@ -24,6 +24,8 @@ public class Deck
 
         for ( int i = 0; i < 7; i++ )
         {
+            // drawPile.add( new CopperCard() );
+            // TODO Change this back to Copper to play real games
             drawPile.add( new PlatinumCard() );
         }
         if ( useShelters )
