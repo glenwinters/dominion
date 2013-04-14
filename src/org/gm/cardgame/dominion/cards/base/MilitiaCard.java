@@ -11,8 +11,7 @@ public class MilitiaCard extends DominionCard
 {
     public MilitiaCard()
     {
-        super( "Militia", 4, 0, EnumSet.of( DominionCard.CardType.ACTION, DominionCard.CardType.ATTACK ),
-                DominionCard.CardSet.BASE );
+        super( "Militia", 4, 0, EnumSet.of( DominionCard.CardType.ACTION, DominionCard.CardType.ATTACK ), DominionCard.CardSet.BASE );
     }
 
     @Override
@@ -20,17 +19,16 @@ public class MilitiaCard extends DominionCard
     {
         game.addCoins( 2 );
 
-        for (DominionPlayer opponent : game.getOpponents( game.getCurrentPlayer() ) )
+        for ( DominionPlayer opponent : game.getOpponents( game.getCurrentPlayer() ) )
         {
             if( opponent.isVulnerableToAttack() )
             {
                 int numCardsToDiscard = opponent.getHand().size() - 3;
                 if( numCardsToDiscard > 0 )
                 {
-                    List<DominionCard> cardsToDiscard = 
-                            opponent.promptToChooseMultipleCards( opponent.getHand(), numCardsToDiscard, numCardsToDiscard, 
-                            "Choose " + numCardsToDiscard + " cards to discard", false);
-                    for( DominionCard card : cardsToDiscard )
+                    List<DominionCard> cardsToDiscard = opponent.promptToChooseMultipleCards( opponent.getHand(), numCardsToDiscard,
+                            numCardsToDiscard, "Choose " + numCardsToDiscard + " cards to discard", false );
+                    for ( DominionCard card : cardsToDiscard )
                     {
                         opponent.discardCard( card );
                     }

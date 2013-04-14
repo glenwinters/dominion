@@ -26,7 +26,7 @@ public class LobbyGame
     // Return true if the game was successfully started; else, return false
     public boolean startGame( List<Game> gameList )
     {
-        if ( gameName == GameName.DOMINION )
+        if( gameName == GameName.DOMINION )
         {
             // Create card list
             List<DominionCard> cards = new LinkedList<DominionCard>();
@@ -57,7 +57,7 @@ public class LobbyGame
     // Return value
     public boolean addUser( User user )
     {
-        if ( userList.size() < maxPlayers )
+        if( userList.size() < maxPlayers )
         {
             userList.add( user );
             return true;

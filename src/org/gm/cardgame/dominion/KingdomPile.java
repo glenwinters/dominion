@@ -25,9 +25,9 @@ public class KingdomPile
         this.card = card;
         cardSupply = new Stack<DominionCard>();
         int cardsRemaining;
-        if ( card.getType().contains( DominionCard.CardType.VICTORY ) )
+        if( card.getType().contains( DominionCard.CardType.VICTORY ) )
         {
-            if ( numPlayers == 2 )
+            if( numPlayers == 2 )
             {
                 cardsRemaining = 8;
             }
@@ -36,28 +36,27 @@ public class KingdomPile
                 cardsRemaining = 12;
             }
         }
-        else if ( card.getType().contains( DominionCard.CardType.CURSE )
-                || card.getType().contains( DominionCard.CardType.RUINS ) )
+        else if( card.getType().contains( DominionCard.CardType.CURSE ) || card.getType().contains( DominionCard.CardType.RUINS ) )
         {
             cardsRemaining = (numPlayers - 1) * 10;
         }
-        else if ( card instanceof CopperCard )
+        else if( card instanceof CopperCard )
         {
             cardsRemaining = 60 - (7 * numPlayers);
         }
-        else if ( card instanceof SilverCard )
+        else if( card instanceof SilverCard )
         {
             cardsRemaining = 40;
         }
-        else if ( card instanceof GoldCard )
+        else if( card instanceof GoldCard )
         {
             cardsRemaining = 30;
         }
-        else if ( card instanceof PlatinumCard )
+        else if( card instanceof PlatinumCard )
         {
             cardsRemaining = 12;
         }
-        else if ( card instanceof PotionCard )
+        else if( card instanceof PotionCard )
         {
             cardsRemaining = 16;
         }
@@ -69,10 +68,10 @@ public class KingdomPile
         {
             cardsRemaining = 10;
         }
-        
-        for( int i = 0; i < cardsRemaining; i++ )
+
+        for ( int i = 0; i < cardsRemaining; i++ )
         {
-            try 
+            try
             {
                 // TODO: knights and ruins don't follow this pattern.
                 DominionCard newCard = card.getClass().newInstance();
@@ -109,7 +108,7 @@ public class KingdomPile
     public void addCoinDiscount( int amount )
     {
         currentCoinCost -= amount;
-        if ( currentCoinCost < 0 )
+        if( currentCoinCost < 0 )
         {
             currentCoinCost = 0;
         }
@@ -173,7 +172,7 @@ public class KingdomPile
 
     public DominionCard takeCard()
     {
-        if ( cardSupply.empty() )
+        if( cardSupply.empty() )
         {
             return null;
         }

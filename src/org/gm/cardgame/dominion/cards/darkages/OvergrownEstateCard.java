@@ -10,7 +10,8 @@ public class OvergrownEstateCard extends DominionCard
 {
     public OvergrownEstateCard()
     {
-        super( "Overgrown Estate", 1, 0, EnumSet.of( DominionCard.CardType.SHELTER, DominionCard.CardType.VICTORY ), DominionCard.CardSet.DARKAGES );
+        super( "Overgrown Estate", 1, 0, EnumSet.of( DominionCard.CardType.SHELTER, DominionCard.CardType.VICTORY ),
+                DominionCard.CardSet.DARKAGES );
         this.notInSupply = true;
     }
 

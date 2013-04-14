@@ -21,7 +21,7 @@ public class WorkshopCard extends DominionCard
 
         // will probably never be null, but there are edge cases where it might
         // be.
-        if ( cardToGain != null )
+        if( cardToGain != null )
         {
             currentPlayer.addCardToDiscardPile( game.takeCardFromSupply( cardToGain.getName(), currentPlayer ) );
         }

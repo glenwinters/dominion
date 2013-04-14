@@ -59,10 +59,10 @@ public abstract class DominionCard implements Comparable<DominionCard>
         // By default, make cards worth 0 victory points
         return 0;
     }
-    
+
     /*
-     * For actions that can happen to players other than the current player, we need to know
-     * who's doing the gaining/discarding/trashing/revealing.
+     * For actions that can happen to players other than the current player, we need to know who's doing the
+     * gaining/discarding/trashing/revealing.
      */
     public void onGain( DominionGame game, DominionPlayer owner )
     {
@@ -79,16 +79,16 @@ public abstract class DominionCard implements Comparable<DominionCard>
     public void onReveal( DominionGame game, DominionPlayer owner )
     {
     }
-    
+
     /*
-     * Effects in cards revealed on opponent gain can depend on the card gained. 
+     * Effects in cards revealed on opponent gain can depend on the card gained.
      */
     public void onOpponentGainReveal( DominionGame game, DominionPlayer player, DominionCard cardgained )
     {
     }
-    
+
     /*
-     * Cards that get revealed on owner gain can interrupt the gaining, so we need a special hook for them. 
+     * Cards that get revealed on owner gain can interrupt the gaining, so we need a special hook for them.
      */
     public DominionCard onOwnerGainReveal( DominionGame game, DominionPlayer owner, DominionCard cardToGain )
     {
@@ -97,18 +97,23 @@ public abstract class DominionCard implements Comparable<DominionCard>
 
     /**
      * Determine whether this card can react to a given action
-     * @param actionType The potential reaction trigger
+     * 
+     * @param actionType
+     *            The potential reaction trigger
      * @return <b>true</b> if this card can react, <b>false</b> if not.
      */
     public boolean canReact( ReactionTriggerType actionType )
     {
         return false;
     }
-    
+
     /**
      * Determine whether this card can react to a given action related to a certain card
-     * @param actionType The potential reaction trigger
-     * @param card The card in question
+     * 
+     * @param actionType
+     *            The potential reaction trigger
+     * @param card
+     *            The card in question
      * @return <b>true</b> if this card can react, <b>false</b> if not.
      */
     public boolean canReact( ReactionTriggerType actionType, DominionCard card )
@@ -141,12 +146,12 @@ public abstract class DominionCard implements Comparable<DominionCard>
     {
         this.bane = bane;
     }
-    
+
     public int getId()
     {
         return id;
     }
-    
+
     public void setId( int id )
     {
         this.id = id;
@@ -166,7 +171,7 @@ public abstract class DominionCard implements Comparable<DominionCard>
     {
         return type;
     }
-    
+
     // on your marks
     public CardSet getSet()
     {
@@ -188,47 +193,46 @@ public abstract class DominionCard implements Comparable<DominionCard>
     @Override
     public boolean equals( Object obj )
     {
-        if ( obj == null || !(obj instanceof DominionCard) )
+        if( obj == null || !(obj instanceof DominionCard) )
         {
             return false;
         }
-        if ( obj == this )
+        if( obj == this )
         {
             return true;
         }
 
         DominionCard otherCard = (DominionCard) obj;
-        
+
         return (otherCard.name.equals( this.name ) && otherCard.id == this.id);
     }
 
     /*
-     * Override the compareTo method. Note that this does NOT tie in with
-     * equals() and is only used to sort cards by cost in the kingdom.
+     * Override the compareTo method. Note that this does NOT tie in with equals() and is only used to sort cards by cost in the kingdom.
      */
     @Override
     public int compareTo( DominionCard rhs )
     {
-        if ( this.coinCost < rhs.getCoinCost() )
+        if( this.coinCost < rhs.getCoinCost() )
         {
             return -1;
         }
-        else if ( this.coinCost > rhs.getCoinCost() )
+        else if( this.coinCost > rhs.getCoinCost() )
         {
             return 1;
         }
         // coin costs are equal; compare potions
-        if ( this.potionCost < rhs.getPotionCost() )
+        if( this.potionCost < rhs.getPotionCost() )
         {
             return -1;
         }
-        else if ( this.potionCost > rhs.getPotionCost() )
+        else if( this.potionCost > rhs.getPotionCost() )
         {
             return 1;
         }
         return 0;
     }
-    
+
     @Override
     public String toString()
     {

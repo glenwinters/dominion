@@ -12,8 +12,7 @@ public class ThiefCard extends DominionCard
 {
     public ThiefCard()
     {
-        super( "Thief", 4, 0, EnumSet.of( DominionCard.CardType.ACTION, DominionCard.CardType.ATTACK ),
-                DominionCard.CardSet.BASE );
+        super( "Thief", 4, 0, EnumSet.of( DominionCard.CardType.ACTION, DominionCard.CardType.ATTACK ), DominionCard.CardSet.BASE );
     }
 
     @Override
@@ -23,32 +22,32 @@ public class ThiefCard extends DominionCard
 
         for ( DominionPlayer opponent : game.getOpponents( currentPlayer ) )
         {
-            if ( opponent.isVulnerableToAttack() )
+            if( opponent.isVulnerableToAttack() )
             {
                 // Reveal 2 cards
                 List<DominionCard> cardRevealedList = opponent.takeCardsFromDeck( 2 );
 
-                if ( cardRevealedList.size() != 0 )
+                if( cardRevealedList.size() != 0 )
                 {
                     List<DominionCard> treasureCards = new LinkedList<DominionCard>();
 
                     // Check for treasure cards
                     for ( DominionCard cardRevealed : cardRevealedList )
                     {
-                        if ( cardRevealed.getType().contains( DominionCard.CardType.TREASURE ) )
+                        if( cardRevealed.getType().contains( DominionCard.CardType.TREASURE ) )
                         {
                             treasureCards.add( cardRevealed );
                         }
                     }
 
                     // Prompt to pick a treasure card
-                    if ( treasureCards.size() != 0 )
+                    if( treasureCards.size() != 0 )
                     {
                         // TODO technically this should not be an optional
                         // prompt, but it is until the prompting is fixed
-                        List<DominionCard> cardToTrashList = currentPlayer.promptToChooseMultipleCards( treasureCards,
-                                1, 1, "Pick a treasure card to trash", true );
-                        if ( cardToTrashList.size() != 0 )
+                        List<DominionCard> cardToTrashList = currentPlayer.promptToChooseMultipleCards( treasureCards, 1, 1,
+                                "Pick a treasure card to trash", true );
+                        if( cardToTrashList.size() != 0 )
                         {
                             DominionCard cardToTrash = cardToTrashList.get( 0 );
                             game.trashCard( cardToTrash, opponent );

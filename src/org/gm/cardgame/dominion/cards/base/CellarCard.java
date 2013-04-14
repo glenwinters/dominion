@@ -22,7 +22,7 @@ public class CellarCard extends DominionCard
 
         List<DominionCard> cardsToDiscard = null;
         cardsToDiscard = currentPlayer.promptToChooseMultipleCards( currentPlayer.getHand(), 0, 0, "Choose cards to discard", true );
-        if ( cardsToDiscard.size() > 0 )
+        if( cardsToDiscard.size() > 0 )
         {
             for ( DominionCard card : cardsToDiscard )
             {

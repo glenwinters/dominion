@@ -12,34 +12,32 @@ public class WatchtowerCard extends DominionCard
 {
     private enum Choice
     {
-        NONE ( -1 ),
-        TRASH ( 0 ),
-        TOPDECK ( 1 );
-        
+        NONE( -1 ), TRASH( 0 ), TOPDECK( 1 );
+
         private final int value;
-        
+
         Choice( int value )
         {
             this.value = value;
         }
-        
+
         public int getValue()
         {
             return this.value;
         }
     };
-    
+
     public WatchtowerCard()
     {
         super( "Watchtower", 3, 0, EnumSet.of( DominionCard.CardType.ACTION, DominionCard.CardType.REACTION ),
                 DominionCard.CardSet.PROSPERITY );
     }
-    
+
     @Override
     public void onPlay( DominionGame game )
     {
         DominionPlayer currentPlayer = game.getCurrentPlayer();
-        
+
         while ( currentPlayer.getHand().size() < 6 )
         {
             List<DominionCard> cardsDrawn = currentPlayer.drawCards( 1 );
@@ -49,8 +47,8 @@ public class WatchtowerCard extends DominionCard
             }
         }
     }
-    
-     @Override
+
+    @Override
     public boolean canReact( ReactionTriggerType actionType )
     {
         return actionType == ReactionTriggerType.OWNER_GAIN;
@@ -62,7 +60,7 @@ public class WatchtowerCard extends DominionCard
     @Override
     public DominionCard onOwnerGainReveal( DominionGame game, DominionPlayer owner, DominionCard cardToGain )
     {
-        List<String> choices = Arrays.asList( "Trash card", "Place card on top of draw pile" ); 
+        List<String> choices = Arrays.asList( "Trash card", "Place card on top of draw pile" );
         int choice = owner.promptMultipleChoice( choices, true );
         if( choice == Choice.TOPDECK.getValue() )
         {
@@ -74,7 +72,7 @@ public class WatchtowerCard extends DominionCard
             game.trashCard( cardToGain, owner );
             return null; // don't let normal gain happen
         }
-        
+
         // For now, assume anything else means don't reveal;
         return cardToGain;
     }

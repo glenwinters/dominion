@@ -44,7 +44,7 @@ public class DominionTable
 
         extraPiles.add( new KingdomPile( new CurseCard(), numPlayers ) );
 
-        if ( useColonies )
+        if( useColonies )
         {
             basicVP.add( new KingdomPile( new ColonyCard(), numPlayers ) );
             basicTreasures.add( new KingdomPile( new PlatinumCard(), numPlayers ) );
@@ -58,7 +58,7 @@ public class DominionTable
             supply.put( card.getName(), newPile );
             allCards.put( card.getName(), card );
 
-            if ( card.getPotionCost() > 0 )
+            if( card.getPotionCost() > 0 )
             {
                 needPotions = true;
             }
@@ -77,14 +77,14 @@ public class DominionTable
             // }
             // }
 
-            if ( card.getType().contains( DominionCard.CardType.LOOTER ) )
+            if( card.getType().contains( DominionCard.CardType.LOOTER ) )
             {
                 // add ruins to extraPiles
                 // put ruins pile in supply
             }
         }
 
-        if ( needPotions )
+        if( needPotions )
         {
             basicTreasures.add( new KingdomPile( new PotionCard(), numPlayers ) );
         }
@@ -111,7 +111,7 @@ public class DominionTable
     public DominionCard takeCard( String name )
     {
         KingdomPile pile = supply.get( name );
-        if ( pile == null )
+        if( pile == null )
         {
             return null;
         }
@@ -121,7 +121,7 @@ public class DominionTable
     public boolean returnCard( DominionCard card )
     {
         KingdomPile pile = supply.get( card.getName() );
-        if ( pile == null )
+        if( pile == null )
         {
             // TODO: make sure that there aren't any cases where we want to
             // return cards that aren't in the supply.
@@ -132,15 +132,14 @@ public class DominionTable
     }
 
     /*
-     * Apply a discount to the cards in the supply. If type is specified, the
-     * discount only applies to cards of that type; otherwise, it applies to all
-     * cards.
+     * Apply a discount to the cards in the supply. If type is specified, the discount only applies to cards of that type; otherwise, it
+     * applies to all cards.
      */
     public void applyCoinDiscount( int discount, DominionCard.CardType type )
     {
         for ( KingdomPile pile : supply.values() )
         {
-            if ( type != null && !pile.getCardPrototype().getType().contains( type ) )
+            if( type != null && !pile.getCardPrototype().getType().contains( type ) )
             {
                 continue;
             }
@@ -149,8 +148,7 @@ public class DominionTable
     }
 
     /*
-     * Clear all discounts, banned flags, and other things that only apply till
-     * the end of the turn.
+     * Clear all discounts, banned flags, and other things that only apply till the end of the turn.
      */
     public void resetCards()
     {
@@ -163,7 +161,7 @@ public class DominionTable
     public int getCardCurrentCoinCost( String cardName )
     {
         KingdomPile pile = supply.get( cardName );
-        if ( pile == null )
+        if( pile == null )
         {
             throw new IllegalArgumentException( "Card " + cardName + " not found in supply." );
         }
@@ -173,7 +171,7 @@ public class DominionTable
     public int getCardCurrentPotionCost( String cardName )
     {
         KingdomPile pile = supply.get( cardName );
-        if ( pile == null )
+        if( pile == null )
         {
             throw new IllegalArgumentException( "Card " + cardName + " not found in supply." );
         }
@@ -182,7 +180,7 @@ public class DominionTable
 
     public void trashCard( DominionCard card )
     {
-        if ( !card.isTrashed() )
+        if( !card.isTrashed() )
         {
             trash.add( card );
             card.setTrashed( true );
@@ -229,17 +227,17 @@ public class DominionTable
         int pilesEmpty = 0;
         for ( KingdomPile pile : supply.values() )
         {
-            if ( pile.getCardsRemaining() == 0 )
+            if( pile.getCardsRemaining() == 0 )
             {
                 DominionCard card = pile.getCardPrototype();
-                if ( card.getName().equals( "Province" ) || card.getName().equals( "Colony" ) )
+                if( card.getName().equals( "Province" ) || card.getName().equals( "Colony" ) )
                 {
                     return true;
                 }
                 else
                 {
                     pilesEmpty++;
-                    if ( pilesEmpty >= 3 )
+                    if( pilesEmpty >= 3 )
                     {
                         return true;
                     }

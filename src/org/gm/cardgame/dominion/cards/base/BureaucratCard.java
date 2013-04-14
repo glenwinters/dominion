@@ -10,8 +10,7 @@ public class BureaucratCard extends DominionCard
 {
     public BureaucratCard()
     {
-        super( "Bureaucrat", 4, 0, EnumSet.of( DominionCard.CardType.ACTION, DominionCard.CardType.ATTACK ),
-                DominionCard.CardSet.BASE );
+        super( "Bureaucrat", 4, 0, EnumSet.of( DominionCard.CardType.ACTION, DominionCard.CardType.ATTACK ), DominionCard.CardSet.BASE );
     }
 
     @Override
@@ -25,10 +24,9 @@ public class BureaucratCard extends DominionCard
         {
             if( opponent.isVulnerableToAttack() )
             {
-                DominionCard vCard = opponent.promptToChooseOneCard( 
-                        currentPlayer.getCardsByType( DominionCard.CardType.VICTORY ),
+                DominionCard vCard = opponent.promptToChooseOneCard( currentPlayer.getCardsByType( DominionCard.CardType.VICTORY ),
                         "Choose a victory card to reveal", false );
-                if ( vCard != null )
+                if( vCard != null )
                 {
                     // TODO game.reveal(vCard);
                     opponent.getHand().remove( vCard );

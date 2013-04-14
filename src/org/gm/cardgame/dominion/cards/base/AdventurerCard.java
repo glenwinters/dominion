@@ -28,7 +28,7 @@ public class AdventurerCard extends DominionCard
             List<DominionCard> cardRevealedList = currentPlayer.takeCardsFromDeck( 1 );
 
             // Stop if there are no cards left to draw
-            if ( cardRevealedList.size() == 0 )
+            if( cardRevealedList.size() == 0 )
             {
                 break;
             }
@@ -42,7 +42,7 @@ public class AdventurerCard extends DominionCard
 
             // If the drawn card is a Treasure card, increment the treasure
             // count
-            if ( cardRevealed.getType().contains( DominionCard.CardType.TREASURE ) )
+            if( cardRevealed.getType().contains( DominionCard.CardType.TREASURE ) )
             {
                 treasuresRevealed.add( cardRevealed );
                 cardsRevealed.remove( cardRevealed );

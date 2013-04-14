@@ -28,7 +28,7 @@ public class Deck
             // TODO Change this back to Copper to play real games
             drawPile.add( new PlatinumCard() );
         }
-        if ( useShelters )
+        if( useShelters )
         {
             drawPile.add( new HovelCard() );
             drawPile.add( new NecropolisCard() );
@@ -65,23 +65,21 @@ public class Deck
     }
 
     /*
-     * Draw the specified number of cards from the draw pile. If necessary, will
-     * shuffle the discard pile into the draw pile. If there still aren't enough
-     * cards after doing so, just go with what we were able to get. Note that
-     * this can also be used for revealing if the returned list is kept separate
-     * from the player's hand.
+     * Draw the specified number of cards from the draw pile. If necessary, will shuffle the discard pile into the draw pile. If there still
+     * aren't enough cards after doing so, just go with what we were able to get. Note that this can also be used for revealing if the
+     * returned list is kept separate from the player's hand.
      */
     public List<DominionCard> drawCards( int numCards )
     {
         LinkedList<DominionCard> result = new LinkedList<DominionCard>();
         for ( int i = 0; i < numCards; i++ )
         {
-            if ( drawPile.size() == 0 )
+            if( drawPile.size() == 0 )
             {
                 drawPile.addAll( discardPile );
                 discardPile.clear();
                 shuffleDrawPile();
-                if ( drawPile.size() == 0 )
+                if( drawPile.size() == 0 )
                 {
                     // no cards left to draw at all. Just return what we've got.
                     break;
@@ -93,9 +91,8 @@ public class Deck
     }
 
     /*
-     * Put a card on top of the draw pile, so it's drawn next. Some cards do
-     * this directly, or it can also be used to return cards from hand /
-     * revealing / other top-deck effects
+     * Put a card on top of the draw pile, so it's drawn next. Some cards do this directly, or it can also be used to return cards from hand
+     * / revealing / other top-deck effects
      */
     public void placeCard( DominionCard card )
     {
@@ -103,8 +100,7 @@ public class Deck
     }
 
     /*
-     * Put a card in the discard pile. Can also be used for standard card gain
-     * if the source isn't the hand or play area.
+     * Put a card in the discard pile. Can also be used for standard card gain if the source isn't the hand or play area.
      */
     public void discardCard( DominionCard card )
     {

@@ -10,8 +10,7 @@ public class WitchCard extends DominionCard
 {
     public WitchCard()
     {
-        super( "Witch", 5, 0, EnumSet.of( DominionCard.CardType.ACTION, DominionCard.CardType.ATTACK ),
-                DominionCard.CardSet.BASE );
+        super( "Witch", 5, 0, EnumSet.of( DominionCard.CardType.ACTION, DominionCard.CardType.ATTACK ), DominionCard.CardSet.BASE );
     }
 
     @Override

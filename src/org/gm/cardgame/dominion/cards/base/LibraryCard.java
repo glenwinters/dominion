@@ -28,14 +28,14 @@ public class LibraryCard extends DominionCard
                 // no cards left to draw. just stop.
                 break;
             }
-            
+
             DominionCard cardDrawn = cardsDrawn.get( 0 );
 
             // Prompt to set aside action cards
-            if ( cardDrawn.getType().contains( DominionCard.CardType.ACTION ) )
+            if( cardDrawn.getType().contains( DominionCard.CardType.ACTION ) )
             {
                 boolean setCardAside = currentPlayer.promptYesNo( "Set aside " + cardDrawn.getName() + "?" );
-                if ( setCardAside )
+                if( setCardAside )
                 {
                     currentPlayer.discardCard( cardDrawn );
                 }

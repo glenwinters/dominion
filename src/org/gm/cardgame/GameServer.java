@@ -58,13 +58,13 @@ public class GameServer
         LobbyGame currentLobbyGame = new LobbyGame( GameName.DOMINION, 2, user1 );
 
         // Add the second user to the game
-        if ( !currentLobbyGame.addUser( user2 ) )
+        if( !currentLobbyGame.addUser( user2 ) )
         {
             System.out.println( "Game full" );
         }
 
         // Start the LobbyGame
-        if ( !currentLobbyGame.startGame( gameList ) )
+        if( !currentLobbyGame.startGame( gameList ) )
         {
             System.out.println( "Could not start game" );
             return;

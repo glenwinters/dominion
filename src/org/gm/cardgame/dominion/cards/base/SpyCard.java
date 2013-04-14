@@ -12,8 +12,7 @@ public class SpyCard extends DominionCard
 {
     public SpyCard()
     {
-        super( "Spy", 4, 0, EnumSet.of( DominionCard.CardType.ACTION, DominionCard.CardType.ATTACK ),
-                DominionCard.CardSet.BASE );
+        super( "Spy", 4, 0, EnumSet.of( DominionCard.CardType.ACTION, DominionCard.CardType.ATTACK ), DominionCard.CardSet.BASE );
     }
 
     @Override
@@ -37,7 +36,7 @@ public class SpyCard extends DominionCard
 
             // TODO Should reveal card to the other players
 
-            if ( cardRevealedList.size() != 0 )
+            if( cardRevealedList.size() != 0 )
             {
                 DominionCard cardRevealed = cardRevealedList.get( 0 );
 
@@ -45,7 +44,7 @@ public class SpyCard extends DominionCard
                 // GUI
                 boolean discard = player.promptYesNo( "Discard " + cardRevealed.getName() + "?" );
 
-                if ( discard )
+                if( discard )
                 {
                     player.discardCard( cardRevealed );
                 }
