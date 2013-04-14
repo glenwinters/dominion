@@ -653,4 +653,10 @@ public class DominionPlayer extends Player
         }
         return !moatPlayed;
     }
+
+    public int getVictoryPoints()
+    {
+        this.discardHand();
+        return deck.getVictoryPoints();
+    }
 }

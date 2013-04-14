@@ -118,4 +118,34 @@ public class Deck
     {
         discardPile.addAll( cards );
     }
+
+    /*
+     * Calculate the amount of victory points the deck is worth
+     */
+    public int getVictoryPoints()
+    {
+        int victoryPoints = 0;
+        for ( DominionCard card : this.getCardList() )
+        {
+            victoryPoints += card.getVictoryPoints( this );
+        }
+
+        return victoryPoints;
+    }
+
+    /*
+     * Calculate the deck size
+     */
+    public int size()
+    {
+        return this.drawPile.size() + this.discardPile.size();
+    }
+
+    public List<DominionCard> getCardList()
+    {
+        List<DominionCard> deckCards = new LinkedList<DominionCard>();
+        deckCards.addAll( this.drawPile );
+        deckCards.addAll( this.discardPile );
+        return deckCards;
+    }
 }

@@ -2,6 +2,7 @@ package org.gm.cardgame.dominion.cards;
 
 import java.util.EnumSet;
 
+import org.gm.cardgame.dominion.Deck;
 import org.gm.cardgame.dominion.DominionGame;
 import org.gm.cardgame.dominion.DominionPlayer;
 
@@ -53,6 +54,12 @@ public abstract class DominionCard implements Comparable<DominionCard>
     {
     }
 
+    public int getVictoryPoints( Deck deck )
+    {
+        // By default, make cards worth 0 victory points
+        return 0;
+    }
+    
     /*
      * For actions that can happen to players other than the current player, we need to know
      * who's doing the gaining/discarding/trashing/revealing.
