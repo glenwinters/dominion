@@ -8,7 +8,6 @@ import org.gm.cardgame.dominion.Deck;
 import org.gm.cardgame.dominion.DominionGame;
 import org.gm.cardgame.dominion.DominionPlayer;
 import org.gm.cardgame.dominion.cards.DominionCard;
-import org.gm.cardgame.dominion.cards.prosperity.WatchtowerCard.Choice;
 
 public class NoblesCard extends DominionCard
 {
